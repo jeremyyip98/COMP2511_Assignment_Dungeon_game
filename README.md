@@ -382,11 +382,11 @@ Marks will be deducted for poor git and GitLab usage. For example, meaningless c
 
 ### Week-05
 
-Fill in here.
+Both wrote up User stories in a google doc.
 
 ### Week-06
 
-Fill in here.
+Both converted user stories from google doc into gitlab.
 
 ### Week-07
 
