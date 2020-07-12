@@ -399,3 +399,7 @@ Fill in here.
 ### Week-09
 
 Fill in here.
+
+## Assumptions
+
+Story points = 2.5 Hours
