@@ -6,4 +6,9 @@ public class Enemy extends Entity {
         super(x, y);
     }
 
+    @Override
+    public boolean isWalkAllowed(Moveable m) {
+        return false;
+    }
+
 }

@@ -94,59 +94,14 @@ public class Dungeon {
         return result;
     }
 
-    // It checks if the given position a boulder or not
-    // Return true if it's a boulder, else false.
-    public boolean isBoulder(int x, int y){
-        boolean result = false;
-
+    public boolean checkIsWalkAllowed(Moveable m, int x, int y){
+        if (x < 0 || x >= this.width || y < 0 || y >= height) return false;
         for (Entity e: entities) {
             if ((e.getX() == x) && (e.getY() == y)) {
-                if (e instanceof Boulder) {
-                    result = true;
-                    break;
-                }
+                if (!e.isWalkAllowed(m)) return false;
             }
         }
-        return result;
+        return true;
     }
 
-    public boolean boulderMoveUp(int x, int y) {
-        boolean result = false;
-        for (Boulder b: boulders) {
-            if ((b.getX() == x) && (b.getY() == y)) {
-                result = b.moveUp();
-            }
-        }
-        return result;
-    }
-    
-    public boolean boulderMoveDown(int x, int y) {
-        boolean result = false;
-        for (Boulder b: boulders) {
-            if ((b.getX() == x) && (b.getY() == y)) {
-                result = b.moveDown();
-            }
-        }
-        return result;
-    }
-
-    public boolean boulderMoveLeft(int x, int y) {
-        boolean result = false;
-        for (Boulder b: boulders) {
-            if ((b.getX() == x) && (b.getY() == y)) {
-                result = b.moveLeft();
-            }
-        }
-        return result;
-    }
-
-    public boolean boulderMoveRight(int x, int y) {
-        boolean result = false;
-        for (Boulder b: boulders) {
-            if ((b.getX() == x) && (b.getY() == y)) {
-                result = b.moveRight();
-            }
-        }
-        return result;
-    }
 }

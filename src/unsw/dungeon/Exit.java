@@ -6,4 +6,10 @@ public class Exit extends Entity {
         super(x, y);
     }
 
+    @Override
+    public boolean isWalkAllowed(Moveable m) {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
 }
