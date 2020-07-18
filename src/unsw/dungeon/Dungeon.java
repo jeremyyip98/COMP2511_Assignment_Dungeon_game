@@ -6,6 +6,8 @@ package unsw.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+
 /**
  * A dungeon in the interactive dungeon player.
  *
@@ -46,5 +48,19 @@ public class Dungeon {
 
     public void addEntity(Entity entity) {
         entities.add(entity);
+    }
+
+    // Search if there is an entity on the given position
+    // Return true if there is an entity exists, otherwise false.
+    public boolean searchEntity(int x, int y) {
+
+        boolean result = false;
+        for (Entity e: entities) {
+            if ((e.getX() == x) && (e.getY() == y)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 }
