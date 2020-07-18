@@ -26,6 +26,11 @@ public class DungeonControllerLoader extends DungeonLoader {
     //Images
     private Image playerImage;
     private Image wallImage;
+    private Image exitImage;
+    private Image portalImage;
+    private Image floorSwitchImage;
+    private Image boulderImage;
+    private Image enemyImage;
 
     public DungeonControllerLoader(String filename)
             throws FileNotFoundException {
@@ -33,6 +38,11 @@ public class DungeonControllerLoader extends DungeonLoader {
         entities = new ArrayList<>();
         playerImage = new Image((new File("images/human_new.png")).toURI().toString());
         wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
+        exitImage = new Image((new File("images/exit.png")).toURI().toString());
+        portalImage = new Image((new File("images/portal.png")).toURI().toString());
+        floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
+        boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
+        enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
     }
 
     @Override
@@ -45,6 +55,38 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Wall wall) {
         ImageView view = new ImageView(wallImage);
         addEntity(wall, view);
+    }
+
+    @Override
+    public void onLoad(Exit exit) {
+        ImageView view = new ImageView(exitImage);
+        addEntity(exit, view);
+    }
+
+    @Override
+    public void onLoad(Portal portal) {
+        ImageView view = new ImageView(portalImage);
+        addEntity(portal, view);
+    }
+
+
+    @Override
+    public void onLoad(FloorSwitch floorSwitch) {
+        ImageView view = new ImageView(floorSwitchImage);
+        addEntity(floorSwitch, view);
+    }
+
+
+    @Override
+    public void onLoad(Boulder boulder) {
+        ImageView view = new ImageView(boulderImage);
+        addEntity(boulder, view);
+    }
+
+    @Override
+    public void onLoad(Enemy enemy) {
+        ImageView view = new ImageView(enemyImage);
+        addEntity(enemy, view);
     }
 
     private void addEntity(Entity entity, ImageView view) {
