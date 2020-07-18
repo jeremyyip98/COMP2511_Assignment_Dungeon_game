@@ -61,6 +61,31 @@ public abstract class DungeonLoader {
             entity = wall;
             break;
         // TODO Handle other possible entities
+        case "exit":
+            Exit exit = new Exit(x, y);
+            onLoad(exit);
+            entity = exit;
+            break;
+        case "portal":
+            Portal portal = new Portal(x, y);
+            onLoad(portal);
+            entity = portal;
+            break;
+        case "floorSwitch":
+            FloorSwitch floorSwitch = new FloorSwitch(x, y);
+            onLoad(floorSwitch);
+            entity = floorSwitch;
+            break;
+        case "boulder":
+            Boulder boulder = new Boulder(x, y);
+            onLoad(boulder);
+            entity = boulder;
+            break;
+        case "enemy":
+            Enemy enemy = new Enemy(x, y);
+            onLoad(enemy);
+            entity = enemy;
+            break;
         }
         dungeon.addEntity(entity);
     }
