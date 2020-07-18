@@ -71,13 +71,13 @@ public abstract class DungeonLoader {
             onLoad(portal);
             entity = portal;
             break;
-        case "floorSwitch":
+        case "switch":
             FloorSwitch floorSwitch = new FloorSwitch(x, y);
             onLoad(floorSwitch);
             entity = floorSwitch;
             break;
         case "boulder":
-            Boulder boulder = new Boulder(x, y);
+            Boulder boulder = new Boulder(dungeon, x, y);
             onLoad(boulder);
             entity = boulder;
             break;
