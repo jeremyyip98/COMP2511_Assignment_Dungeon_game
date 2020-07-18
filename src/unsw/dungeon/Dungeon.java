@@ -51,14 +51,17 @@ public class Dungeon {
     }
 
     // Search if there is an entity on the given position
-    // Return true if there is an entity exists, otherwise false.
+    // Return true if there is an entity exists, and that entity is a wall.
+    // Otherwise return false.
     public boolean searchEntity(int x, int y) {
 
         boolean result = false;
         for (Entity e: entities) {
             if ((e.getX() == x) && (e.getY() == y)) {
-                result = true;
-                break;
+                if (e instanceof Wall) {
+                    result = true;
+                    break;
+                }
             }
         }
         return result;
