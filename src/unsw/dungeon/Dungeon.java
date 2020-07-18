@@ -53,6 +53,7 @@ public class Dungeon {
     // Search if there is an entity on the given position
     // Return true if there is an entity exists, and that entity is a wall.
     // Otherwise return false.
+    // Also print in terminal when the player reached the exit
     public boolean searchEntity(int x, int y) {
 
         boolean result = false;
@@ -61,6 +62,8 @@ public class Dungeon {
                 if (e instanceof Wall) {
                     result = true;
                     break;
+                } else if (e instanceof Exit) {
+                    System.out.println("You have reached the exit!!!");
                 }
             }
         }
