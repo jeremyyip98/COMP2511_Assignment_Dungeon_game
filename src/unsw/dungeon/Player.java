@@ -20,26 +20,26 @@ public class Player extends Entity implements Moveable{
     }
 
     public void moveUp() {
-        if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
-            setPosition(getX(), getY() +1);
-        }
-    }
-
-    public void moveDown() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
             setPosition(getX(), getY() - 1);
         }
     }
 
+    public void moveDown() {
+        if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
+            setPosition(getX(), getY() + 1);
+        }
+    }
+
     public void moveLeft() {
         if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
-            setPosition(getX()-1, getY());
+            setPosition(getX() - 1, getY());
         }
     }
 
     public void moveRight() {
         if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
-            setPosition(getX()+1, getY());
+            setPosition(getX() + 1, getY());
         }
     }
 
@@ -52,6 +52,7 @@ public class Player extends Entity implements Moveable{
 
     @Override
     public boolean isWalkAllowed(Moveable m) {
+        // enemies can walk so they can kill
         return true;
     }
 
