@@ -39,6 +39,7 @@ public abstract class DungeonLoader {
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
+        String goal = json.getJSONObject("goal-condition").getString("goal");
         return dungeon;
     }
 
