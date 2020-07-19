@@ -2,8 +2,11 @@ package unsw.dungeon;
 
 public class Enemy extends Entity implements Moveable, PlayerObserver{
 
-    public Enemy(int x, int y) {
+    private Dungeon dungeon;
+
+    public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
+        this.dungeon = dungeon;
     }
 
     @Override
@@ -19,26 +22,27 @@ public class Enemy extends Entity implements Moveable, PlayerObserver{
 
     @Override
     public void moveUp() {
-        // TODO Auto-generated method stub
-
+        if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
+            setPosition(getX(), getY() - 1);
+        }
     }
-
     @Override
     public void moveDown() {
-        // TODO Auto-generated method stub
-
+        if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
+            setPosition(getX(), getY() + 1);
+        }
     }
-
     @Override
     public void moveLeft() {
-        // TODO Auto-generated method stub
-
+        if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
+            setPosition(getX() - 1, getY());
+        }
     }
-
     @Override
     public void moveRight() {
-        // TODO Auto-generated method stub
-
+        if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
+            setPosition(getX() + 1, getY());
+        }
     }
 
     @Override

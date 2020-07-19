@@ -9,8 +9,6 @@ public class Boulder extends Entity implements Moveable, PlayerObserver{
         this.dungeon = dungeon;
     }
 
-    
-
     @Override
     public boolean isWalkAllowed(Moveable m) {
         int newX = getX() - m.getX();
