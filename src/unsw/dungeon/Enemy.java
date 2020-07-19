@@ -57,17 +57,14 @@ public class Enemy extends Entity implements Moveable, PlayerObserver{
 
         // this is where we can move the enemy
         if (p.getX() > this.getX()) {
-            if (right) {
-
-            }
-            this.moveRight();
+            move("Right");
         } else if (p.getX() < this.getX()) {
-            this.moveLeft();
+            move("Left");
         } else if (p.getX() == this.getX()) {
             if (p.getY() > this.getY()) {
-                this.moveDown();
+                move("Down");
             } else if (p.getY() < this.getY()) {
-                this.moveUp();
+                move("Up");
             }
         }
     }
@@ -76,31 +73,63 @@ public class Enemy extends Entity implements Moveable, PlayerObserver{
         boolean down = dungeon.checkIsWalkAllowed(this, getX(), getY() + 1);
         boolean left = dungeon.checkIsWalkAllowed(this, getX() - 1, getY());
         boolean right = dungeon.checkIsWalkAllowed(this, getX() + 1, getY());
-        /*
-        while(true) {
-            if ()
-            String possibleDirection = 
+
+        String possibleDirection = "";
+        if (up) {
+            possibleDirection = "Up";
+        } else if (down) {
+            possibleDirection = "Down";
+        } else if (left) {
+            possibleDirection = "Left";
+        } else if (right) {
+            possibleDirection = "Right";
         }
         switch (direction) {
             case "Up":
                 if (up) {
                     this.moveUp();
-                } else 
+                } else {
+                    possibleDirection(possibleDirection);
+                }
                 break;
             case "Down":
+                if (down) {
+                    this.moveDown();
+                } else {
+                    possibleDirection(possibleDirection);
+                }
                 break;
             case "Left":
+                if (left) {
+                    this.moveLeft();
+                } else {
+                    possibleDirection(possibleDirection);
+                }
                 break;
             case "Right":
-                break;
-        }
-        while(true){
-            if (direction.equals("right")) {
                 if (right) {
                     this.moveRight();
+                } else {
+                    possibleDirection(possibleDirection);
                 }
-            }
+                break;
         }
-        */
+    }
+
+    public void possibleDirection(String possibleDirection) {
+        switch (possibleDirection) {
+            case "Up":
+                this.moveUp();
+                break;
+            case "Down":
+                this.moveDown();
+                break;
+            case "Left":
+                this.moveLeft();
+                break;
+            case "Right":
+                this.moveRight();
+                break;
+        }
     }
 }
