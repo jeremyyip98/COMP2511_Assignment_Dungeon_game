@@ -106,9 +106,7 @@ public class Dungeon {
         activatedSwitches--;
     } 
     public boolean switchComplete(){
-        System.out.println("A " + activatedSwitches + "B " + switches);
         return (activatedSwitches == switches);
-
     }
 
 }

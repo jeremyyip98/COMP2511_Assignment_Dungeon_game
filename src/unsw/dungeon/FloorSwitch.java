@@ -31,7 +31,6 @@ public class FloorSwitch extends Entity{
             partner = null;
             dungeon.untriggerSwitch();
         }
-        System.out.println(dungeon.switchComplete());
     }
 
 
