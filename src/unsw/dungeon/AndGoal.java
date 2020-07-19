@@ -11,12 +11,28 @@ public class AndGoal implements Goal{
         this.goal = new ArrayList<>();
 	}
 
+    @Override
     public boolean achievedGoal() {
         return true;
     }
 
     public void add(Goal goal) {
         this.goal.add(goal);
+    }
+
+    @Override
+    public String toString() {
+        int size = goal.size();
+        String result = "";
+        for (Goal g: goal) {
+            if (result.equals("")) {
+                result = "(" + g.toString();
+            } else {
+                result = result + " AND " + g.toString();
+            }
+        }
+        result += " )";
+        return result;
     }
 
 }

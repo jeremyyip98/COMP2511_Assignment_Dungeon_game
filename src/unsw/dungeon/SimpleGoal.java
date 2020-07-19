@@ -8,8 +8,14 @@ public class SimpleGoal implements Goal{
 		this.name = name;
 	}
 
+    @Override
     public boolean achievedGoal() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
 }

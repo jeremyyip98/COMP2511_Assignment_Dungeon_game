@@ -40,6 +40,9 @@ public abstract class DungeonLoader {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
         Goal goal = scanGoal(json.getJSONObject("goal-condition"));
+
+        System.out.println("The goal is " + goal.toString());
+
         dungeon.setGoal(goal);
         return dungeon;
     }
