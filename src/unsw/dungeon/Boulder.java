@@ -1,14 +1,19 @@
 package unsw.dungeon;
 
+import java.util.List;
+import java.util.ArrayList;
+
+// make boulder observe switches
 public class Boulder extends Entity implements Moveable, PlayerObserver{
 
     private Dungeon dungeon;
+    ArrayList<FloorSwitch> switchList = new ArrayList<>();
+    //private List<FloorSwitch> switchList;
 
     public Boulder(Dungeon dungeon, int x, int y) {
         super(x, y);
         this.dungeon = dungeon;
     }
-
     
 
     @Override
@@ -79,10 +84,25 @@ public class Boulder extends Entity implements Moveable, PlayerObserver{
                     this.moveDown();
                 }
             }
-
-        
+            // should also notify all switches 
+            updateSwitches();
         }
-
-        // should also notify all switches TODO
     }
+
+    public void updateSwitches(){
+        for (FloorSwitch e : dungeon.getSwitchList()){
+            e.update(this);
+        }
+    }
+
+	@Override
+	public boolean ableUnlockDoor() {
+		// boulders cannot open doors
+		return false;
+    }
+    
+
+
+
+
 }

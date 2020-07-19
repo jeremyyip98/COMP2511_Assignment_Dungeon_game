@@ -122,7 +122,7 @@ public class Player extends Entity implements Moveable {
      * @param o
      */
     public void detach(PlayerObserver o){
-        observers.add(o);
+        observers.remove(o);
     }
     
     /**
@@ -132,6 +132,12 @@ public class Player extends Entity implements Moveable {
         for (PlayerObserver observe : this.observers){
             observe.update(dungeon.getPlayer());
         }
+    }
+
+    @Override
+    public boolean ableUnlockDoor() {
+        // Players can unlock doors
+        return true;
     }
 
 

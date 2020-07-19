@@ -9,7 +9,10 @@ public interface Moveable {
      * @return
      */
     public boolean ableBoulder();
-
+    /**
+     * true if can unlock doors false otherwise
+     */
+    public boolean ableUnlockDoor();
     /**
      * basic movement functions
      */
