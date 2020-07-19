@@ -75,6 +75,7 @@ public class Dungeon {
     public boolean checkIsWalkAllowed(Moveable m, int x, int y){
         if (x < 0 || x >= this.width || y < 0 || y >= height) return false;
         for (Entity e: entities) {
+            if (e == null) continue;
             if ((e.getX() == x) && (e.getY() == y)) {
                 if (!e.isWalkAllowed(m)) return false;
             }
