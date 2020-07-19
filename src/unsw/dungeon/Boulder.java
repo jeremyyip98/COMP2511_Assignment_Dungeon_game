@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Boulder extends Entity implements Moveable{
+public class Boulder extends Entity implements Moveable, PlayerObserver{
 
     private Dungeon dungeon;
 
@@ -33,25 +33,56 @@ public class Boulder extends Entity implements Moveable{
 
     @Override
     public void moveUp() {
-        // TODO Auto-generated method stub
-
+        if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
+            setPosition(getX(), getY() - 1);
+        }
     }
 
     @Override
     public void moveDown() {
-        // TODO Auto-generated method stub
-
+        if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
+            setPosition(getX(), getY() + 1);
+        }
     }
 
     @Override
     public void moveLeft() {
-        // TODO Auto-generated method stub
-
+        if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
+            setPosition(getX() - 1, getY());
+        }
     }
 
     @Override
     public void moveRight() {
-        // TODO Auto-generated method stub
+        if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
+            setPosition(getX() + 1, getY());
+        }
+    }
 
+    @Override
+    public void update(Player p) {
+        if (p.getX() == this.getX() && p.getY() == this.getY()){
+            // player just moved onto boulder
+            if (p.getOldX() != p.getX() && p.getOldY() == p.getY()){
+                // different x same y, move boulder left/right depending
+                if (p.getOldX() > p.getX()){
+                    this.moveLeft();
+                } else {
+                    this.moveRight();
+                }
+            } else 
+            if (p.getOldX() == p.getX() && p.getOldY() != p.getY()){
+                //same x different y, move boudler up/down
+                if (p.getOldY() > p.getY()){
+                    this.moveUp();
+                } else {
+                    this.moveDown();
+                }
+            }
+
+        
+        }
+
+        // should also notify all switches TODO
     }
 }

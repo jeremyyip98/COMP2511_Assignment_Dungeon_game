@@ -14,6 +14,10 @@ public class Player extends Entity implements Moveable {
     private Dungeon dungeon;
     List<PlayerObserver> observers = new ArrayList<>();
 
+    private int oldX;
+    private int oldY;
+
+
     /**
      * Create a player positioned in square (x,y)
      * @param x
@@ -22,34 +26,47 @@ public class Player extends Entity implements Moveable {
     public Player(Dungeon dungeon, int x, int y) {
         super(x, y);
         this.dungeon = dungeon;
+        this.oldX = x;
+        this.oldY = y;
     }
-
+    @Override
     public void moveUp() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
             setPosition(getX(), getY() - 1);
         }
     }
-
+    @Override
     public void moveDown() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
             setPosition(getX(), getY() + 1);
         }
     }
-
+    @Override
     public void moveLeft() {
         if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
             setPosition(getX() - 1, getY());
         }
     }
-
+    @Override
     public void moveRight() {
         if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
             setPosition(getX() + 1, getY());
         }
     }
 
+    /**
+     * store the players previous move if position is changed
+     */
+    public void storeOldPosition(){
+        if (oldX != getX() || oldY != getY()){
+            oldX = getX();
+            oldY = getY();
+        }
+    }
+
     @Override
     public void setPosition(int x, int y) {
+        storeOldPosition();
         this.x().set(x);
         this.y().set(y);
         notifyObsevers();
@@ -68,8 +85,27 @@ public class Player extends Entity implements Moveable {
     }
 
 
+    public int getOldX() {
+        return this.oldX;
+    }
+
+    public void setOldX(int oldX) {
+        this.oldX = oldX;
+    }
+
+    public int getOldY() {
+        return this.oldY;
+    }
+
+    public void setOldY(int oldY) {
+        this.oldY = oldY;
+    }
 
 
+    /**
+     * Player Subject methods in observer pattern
+     * @param o
+     */
 
     // https://www.tutorialspoint.com/design_pattern/observer_pattern.html
     /**
