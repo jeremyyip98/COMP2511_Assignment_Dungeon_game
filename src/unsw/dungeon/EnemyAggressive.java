@@ -18,8 +18,8 @@ public class EnemyAggressive implements EnemyStrategy{
         }
         if (dx < 0 && dy > 0) {
             // top left quadrant
-            if (e.moveDown()) return;
             if (e.moveLeft()) return;
+            if (e.moveDown()) return;
             if (e.moveUp()) return;
             if (e.moveRight()) return;
             return;
@@ -28,16 +28,16 @@ public class EnemyAggressive implements EnemyStrategy{
             // bottom right quadrant
             if (e.moveUp()) return;
             if (e.moveRight()) return;
-            if (e.moveDown()) return;
             if (e.moveLeft()) return;
+            if (e.moveDown()) return;
             return;
         }
         if (dx < 0 && dy < 0) {
             // bottom left quadrant
             if (e.moveUp()) return;
             if (e.moveLeft()) return;
-            if (e.moveDown()) return;
             if (e.moveRight()) return;
+            if (e.moveDown()) return;
             return;
         }
 
