@@ -3,11 +3,11 @@ package unsw.dungeon;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AndGoal implements Goal{
+public class OrGoal implements Goal{
 
     private List<Goal> goal = new ArrayList<Goal>();
 
-    public AndGoal() {
+    public OrGoal() {
         this.goal = new ArrayList<>();
 	}
 

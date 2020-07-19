@@ -95,10 +95,24 @@ public abstract class DungeonLoader {
     public Goal scanGoal(JSONObject obj) {
         String goal = obj.getString("goal");
         if (goal.equals("AND")) {
-            
+            JSONArray jsonSubgoals = obj.getJSONArray("subgoals");
+            AndGoal andGoal = new AndGoal();
+            for (int i = 0; i < jsonSubgoals.length(); i++) {
+                Goal oneOfTheGoal = scanGoal(jsonSubgoals.getJSONObject(i));
+                andGoal.add(oneOfTheGoal);
+            }
+            return andGoal;
+        } else if (goal.equals("OR")){
+            JSONArray jsonSubgoals = obj.getJSONArray("subgoals");
+            OrGoal orGoal = new OrGoal();
+            for (int i = 0; i < jsonSubgoals.length(); i++) {
+                Goal oneOfTheGoal = scanGoal(jsonSubgoals.getJSONObject(i));
+                orGoal.add(oneOfTheGoal);
+            }
+            return orGoal;
         } else {
-            SimpleGoal simepleGoal = new SimpleGoal(goal);
-            //dungeon
+            SimpleGoal simpleGoal = new SimpleGoal(goal);
+            return simpleGoal;
         }
     }
 
