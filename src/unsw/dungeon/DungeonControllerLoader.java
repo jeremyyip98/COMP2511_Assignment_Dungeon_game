@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
@@ -32,17 +34,8 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image boulderImage;
     private Image enemyImage;
 
-    public DungeonControllerLoader(String filename)
-            throws FileNotFoundException {
-        super(filename);
-        entities = new ArrayList<>();
-        playerImage = new Image((new File("images/human_new.png")).toURI().toString());
-        wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
-        exitImage = new Image((new File("images/exit.png")).toURI().toString());
-        portalImage = new Image((new File("images/portal.png")).toURI().toString());
-        floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
-        boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
-        enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
+    public DungeonControllerLoader(JSONObject json){
+        super(json);
     }
 
     @Override

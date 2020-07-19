@@ -2,10 +2,10 @@ package unsw.dungeon;
 
 import org.junit.jupiter.api.Test;
 
-public class DungeonTest {
+class DungeonTest {
 
     @Test
     void test_maze() {
-
+        
     }
 }
