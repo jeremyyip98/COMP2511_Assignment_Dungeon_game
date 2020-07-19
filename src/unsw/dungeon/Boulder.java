@@ -36,31 +36,39 @@ public class Boulder extends Entity implements Moveable, PlayerObserver{
     }
 
     @Override
-    public void moveUp() {
+    public boolean moveUp() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
             setPosition(getX(), getY() - 1);
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void moveDown() {
+    public boolean moveDown() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
             setPosition(getX(), getY() + 1);
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void moveLeft() {
+    public boolean moveLeft() {
         if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
             setPosition(getX() - 1, getY());
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void moveRight() {
+    public boolean moveRight() {
         if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
             setPosition(getX() + 1, getY());
+            return true;
         }
+        return false;
     }
 
     @Override
