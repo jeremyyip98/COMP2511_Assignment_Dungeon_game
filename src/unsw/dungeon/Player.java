@@ -1,13 +1,18 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The player entity
+ * 
  * @author Robert Clifton-Everest
  *
  */
-public class Player extends Entity implements Moveable{
+public class Player extends Entity implements Moveable {
 
     private Dungeon dungeon;
+    List<PlayerObserver> observers = new ArrayList<>();
 
     /**
      * Create a player positioned in square (x,y)
@@ -47,7 +52,7 @@ public class Player extends Entity implements Moveable{
     public void setPosition(int x, int y) {
         this.x().set(x);
         this.y().set(y);
-        notify();
+        notifyObsevers();
     }
 
     @Override
@@ -61,4 +66,37 @@ public class Player extends Entity implements Moveable{
         // can push boulders
         return true;
     }
+
+
+
+
+
+    // https://www.tutorialspoint.com/design_pattern/observer_pattern.html
+    /**
+     * subscribe/attach observer to list of observers
+     * @param o
+     */
+    public void attach(PlayerObserver o){
+        if (!observers.contains(o)){
+            observers.add(o);
+        }
+    }
+    /**
+     * remove an observer
+     * @param o
+     */
+    public void detach(PlayerObserver o){
+        observers.add(o);
+    }
+    
+    /**
+     * for all observers observing player call their update function
+     */
+    public void notifyObsevers(){
+        for (PlayerObserver observe : this.observers){
+            observe.update(dungeon.getPlayer());
+        }
+    }
+
+
 }

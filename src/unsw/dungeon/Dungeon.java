@@ -76,24 +76,16 @@ public class Dungeon {
         return result;
     }
 
-    // searchEntity for Boulder
-    // Search if there is an entity on the given position
-    // Return true if there is an entity exists, and that entity is a wall or a boulder.
-    // Otherwise return false.
-    public boolean searchEntity(Boulder boulder, int x, int y) {
-        boolean result = false;
 
-        for (Entity e: entities) {
-            if ((e.getX() == x) && (e.getY() == y)) {
-                if ((e instanceof Wall) || (e instanceof Boulder) || (e instanceof Exit)) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-        return result;
-    }
-
+    /**
+     * checks if position is a legal move
+     * - must be on non walkable tile
+     * - must be bound to game dimensions
+     * @param m
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean checkIsWalkAllowed(Moveable m, int x, int y){
         if (x < 0 || x >= this.width || y < 0 || y >= height) return false;
         for (Entity e: entities) {

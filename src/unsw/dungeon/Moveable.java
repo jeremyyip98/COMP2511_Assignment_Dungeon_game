@@ -10,6 +10,14 @@ public interface Moveable {
      */
     public boolean ableBoulder();
 
+    /**
+     * basic movement functions
+     */
+    public void moveUp();
+    public void moveDown();
+    public void moveLeft();
+    public void moveRight();
+
 	public int getX();
     public int getY(); 
     /**
