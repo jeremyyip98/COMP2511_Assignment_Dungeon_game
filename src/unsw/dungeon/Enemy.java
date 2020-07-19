@@ -52,4 +52,10 @@ public class Enemy extends Entity implements Moveable, PlayerObserver{
         // this is where we can move the enemy
     }
 
+	@Override
+	public boolean ableUnlockDoor() {
+		// enemies cannot use doors
+		return false;
+	}
+
 }
