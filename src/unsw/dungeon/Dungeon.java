@@ -75,12 +75,14 @@ public class Dungeon {
     public boolean checkIsWalkAllowed(Moveable m, int x, int y){
         if (x < 0 || x >= this.width || y < 0 || y >= height) return false;
         for (Entity e: entities) {
+            if (e == null) continue;
             if ((e.getX() == x) && (e.getY() == y)) {
                 if (!e.isWalkAllowed(m)) return false;
             }
         }
         return true;
     }
+
 
     public void connectEntities(){
         for (Entity e : entities){
@@ -107,6 +109,16 @@ public class Dungeon {
     } 
     public boolean switchComplete(){
         return (activatedSwitches == switches);
+    }
+
+    public Portal searchPortal(Portal portal) {
+        Portal result = null;
+        for (Entity e : entities) {
+            if ((e instanceof Portal) && (!e.equals(portal))) {
+                result = (Portal) e;
+            }
+        }
+        return result;
     }
 
 }

@@ -69,7 +69,7 @@ public abstract class DungeonLoader {
             entity = exit;
             break;
         case "portal":
-            Portal portal = new Portal(x, y);
+            Portal portal = new Portal(dungeon, "0", x, y);
             onLoad(portal);
             entity = portal;
             break;
