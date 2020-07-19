@@ -106,17 +106,4 @@ public class Dungeon {
         }
     }
 
-    /*
-    public List<Block> calculate() {
-        List<Block> bestWay = new ArrayList<Block>();
-
-        return bestWay;
-    }
-
-    public boolean correctWay(List<Block> way){
-        boolean result = true;
-
-        return result;
-    }
-    */
 }
