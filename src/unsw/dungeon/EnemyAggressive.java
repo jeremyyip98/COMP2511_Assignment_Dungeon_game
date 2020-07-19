@@ -6,7 +6,7 @@ public class EnemyAggressive implements EnemyStrategy{
     public void move(Player p, Enemy e) {
         int dx = p.getX() - e.getX();
         int dy = p.getY() - e.getY();
-        System.out.println("dx: " + dx + "     dy: " + dy);
+        //System.out.println("dx: " + dx + "     dy: " + dy);
 
         if (dx > 0 && dy > 0){
             //top right quadrant
