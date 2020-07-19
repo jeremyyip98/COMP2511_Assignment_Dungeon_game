@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Enemy extends Entity implements Moveable, PlayerObserver{
+public abstract class Enemy extends Entity implements Moveable, PlayerObserver{
 
     private Dungeon dungeon;
 
@@ -53,21 +53,8 @@ public class Enemy extends Entity implements Moveable, PlayerObserver{
     }
 
     @Override
-    public void update(Player p) {
+    public abstract void update(Player p);
 
-        // this is where we can move the enemy
-        if (p.getX() > this.getX()) {
-            move("Right");
-        } else if (p.getX() < this.getX()) {
-            move("Left");
-        } else if (p.getX() == this.getX()) {
-            if (p.getY() > this.getY()) {
-                move("Down");
-            } else if (p.getY() < this.getY()) {
-                move("Up");
-            }
-        }
-    }
     public void move(String direction) {
         boolean up = dungeon.checkIsWalkAllowed(this, getX(), getY() - 1);
         boolean down = dungeon.checkIsWalkAllowed(this, getX(), getY() + 1);

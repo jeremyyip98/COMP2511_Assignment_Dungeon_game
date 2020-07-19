@@ -84,7 +84,7 @@ public abstract class DungeonLoader {
             entity = boulder;
             break;
         case "enemy":
-            Enemy enemy = new Enemy(dungeon, x, y);
+            Enemy enemy = new EnemyScared(dungeon, x, y);
             onLoad(enemy);
             entity = enemy;
             break;
