@@ -17,6 +17,9 @@ public class Player extends Entity implements Moveable {
     private int oldX;
     private int oldY;
 
+    // Inventory
+    private int invTreasure; // amount of treasure player is holding
+    private int keyID = -1; // if -1 then not holding a key
 
     /**
      * Create a player positioned in square (x,y)
@@ -28,7 +31,9 @@ public class Player extends Entity implements Moveable {
         this.dungeon = dungeon;
         this.oldX = x;
         this.oldY = y;
+        this.invTreasure = 0;
     }
+
     @Override
     public boolean moveUp() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
@@ -149,4 +154,15 @@ public class Player extends Entity implements Moveable {
     }
 
 
+    public void addTreasure(){
+        this.invTreasure++;
+    }
+
+    public int getKeyID() {
+        return this.keyID;
+    }
+
+    public void setKeyID(int keyID) {
+        this.keyID = keyID;
+    }
 }

@@ -57,11 +57,12 @@ public class Dungeon {
 
     public void addEntity(Entity entity) {
         entities.add(entity);
-        /**
-        if (entity instanceof Boulder) {
-            boulders.add((Boulder) entity);
-        }*/
     }
+
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
+    }
+
 
     /**
      * checks if position is a legal move
@@ -94,6 +95,10 @@ public class Dungeon {
                     switchList.add((FloorSwitch) e);
                 this.switches++;
             }
+            /**
+            if (e instanceof Treasure){
+                treasures++;
+            }*/
         }
     }
 
