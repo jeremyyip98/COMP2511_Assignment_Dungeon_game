@@ -1,12 +1,26 @@
 package unsw.dungeon;
 
-public abstract class Enemy extends Entity implements Moveable, PlayerObserver{
+public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStrategy{
 
     private Dungeon dungeon;
+
+
+    private EnemyStrategy strategy;
+    private EnemyScared scared = new EnemyScared();
+    private EnemyAggressive aggressive = new EnemyAggressive();
 
     public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
         this.dungeon = dungeon;
+        this.setStrategy(aggressive); // initially aggressive
+    }
+
+    public EnemyStrategy getStrategy() {
+        return this.strategy;
+    }
+
+    public void setStrategy(EnemyStrategy strategy) {
+        this.strategy = strategy;
     }
 
     @Override
@@ -21,102 +35,53 @@ public abstract class Enemy extends Entity implements Moveable, PlayerObserver{
     }
 
     @Override
-    public void moveUp() {
+    public boolean moveUp() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
             setPosition(getX(), getY() - 1);
+            return true;
         }
+        return false;
     }
     @Override
-    public void moveDown() {
+    public boolean moveDown() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
             setPosition(getX(), getY() + 1);
+            return true;
         }
+        return false;
     }
     @Override
-    public void moveLeft() {
+    public boolean moveLeft() {
         if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
             setPosition(getX() - 1, getY());
+            return true;
         }
+        return false;
     }
     @Override
-    public void moveRight() {
+    public boolean moveRight() {
         if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
             setPosition(getX() + 1, getY());
+            return true;
         }
+        return false;
     }
 
     @Override
     public void setPosition(int x, int y) {
-        // TODO Auto-generated method stub
         this.x().set(x);
         this.y().set(y);
     }
 
     @Override
-    public abstract void update(Player p);
-
-    public void move(String direction) {
-        boolean up = dungeon.checkIsWalkAllowed(this, getX(), getY() - 1);
-        boolean down = dungeon.checkIsWalkAllowed(this, getX(), getY() + 1);
-        boolean left = dungeon.checkIsWalkAllowed(this, getX() - 1, getY());
-        boolean right = dungeon.checkIsWalkAllowed(this, getX() + 1, getY());
-
-        String possibleDirection = "";
-        if (up) {
-            possibleDirection = "Up";
-        } else if (down) {
-            possibleDirection = "Down";
-        } else if (left) {
-            possibleDirection = "Left";
-        } else if (right) {
-            possibleDirection = "Right";
-        }
-        switch (direction) {
-            case "Up":
-                if (up) {
-                    this.moveUp();
-                } else {
-                    possibleDirection(possibleDirection);
-                }
-                break;
-            case "Down":
-                if (down) {
-                    this.moveDown();
-                } else {
-                    possibleDirection(possibleDirection);
-                }
-                break;
-            case "Left":
-                if (left) {
-                    this.moveLeft();
-                } else {
-                    possibleDirection(possibleDirection);
-                }
-                break;
-            case "Right":
-                if (right) {
-                    this.moveRight();
-                } else {
-                    possibleDirection(possibleDirection);
-                }
-                break;
-        }
+    public void update(Player p) {
+        this.move(p, this);
     }
 
-    public void possibleDirection(String possibleDirection) {
-        switch (possibleDirection) {
-            case "Up":
-                this.moveUp();
-                break;
-            case "Down":
-                this.moveDown();
-                break;
-            case "Left":
-                this.moveLeft();
-                break;
-            case "Right":
-                this.moveRight();
-                break;
-        }
+    @Override
+    public void move(Player p, Enemy e) {
+        this.getStrategy().move(p, e);
     }
+
+
 }

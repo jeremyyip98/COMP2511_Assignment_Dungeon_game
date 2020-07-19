@@ -1,27 +1,73 @@
 package unsw.dungeon;
 
-public class EnemyAggressive extends Enemy{
-
-    private Dungeon dungeon;
-
-    public EnemyAggressive(Dungeon dungeon, int x, int y) {
-        super(dungeon, x, y);
-        this.dungeon = dungeon;
-    }
+public class EnemyAggressive implements EnemyStrategy{
 
     @Override
-    public void update(Player p) {
-        // this is where we can move the enemy
-        if (p.getX() > this.getX()) {
-            move("Right");
-        } else if (p.getX() < this.getX()) {
-            move("Left");
-        } else if (p.getX() == this.getX()) {
-            if (p.getY() > this.getY()) {
-                move("Down");
-            } else if (p.getY() < this.getY()) {
-                move("Up");
-            }
+    public void move(Player p, Enemy e) {
+        int dx = p.getX() - e.getX();
+        int dy = p.getY() - e.getY();
+        System.out.println("dx: " + dx + "     dy: " + dy);
+
+        if (dx > 0 && dy > 0){
+            //top right quadrant
+            if (e.moveRight()) return;
+            if (e.moveDown()) return;
+            if (e.moveUp()) return;
+            if (e.moveLeft()) return;
+            return;
         }
+        if (dx < 0 && dy > 0) {
+            // top left quadrant
+            if (e.moveDown()) return;
+            if (e.moveLeft()) return;
+            if (e.moveUp()) return;
+            if (e.moveRight()) return;
+            return;
+        }
+        if (dx > 0 && dy < 0) {
+            // bottom right quadrant
+            if (e.moveUp()) return;
+            if (e.moveRight()) return;
+            if (e.moveDown()) return;
+            if (e.moveLeft()) return;
+            return;
+        }
+        if (dx < 0 && dy < 0) {
+            // bottom left quadrant
+            if (e.moveUp()) return;
+            if (e.moveLeft()) return;
+            if (e.moveDown()) return;
+            if (e.moveRight()) return;
+            return;
+        }
+
+        if (dx == 0 || dy == 0){
+            if (dx > 0 && e.moveRight()) return;
+            if (dx < 0 && e.moveLeft()) return;
+            if (dy > 0 && e.moveDown()) return;
+            if (dy < 0 && e.moveUp()) return;
+            // exhaust options
+            if (dx > 0 && e.moveDown()) return;
+            if (dx > 0 && e.moveUp()) return;
+            if (dx > 0 && e.moveLeft()) return;
+
+            if (dx < 0 && e.moveUp()) return; 
+            if (dx < 0 && e.moveDown()) return;
+            if (dx < 0 && e.moveRight()) return;
+
+            if (dy > 0 && e.moveRight()) return;
+            if (dy > 0 && e.moveLeft()) return;
+            if (dy > 0 && e.moveUp()) return;
+
+            if (dy < 0 && e.moveLeft()) return;
+            if (dy < 0 && e.moveRight()) return;
+            if (dy < 0 && e.moveDown()) return;
+
+        }
+
+        return;
+
+
     }
+
 }

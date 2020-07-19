@@ -13,10 +13,10 @@ public interface Moveable {
     /**
      * basic movement functions
      */
-    public void moveUp();
-    public void moveDown();
-    public void moveLeft();
-    public void moveRight();
+    public boolean moveUp();
+    public boolean moveDown();
+    public boolean moveLeft();
+    public boolean moveRight();
 
 	public int getX();
     public int getY(); 

@@ -1,27 +1,23 @@
 package unsw.dungeon;
 
-public class EnemyScared extends Enemy{
-
-    private Dungeon dungeon;
-
-    public EnemyScared(Dungeon dungeon, int x, int y) {
-        super(dungeon, x, y);
-        this.dungeon = dungeon;
-    }
+public class EnemyScared implements EnemyStrategy{
 
     @Override
-    public void update(Player p) {
+    public void move(Player p, Enemy e) {
         // this is where we can move the enemy
-        if (p.getX() > this.getX()) {
-            move("Left");
-        } else if (p.getX() < this.getX()) {
-            move("Right");
-        } else if (p.getX() == this.getX()) {
-            if (p.getY() > this.getY()) {
-                move("Up");
-            } else if (p.getY() < this.getY()) {
-                move("Down");
+        if (p.getX() > e.getX()) {
+            e.moveLeft();
+        } else if (p.getX() < e.getX()) {
+            e.moveRight();
+        } else if (p.getX() == e.getX()) {
+            if (p.getY() > e.getY()) {
+                e.moveUp();
+            } else if (p.getY() < e.getY()) {
+                e.moveDown();
             }
         }
     }
+
+
+
 }
