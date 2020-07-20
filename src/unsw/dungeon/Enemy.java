@@ -83,8 +83,8 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         } else {
             this.setStrategy(aggressive);
         }
-        this.checkDeath(p);
         this.move(p, this);
+        this.checkDeath(p);
     }
 
 	@Override
@@ -112,6 +112,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         }
         if ((p.isInvincible() == false) && (this.getX()==p.getX()) && (this.getY() == p.getY())){
             dungeon.removeEntity(p); // kill player
+            dungeon.setPlayer(null);
             return;
         }
     }

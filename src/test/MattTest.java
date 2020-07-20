@@ -342,6 +342,18 @@ public class MattTest {
 
         player.moveUp();
 
+        System.out.println("Enemy1: ");
+        System.out.println("x is "+ enemy1.getX());
+        System.out.println("y is "+ enemy1.getY());
+
+        System.out.println("Enemy2: ");
+        System.out.println("x is "+ enemy2.getX());
+        System.out.println("y is "+ enemy2.getY());
+
+        System.out.println("Enemy3: ");
+        System.out.println("x is "+ enemy3.getX());
+        System.out.println("y is "+ enemy3.getY());
+
         // Check if all the enemies walking towards the player
         assert(enemy1.getX() == 3);
         assert(enemy2.getY() == 3);

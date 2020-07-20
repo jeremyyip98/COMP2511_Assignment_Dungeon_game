@@ -31,7 +31,6 @@ public class Dungeon {
 
     ArrayList<FloorSwitch> switchList = new ArrayList<>();
 
-
     private Player player;
 
     public Dungeon(int width, int height) {
