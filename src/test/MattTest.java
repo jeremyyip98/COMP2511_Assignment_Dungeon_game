@@ -730,6 +730,54 @@ public class MattTest {
     }
 
     @Test
+    public void twoKeysOpenDoorTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
+                .put(new JSONObject().put("x", 1).put("y", 0).put("id", 1).put("type", "key"))
+                .put(new JSONObject().put("x", 2).put("y", 0).put("id", 2).put("type", "key"))
+                .put(new JSONObject().put("x", 3).put("y", 0).put("id", 2).put("type", "door"))
+                .put(new JSONObject().put("x", 4).put("y", 0).put("id", 1).put("type", "door"))
+                .put(new JSONObject().put("x", 5).put("y", 0).put("type", "exit"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 6)
+            .put("height", 1)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "exit"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        // Player picks up the key (id: 1)
+        controller.handleMovement("Right");
+
+        assert(player.getX() == 1);
+        assert(player.getY() == 0);
+
+        // Player can only carry one key at a time
+        // Hence, it drops the key (id: 1) and picks up the key (id: 2) instead
+        controller.handleMovement("Right");
+
+        assert(player.getX() == 2);
+        assert(player.getY() == 0);
+
+        // Player opens the door (id: 2) with the key he is holding
+        controller.handleMovement("Right");
+
+        assert(player.getX() == 3);
+        assert(player.getY() == 0);
+
+        // Player try to pass through the door (id: 1) but failed
+        // Since he doesn't have the key (id: 1) with him right now
+        controller.handleMovement("Right");
+
+        assert(player.getX() == 3);
+        assert(player.getY() == 0);
+    }
+
+    @Test
     public void treasureTest() throws FileNotFoundException {
         JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
