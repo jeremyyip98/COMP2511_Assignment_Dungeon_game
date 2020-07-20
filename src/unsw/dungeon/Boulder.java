@@ -103,7 +103,7 @@ public class Boulder extends Entity implements Moveable, PlayerObserver{
     }
 
 	@Override
-	public boolean ableUnlockDoor() {
+	public boolean ableUnlockDoor(Door door) {
 		// boulders cannot open doors
 		return false;
     }

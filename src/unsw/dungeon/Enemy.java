@@ -88,7 +88,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
     }
 
 	@Override
-	public boolean ableUnlockDoor() {
+	public boolean ableUnlockDoor(Door door) {
 		// enemies cannot use doors
 		return false;
 	}

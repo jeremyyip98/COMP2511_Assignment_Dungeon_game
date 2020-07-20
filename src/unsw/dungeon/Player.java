@@ -144,9 +144,9 @@ public class Player extends Entity implements Moveable {
     }
 
     @Override
-    public boolean ableUnlockDoor() {
+    public boolean ableUnlockDoor(Door door) {
         // Players can unlock doors
-        return true;
+        return (door.getId() == this.keyID);
     }
 
 

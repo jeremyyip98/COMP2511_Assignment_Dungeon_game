@@ -94,7 +94,7 @@ public abstract class DungeonLoader {
             entity = key;
             break;
         case "door":
-            Door door = new Door(dungeon, x, y, json.getInt("id"));
+            Door door = new Door(x, y, json.getInt("id"));
             onLoad(door);
             entity = door;
             break;
