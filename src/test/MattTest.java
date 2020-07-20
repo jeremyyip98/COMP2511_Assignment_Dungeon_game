@@ -231,30 +231,42 @@ public class MattTest {
     }
 
     @Test
-    public void enemyMovementTest() throws FileNotFoundException {
+    public void enemyAggressiveTest() throws FileNotFoundException {
         JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
-                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "wall"));
+                .put(new JSONObject().put("x", 5).put("y", 0).put("type", "enemy"));
 
         JSONObject maze = new JSONObject()
-            .put("width", 2)
+            .put("width", 5)
             .put("height", 1)
             .put("entities", entities)
-            .put("goal-condition", new JSONObject().put("goal", "wall"));
+            .put("goal-condition", new JSONObject().put("goal", "enemies"));
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
         DungeonController controller = dungeonLoader.loadController();
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
+        Enemy enemy = new Enemy(dungeon, 5, 0);
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Enemy) {
+                enemy = (Enemy) e;
+            }
+        }
 
-        player.moveUp();
-        player.moveDown();
-        player.moveLeft();
         player.moveRight();
 
-        // Check if player stays on the initial position, since it's not possible for him to walk
-        assert(player.getX() == 0);
-        assert(player.getY() == 0);
+        // Check if the enemy walking towards the player
+        assert(enemy.getX() == 4);
+
+        player.moveRight();
+
+        // Check if the enemy walking towards the player
+        assert(enemy.getX() == 3);
+
+        player.moveRight();
+
+        // Check if the enemy stay still since the player is walking to his current position
+        assert(enemy.getX() == 3);
     }
 
     @Test
