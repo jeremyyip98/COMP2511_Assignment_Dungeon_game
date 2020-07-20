@@ -15,14 +15,16 @@ public class Door extends Entity implements PlayerObserver{
 
     @Override
     public void update(Player p) {
-        // TODO Auto-generated method stub
-
+        // if player does move onto door then it has opened
+        if (p.getX() == this.getX() && p.getY() == this.getY()){
+            this.locked = false;
+        }
     }
 
     @Override
     public boolean isWalkAllowed(Moveable m) {
         if (this.locked == false) return true;
-        return dungeon.getPlayer().getKeyID() == this.id;
+        return (dungeon.getPlayer().getKeyID() == this.id);
     }
 
 

@@ -17,11 +17,14 @@ public class Key extends PickUp {
             int prevID = p.getKeyID();
             Key prevKey = new Key(dungeon, p.getX(), p.getY(), prevID);
             dungeon.addEntity(prevKey);
+            
+            //p.setKeyID(id);
         }
         // pickup key on floor
         p.setKeyID(id);
+        //this.dungeon.removeEntity(this);
     }
-    
+
 
     public Door getPartner() {
         return this.partner;
