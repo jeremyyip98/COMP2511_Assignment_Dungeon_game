@@ -405,9 +405,9 @@ public class MattTest {
     @Test
     public void portalTest() throws FileNotFoundException {
         JSONArray entities = new JSONArray()
-                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "portal"))
+                .put(new JSONObject().put("x", 0).put("y", 0).put("id", 1).put("type", "portal"))
                 .put(new JSONObject().put("x", 1).put("y", 0).put("type", "player"))
-                .put(new JSONObject().put("x", 2).put("y", 2).put("type", "portal"));
+                .put(new JSONObject().put("x", 2).put("y", 2).put("id", 1).put("type", "portal"));
 
         JSONObject maze = new JSONObject()
             .put("width", 3)
