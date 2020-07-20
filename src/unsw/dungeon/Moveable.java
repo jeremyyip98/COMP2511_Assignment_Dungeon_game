@@ -12,7 +12,7 @@ public interface Moveable {
     /**
      * true if can unlock doors false otherwise
      */
-    public boolean ableUnlockDoor();
+    public boolean ableUnlockDoor(Door door);
     /**
      * basic movement functions
      */

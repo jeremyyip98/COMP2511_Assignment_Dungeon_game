@@ -57,13 +57,11 @@ public class MattTest {
         DungeonController controller = dungeonLoader.loadController();
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
-        Exit exit = dungeon.getExit();
 
         player.moveRight();
 
-        // Check if player went into the exit
-        assert(player.getX() == exit.getX());
-        assert(player.getY() == exit.getY());
+        // Check if the player has entered the exit
+        assert(dungeon.isExitComplete());
         
         // Need to add if Goal completed or not
         
@@ -626,7 +624,6 @@ public class MattTest {
             DungeonController controller = dungeonLoader.loadController();
             Dungeon dungeon = controller.getDungeon();
             Player player = dungeon.getPlayer();
-            Exit exit = dungeon.getExit();
 
             player.moveDown();
             player.moveDown();
@@ -690,8 +687,8 @@ public class MattTest {
             player.moveDown();
             player.moveDown();
 
-            assert(player.getX() == exit.getX());
-            assert(player.getY() == exit.getY());
+            // Check if the player has entered the exit
+            assert(dungeon.isExitComplete());
             // Need to add if Goal completed or not
     }
 }

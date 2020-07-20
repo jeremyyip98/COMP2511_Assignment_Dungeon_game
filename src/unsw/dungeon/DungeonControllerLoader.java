@@ -36,6 +36,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image keyImage;
     private Image closedDoorImage;
     private Image openDoorImage; // TODO
+    private Image potionImage;
+    private Image swordImage;
+
 
     public DungeonControllerLoader(JSONObject json) throws FileNotFoundException {
         super(json);
@@ -94,6 +97,18 @@ public class DungeonControllerLoader extends DungeonLoader {
 	public void onLoad(Door door) {
         ImageView view = new ImageView(closedDoorImage);
         addEntity(door, view);
+    }
+    
+    @Override
+	public void onLoad(Potion potion) {
+        ImageView view = new ImageView(potionImage);
+        addEntity(potion, view);
+    }
+    
+    @Override
+	public void onLoad(Sword sword) {
+        ImageView view = new ImageView(swordImage);
+        addEntity(sword, view);
 	}
 
     private void addEntity(Entity entity, ImageView view) {

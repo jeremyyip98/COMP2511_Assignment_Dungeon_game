@@ -88,7 +88,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
     }
 
 	@Override
-	public boolean ableUnlockDoor() {
+	public boolean ableUnlockDoor(Door door) {
 		// enemies cannot use doors
 		return false;
 	}
@@ -106,11 +106,11 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
                     return;
             }
         }
-        if ((p.isInvincible() == true) && (this.getX()==p.getX()) && (this.getY() == p.getY())){
+        if (p.isInvincible() && this.getX() == p.getX() && this.getY() == p.getY()){
             dungeon.removeEntity(this); // kill enemy
             return;
         }
-        if ((p.isInvincible() == false) && (this.getX()==p.getX()) && (this.getY() == p.getY())){
+        if (!p.isInvincible() && this.getX()==p.getX() && this.getY() == p.getY()){
             dungeon.removeEntity(p); // kill player
             dungeon.setPlayer(null);
             return;

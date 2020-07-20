@@ -5,6 +5,7 @@ package unsw.dungeon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 //import javafx.beans.property.IntegerProperty;
 
@@ -22,12 +23,13 @@ public class Dungeon {
     private int activatedSwitches = 0;
     private int switches = 0;
     private int treasures = 0;
+    private int enemies = 0;
+
     private boolean exitComplete; // true if reached exit
 
     private int width, height;
     private List<Entity> entities;
     private Goal goal;
-    private Exit exit;
 
     ArrayList<FloorSwitch> switchList = new ArrayList<>();
 
@@ -40,7 +42,6 @@ public class Dungeon {
         //this.boulders = new ArrayList<>();
         this.player = null;
         this.goal = null;
-        this.exit = null;
     }
 
     public int getWidth() {
@@ -55,10 +56,6 @@ public class Dungeon {
         return player;
     }
 
-    public Exit getExit() {
-        return exit;
-    }
-
     public List<Entity> getEntity() {
         return entities;
     }
@@ -69,10 +66,6 @@ public class Dungeon {
 
     public void setGoal(Goal goal) {
         this.goal = goal;
-    }
-
-    public void setExit(Exit exit) {
-        this.exit = exit;
     }
 
     public void addEntity(Entity entity) {
@@ -105,6 +98,10 @@ public class Dungeon {
 
 
     public void connectEntities(){
+        CopyOnWriteArrayList<Portal> portalList = new CopyOnWriteArrayList<>(); // comodification prevention
+        ArrayList<Door> doorList = new ArrayList<>();
+        ArrayList<Key> keyList = new ArrayList<>();
+ 
         for (Entity e : entities){
             if (e instanceof PlayerObserver){
                 player.attach((PlayerObserver) e);
@@ -114,13 +111,45 @@ public class Dungeon {
                     switchList.add((FloorSwitch) e);
                 this.switches++;
             }
-            /**
+            if (e instanceof Portal){
+                portalList.add((Portal) e);
+            }
+            if (e instanceof Key){
+                keyList.add((Key)e);
+            }
+            if (e instanceof Door){
+                doorList.add((Door)e);
+            }
             if (e instanceof Treasure){
-                treasures++;
-            }*/
+                this.treasures++;
+            }
+            if (e instanceof Enemy){
+                this.enemies++;
+            }
         }
-    }
 
+        for (Door d : doorList)
+            for (Key k : keyList)
+                if (d.getId() == k.getId()){
+                    k.setPartner(d);
+                    break;
+                }
+
+        //Iterator<Portal> iter = portalList.iterator();
+        for (Portal p : portalList){
+            for (Portal q : portalList){
+                if(q == null) continue;
+                if (!p.equals(q) && p.getId() == q.getId()){
+                    p.setPartner(q);
+                    q.setPartner(p);
+                    portalList.remove(p); 
+                    portalList.remove(q);                    
+                    break;
+                }
+            }
+        }
+        
+    }
 
     public ArrayList<FloorSwitch> getSwitchList() {
         return this.switchList;
@@ -144,14 +173,8 @@ public class Dungeon {
         this.exitComplete = true;
     }
 
-    public Portal searchPortal(Portal portal) {
-        Portal result = null;
-        for (Entity e : entities) {
-            if ((e instanceof Portal) && (!e.equals(portal))) {
-                result = (Portal) e;
-            }
-        }
-        return result;
+    public int getTreasures() {
+        return this.treasures;
     }
 
 }

@@ -2,65 +2,46 @@ package unsw.dungeon;
 
 public class Portal extends Entity implements PlayerObserver{
 
-    private String id;
+    private Portal partner;
+    private int id;
+    private boolean used; // true if player just used teleport
 
-    private Dungeon dungeon;
-
-    public Portal(Dungeon dungeon, String id, int x, int y) {
+    public Portal(int x, int y, int id) {
         super(x, y);
-        this.dungeon = dungeon;
         this.id = id;
+        this.used = false;
     }
 
     @Override
     public boolean isWalkAllowed(Moveable m) {
-        // TODO Auto-generated method stub
         return true;
     }
 
     @Override
     public void update(Player p) {
-        // TODO Auto-generated method stub
-        Portal portal = dungeon.searchPortal(this);
-        int exitX = portal.getX();
-        int exitY = portal.getY();
-
-        if (p.getX() == this.getX() && p.getY() == this.getY()){
-            possibleDirection(p, exitX, exitY);
+        if (p.getX() == this.getX() && p.getY() == this.getY() && !this.used){
+            // teleport not used
+            this.used = true;
+            partner.used = true;
+            //p.setPosition(partner.getX(), partner.getY());
+            p.x().set(partner.getX());
+            p.y().set(partner.getY());
+        } else 
+        if (this.getX() != p.getX() || this.getX() != p.getY()){
+            this.used = false;
         }
     }
 
-    public void possibleDirection(Player p, int exitX, int exitY) {
-        boolean up = dungeon.checkIsWalkAllowed(p, exitX, exitY - 1);
-        boolean down = dungeon.checkIsWalkAllowed(p, exitX, exitY + 1);
-        boolean left = dungeon.checkIsWalkAllowed(p, exitX - 1, exitY);
-        boolean right = dungeon.checkIsWalkAllowed(p, exitX + 1, exitY);
-        String possibleDirection = "";
+    public Portal getPartner() {
+        return this.partner;
+    }
 
-        if (up) {
-            possibleDirection = "Up";
-        } else if (down) {
-            possibleDirection = "Down";
-        } else if (left) {
-            possibleDirection = "Left";
-        } else if (right) {
-            possibleDirection = "Right";
-        }
+    public void setPartner(Portal partner) {
+        this.partner = partner;
+    }
 
-        switch (possibleDirection) {
-            case "Up":
-                p.setPosition(exitX, exitY - 1);
-                break;
-            case "Down":
-                p.setPosition(exitX, exitY + 1);
-                break;
-            case "Left":
-                p.setPosition(exitX - 1, exitY);
-                break;
-            case "Right":
-                p.setPosition(exitX + 1, exitY);
-                break;
-        }
+    public int getId() {
+        return this.id;
     }
 
 }

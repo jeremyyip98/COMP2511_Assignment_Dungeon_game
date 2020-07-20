@@ -3,13 +3,12 @@ package unsw.dungeon;
 public class Door extends Entity implements PlayerObserver{
 
     private int id;
-    private Dungeon dungeon;
+
     private boolean locked; // true if door is locked
 
-    public Door(Dungeon dungeon, int x, int y, int id) {
+    public Door(int x, int y, int id) {
         super(x, y);
         this.id = id;
-        this.dungeon = dungeon;
         this.locked = true;
     }
 
@@ -24,9 +23,10 @@ public class Door extends Entity implements PlayerObserver{
     @Override
     public boolean isWalkAllowed(Moveable m) {
         if (this.locked == false) return true;
-        return (dungeon.getPlayer().getKeyID() == this.id);
+        return (m.ableUnlockDoor(this));
     }
-
-
-    
+ 
+    public int getId() {
+        return this.id;
+    }
 }
