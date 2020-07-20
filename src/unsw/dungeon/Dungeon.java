@@ -79,10 +79,6 @@ public class Dungeon {
         entities.remove(entity);
     }
 
-    public void removeEntity(Entity entity) {
-        entities.remove(entity);
-    }
-
 
     /**
      * checks if position is a legal move
