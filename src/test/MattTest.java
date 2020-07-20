@@ -539,8 +539,9 @@ public class MattTest {
     @Test
     public void potionTest() throws FileNotFoundException {
         JSONArray entities = new JSONArray()
-                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
-                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "wall"));
+                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "player"))
+                .put(new JSONObject().put("x", 3).put("y", 0).put("type", "invincibility"))
+                .put(new JSONObject().put("x", 6).put("y", 0).put("type", "enemy"));
 
         JSONObject maze = new JSONObject()
             .put("width", 7)
@@ -552,15 +553,30 @@ public class MattTest {
         DungeonController controller = dungeonLoader.loadController();
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
+        Enemy enemy = new Enemy(dungeon, 6, 0);
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Enemy) {
+                enemy = (Enemy) e;
+            }
+        }
 
-        player.moveUp();
-        player.moveDown();
-        player.moveLeft();
         player.moveRight();
 
         // Check if player stays on the initial position, since it's not possible for him to walk
-        assert(player.getX() == 0);
-        assert(player.getY() == 0);
+        assert(enemy.getX() == 5);
+        assert(enemy.getY() == 0);
+
+        player.moveRight();
+
+        // Player picks up the potion and the enemy start walking away from him
+        assert(enemy.getX() == 6);
+        assert(enemy.getY() == 0);
+
+        player.moveRight();
+
+        // Player still has the potion effect and the enemy still walking away from him
+        assert(enemy.getX() == 7);
+        assert(enemy.getY() == 0);
     }
 
     @Test
