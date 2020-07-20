@@ -59,6 +59,10 @@ public class Dungeon {
         return exit;
     }
 
+    public List<Entity> getEntity() {
+        return entities;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }

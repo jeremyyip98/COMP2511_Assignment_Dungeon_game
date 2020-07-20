@@ -42,6 +42,58 @@ public class MattTest {
     }
 
     @Test
+    public void boulderTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "player"))
+                .put(new JSONObject().put("x", 1).put("y", 1).put("type", "boulder"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 4)
+            .put("height", 4)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "boulder"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        Boulder boulder = new Boulder(dungeon, 1, 1);
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Boulder) {
+                boulder = (Boulder) e;
+            }
+        }
+        
+        player.moveDown();
+
+        assert(boulder.getX() == 1);
+        assert(boulder.getY() == 2);
+        
+        player.moveLeft();
+        player.moveDown();
+        player.moveRight();
+
+        assert(boulder.getX() == 2);
+        assert(boulder.getY() == 2);
+        
+        player.moveDown();
+        player.moveRight();
+        player.moveUp();
+
+        assert(boulder.getX() == 2);
+        assert(boulder.getY() == 1);
+        
+        player.moveRight();
+        player.moveUp();
+        player.moveLeft();
+
+        // Check if the boulder back to its original position
+        assert(boulder.getX() == 1);
+        assert(boulder.getY() == 1);
+    }
+
+    @Test
     void movementTest() throws FileNotFoundException {
             JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "wall"))
