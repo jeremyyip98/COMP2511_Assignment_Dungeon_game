@@ -224,7 +224,7 @@ class MazeTest {
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
         Dungeon dungeon = dungeonLoader.load();
-        
+        Player player = dungeon.getPlayer();
 
-
+        player.moveUp();
 }
