@@ -614,6 +614,43 @@ public class MattTest {
     }
 
     @Test
+    public void potionTimeTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 2)
+            .put("height", 2)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "potion"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        // Give player a potion effect, which can only last for 10 moves (ticks)
+        player.setInvincible();
+
+        player.moveRight();
+        player.moveDown();
+        player.moveLeft();
+        player.moveUp();
+        player.moveRight();
+        player.moveDown();
+        player.moveLeft();
+        player.moveUp();
+        player.moveRight();
+        player.moveDown();
+
+
+        // Check if the enemy is dead or not (Entity removed from dungeon)
+        assert(player.getPotionTicks() == 0);
+        
+        // Need to add if Goal completed or not
+    }
+
+    @Test
     void movementTest() throws FileNotFoundException {
             JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "wall"))
