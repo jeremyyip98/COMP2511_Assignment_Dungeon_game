@@ -654,10 +654,12 @@ public class MattTest {
     public void treasureTest() throws FileNotFoundException {
         JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
-                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "treasure"));
+                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "treasure"))
+                .put(new JSONObject().put("x", 2).put("y", 0).put("type", "treasure"))
+                .put(new JSONObject().put("x", 3).put("y", 0).put("type", "treasure"));
 
         JSONObject maze = new JSONObject()
-            .put("width", 2)
+            .put("width", 4)
             .put("height", 1)
             .put("entities", entities)
             .put("goal-condition", new JSONObject().put("goal", "potion"));
@@ -667,20 +669,17 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        // Give player a potion effect
-        player.setInvincible();
         player.moveRight();
 
-        boolean enemyDead = true;
-        for (Entity e: dungeon.getEntity()) {
-            if (e instanceof Enemy) {
-                enemyDead = false;
-            }
-        }
+        // Check if the player collects the treasure or not
+        assert(player.getTreasure() == 1);
 
-        // Check if the enemy is dead or not (Entity removed from dungeon)
-        assert(enemyDead);
+        player.moveRight();
+        player.moveRight();
         
+        // Check if the player collects all treasure or not
+        assert(player.getTreasure() == 3);
+
         // Need to add if Goal completed or not
     }
 

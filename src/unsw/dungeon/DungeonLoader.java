@@ -115,6 +115,11 @@ public abstract class DungeonLoader {
                 onLoad(sword);
                 entity = sword;
                 break;
+            case "treasure":
+                Treasure treasure = new Treasure(dungeon, x, y);
+                onLoad(treasure);
+                entity = treasure;
+                break;
         }    
         dungeon.addEntity(entity);
     }
@@ -165,6 +170,8 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Potion potion);
 
     public abstract void onLoad(Sword sword);
+
+    public abstract void onLoad(Treasure treasure);
 
     // TODO Create additional abstract methods for the other entities
 
