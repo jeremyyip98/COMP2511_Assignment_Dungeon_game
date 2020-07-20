@@ -117,9 +117,6 @@ public class Dungeon {
             if (e instanceof Treasure){
                 this.treasures++;
             }
-            if (e instanceof Enemy){
-                this.enemies++;
-            }
         }
 
         for (Door d : doorList)
