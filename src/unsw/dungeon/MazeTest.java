@@ -1,13 +1,16 @@
 package unsw.dungeon;
 
 import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+
 import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
 
 class MazeTest {
 
         @Test
-        void mazeTest() {
+        void mazeTest() throws FileNotFoundException {
             JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "wall"))
                 .put(new JSONObject().put("x", 1).put("y", 0).put("type", "wall"))
@@ -29,7 +32,7 @@ class MazeTest {
                 .put(new JSONObject().put("x", 18).put("y", 0).put("type", "wall"))
                 .put(new JSONObject().put("x", 19).put("y", 0).put("type", "wall"))
                 .put(new JSONObject().put("x", 0).put("y", 1).put("type", "wall"))
-                .put(new JSONObject().put("x", 1).put("y", 1).put("type", "wall"))
+                .put(new JSONObject().put("x", 1).put("y", 1).put("type", "player"))
                 .put(new JSONObject().put("x", 2).put("y", 1).put("type", "wall"))
                 .put(new JSONObject().put("x", 15).put("y", 1).put("type", "wall"))
                 .put(new JSONObject().put("x", 16).put("y", 1).put("type", "wall"))
@@ -192,7 +195,7 @@ class MazeTest {
                 .put(new JSONObject().put("x", 15).put("y", 16).put("type", "wall"))
                 .put(new JSONObject().put("x", 16).put("y", 16).put("type", "wall"))
                 .put(new JSONObject().put("x", 17).put("y", 16).put("type", "wall"))
-                .put(new JSONObject().put("x", 18).put("y", 16).put("type", "wall"))
+                .put(new JSONObject().put("x", 18).put("y", 16).put("type", "exit"))
                 .put(new JSONObject().put("x", 19).put("y", 16).put("type", "wall"))
                 .put(new JSONObject().put("x", 0).put("y", 17).put("type", "wall"))
                 .put(new JSONObject().put("x", 1).put("y", 17).put("type", "wall"))
@@ -225,59 +228,23 @@ class MazeTest {
                 .put("goal-condition", new JSONObject().put("goal", "exit"));
 
             DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
-            Dungeon dungeon = dungeonLoader.load();
+            DungeonController controller = dungeonLoader.loadController();
+            Dungeon dungeon = controller.getDungeon();
             Player player = dungeon.getPlayer();
+            Exit exit = dungeon.getExit();
 
-            
-            player.moveDown();
-            player.moveDown();
-
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
-            
-            player.moveDown();
-            player.moveRight();
-            player.moveDown();
-            player.moveRight();
-
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
             player.moveDown();
             player.moveDown();
 
             player.moveRight();
-            player.moveRight();
-
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-
             player.moveRight();
             player.moveRight();
             player.moveRight();
             player.moveRight();
             
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-
+            player.moveDown();
             player.moveRight();
-            player.moveRight();
-            player.moveRight();
+            player.moveDown();
             player.moveRight();
 
             player.moveDown();
@@ -286,11 +253,49 @@ class MazeTest {
             player.moveDown();
             player.moveDown();
             player.moveDown();
+
+            player.moveRight();
+            player.moveRight();
+
+            player.moveDown();
             player.moveDown();
             player.moveDown();
             player.moveDown();
             player.moveDown();
 
+            player.moveRight();
+            player.moveRight();
+            player.moveRight();
+            player.moveRight();
             
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+            player.moveUp();
+
+            player.moveRight();
+            player.moveRight();
+            player.moveRight();
+            player.moveRight();
+
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+            player.moveDown();
+
+            assert(player.getX() == exit.getX());
+            assert(player.getY() == exit.getY());
     }
 }

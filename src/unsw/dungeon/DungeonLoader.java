@@ -37,9 +37,17 @@ public abstract class DungeonLoader {
         JSONArray jsonEntities = json.getJSONArray("entities");
 
         for (int i = 0; i < jsonEntities.length(); i++) {
+            System.out.println(jsonEntities.getJSONObject(i).toString(4));
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
+
         }
         dungeon.connectEntities();
+
+        Goal goal = scanGoal(json.getJSONObject("goal-condition"));
+
+        System.out.println("The goal is " + goal.toString());
+
+        dungeon.setGoal(goal);
 
         return dungeon;
     }
@@ -65,6 +73,7 @@ public abstract class DungeonLoader {
         // TODO Handle other possible entities
         case "exit":
             Exit exit = new Exit(x, y);
+            dungeon.setExit(exit);
             onLoad(exit);
             entity = exit;
             break;
@@ -90,6 +99,30 @@ public abstract class DungeonLoader {
             break;
         }
         dungeon.addEntity(entity);
+    }
+
+    public Goal scanGoal(JSONObject obj) {
+        String goal = obj.getString("goal");
+        if (goal.equals("AND")) {
+            JSONArray jsonSubgoals = obj.getJSONArray("subgoals");
+            AndGoal andGoal = new AndGoal();
+            for (int i = 0; i < jsonSubgoals.length(); i++) {
+                Goal oneOfTheGoal = scanGoal(jsonSubgoals.getJSONObject(i));
+                andGoal.add(oneOfTheGoal);
+            }
+            return andGoal;
+        } else if (goal.equals("OR")){
+            JSONArray jsonSubgoals = obj.getJSONArray("subgoals");
+            OrGoal orGoal = new OrGoal();
+            for (int i = 0; i < jsonSubgoals.length(); i++) {
+                Goal oneOfTheGoal = scanGoal(jsonSubgoals.getJSONObject(i));
+                orGoal.add(oneOfTheGoal);
+            }
+            return orGoal;
+        } else {
+            SimpleGoal simpleGoal = new SimpleGoal(goal);
+            return simpleGoal;
+        }
     }
 
     public abstract void onLoad(Entity player);

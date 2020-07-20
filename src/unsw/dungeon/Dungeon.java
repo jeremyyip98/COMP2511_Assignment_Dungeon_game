@@ -25,6 +25,8 @@ public class Dungeon {
 
     private int width, height;
     private List<Entity> entities;
+    private Goal goal;
+    private Exit exit;
 
     ArrayList<FloorSwitch> switchList = new ArrayList<>();
 
@@ -37,6 +39,8 @@ public class Dungeon {
         this.entities = new ArrayList<>();
         //this.boulders = new ArrayList<>();
         this.player = null;
+        this.goal = null;
+        this.exit = null;
     }
 
     public int getWidth() {
@@ -51,8 +55,20 @@ public class Dungeon {
         return player;
     }
 
+    public Exit getExit() {
+        return exit;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
+    public void setExit(Exit exit) {
+        this.exit = exit;
     }
 
     public void addEntity(Entity entity) {

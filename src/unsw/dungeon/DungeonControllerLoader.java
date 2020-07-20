@@ -34,8 +34,9 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image boulderImage;
     private Image enemyImage;
 
-    public DungeonControllerLoader(JSONObject json){
+    public DungeonControllerLoader(JSONObject json) throws FileNotFoundException {
         super(json);
+        entities = new ArrayList<>();
     }
 
     @Override

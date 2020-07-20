@@ -69,5 +69,12 @@ public class DungeonController {
         }
     }
 
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
 
