@@ -4,7 +4,11 @@
 package unsw.dungeon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.sound.sampled.Port;
 
 //import javafx.beans.property.IntegerProperty;
 
@@ -90,7 +94,7 @@ public class Dungeon {
     }
 
     public void connectEntities(){
-        ArrayList<Portal> portalList = new ArrayList<>();
+        CopyOnWriteArrayList<Portal> portalList = new CopyOnWriteArrayList<>(); // comodification prevention
         ArrayList<Door> doorList = new ArrayList<>();
         ArrayList<Key> keyList = new ArrayList<>();
  
@@ -126,20 +130,21 @@ public class Dungeon {
                     k.setPartner(d);
                     break;
                 }
-        
+
+        //Iterator<Portal> iter = portalList.iterator();
         for (Portal p : portalList){
             for (Portal q : portalList){
+                if(q == null) continue;
                 if (!p.equals(q) && p.getId() == q.getId()){
                     p.setPartner(q);
                     q.setPartner(p);
-                    portalList.remove(p);
-                    portalList.remove(q);
+                    portalList.remove(p); 
+                    portalList.remove(q);                    
                     break;
                 }
             }
         }
         
-
     }
 
     public ArrayList<FloorSwitch> getSwitchList() {
@@ -156,7 +161,6 @@ public class Dungeon {
         return (activatedSwitches == switches);
     }
 
-    
     public boolean isExitComplete() {
         return this.exitComplete;
     }
@@ -164,7 +168,6 @@ public class Dungeon {
     public void setExitComplete() {
         this.exitComplete = true;
     }
-
 
     public int getTreasures() {
         return this.treasures;

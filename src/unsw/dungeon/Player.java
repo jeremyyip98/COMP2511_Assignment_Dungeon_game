@@ -79,7 +79,7 @@ public class Player extends Entity implements Moveable {
         this.y().set(y);
         notifyObsevers();
     }
-
+    
     @Override
     public boolean isWalkAllowed(Moveable m) {
         // enemies can walk so they can kill

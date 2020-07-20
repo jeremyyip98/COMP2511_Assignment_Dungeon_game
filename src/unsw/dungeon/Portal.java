@@ -4,10 +4,12 @@ public class Portal extends Entity implements PlayerObserver{
 
     private Portal partner;
     private int id;
+    private boolean used; // true if player just used teleport
 
     public Portal(int x, int y, int id) {
         super(x, y);
         this.id = id;
+        this.used = false;
     }
 
     @Override
@@ -17,9 +19,18 @@ public class Portal extends Entity implements PlayerObserver{
 
     @Override
     public void update(Player p) {
-        if (!(p.getOldX() == partner.getX() && p.getOldY() == partner.getY())){
-            // has not come from a teleport
-            p.setPosition(partner.getX(), partner.getY());
+        if (p.getX() == this.getX() && p.getY() == this.getY() && !this.used){
+            // teleport not used
+            this.used = true;
+            partner.used = true;
+            System.out.println("1CURR USED: " + used + "PARTNER: " + partner.used);
+            //p.setPosition(partner.getX(), partner.getY());
+            p.x().set(partner.getX());
+            p.y().set(partner.getY());
+            System.out.println("2 CURR USED: " + used + "PARTNER: " + partner.used);
+        } else 
+        if (this.getX() != p.getX() || this.getX() != p.getY()){
+            this.used = false;
         }
     }
 
