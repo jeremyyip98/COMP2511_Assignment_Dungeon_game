@@ -39,11 +39,11 @@ public abstract class DungeonLoader {
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
-        Goal goal = scanGoal(json.getJSONObject("goal-condition"));
+        //Goal goal = scanGoal(json.getJSONObject("goal-condition"));
 
-        System.out.println("The goal is " + goal.toString());
+        //System.out.println("The goal is " + goal.toString());
 
-        dungeon.setGoal(goal);
+        //dungeon.setGoal(goal);
         return dungeon;
     }
 
@@ -110,6 +110,11 @@ public abstract class DungeonLoader {
         dungeon.addEntity(entity);
     }
 
+    /**
+     * 
+     * @param obj
+     * @return
+     
     public Goal scanGoal(JSONObject obj) {
         String goal = obj.getString("goal");
         if (goal.equals("AND")) {
@@ -133,6 +138,7 @@ public abstract class DungeonLoader {
             return simpleGoal;
         }
     }
+    */ 
 
     public abstract void onLoad(Entity player);
 

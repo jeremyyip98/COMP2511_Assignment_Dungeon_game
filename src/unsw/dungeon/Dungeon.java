@@ -24,7 +24,7 @@ public class Dungeon {
     private int activatedSwitches = 0;
     private int switches = 0;
     private int treasures = 0;
-    private int enemies = 0;
+    //private int enemies = 0;
 
     private boolean exitComplete; // true if reached exit
 
@@ -36,7 +36,6 @@ public class Dungeon {
 
 
     private Player player;
-    private Goal goal;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -44,7 +43,6 @@ public class Dungeon {
         this.entities = new ArrayList<>();
         //this.boulders = new ArrayList<>();
         this.player = null;
-        this.goal = null;
     }
 
     public int getWidth() {
@@ -63,9 +61,6 @@ public class Dungeon {
         this.player = player;
     }
 
-    public void setGoal(Goal goal) {
-        this.goal = goal;
-    }
 
     public void addEntity(Entity entity) {
         entities.add(entity);
@@ -166,6 +161,17 @@ public class Dungeon {
 
     public boolean isExitComplete() {
         return this.exitComplete;
+    }
+
+    /**
+     * 
+     * @return true if no enemies are in the dungeon entity list
+     */
+    public boolean isEnemyComplete(){
+        for (Entity e : entities){
+            if (e instanceof Enemy) return false;
+        }
+        return true;
     }
 
     public void setExitComplete() {
