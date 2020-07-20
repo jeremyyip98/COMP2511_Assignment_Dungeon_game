@@ -23,9 +23,9 @@ public class Door extends Entity implements PlayerObserver{
     @Override
     public boolean isWalkAllowed(Moveable m) {
         if (this.locked == false) return true;
-        return ( m.ableUnlockDoor(this));
+        return (m.ableUnlockDoor(this));
     }
-
+ 
     public int getId() {
         return this.id;
     }
