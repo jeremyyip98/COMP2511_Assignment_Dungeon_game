@@ -543,7 +543,7 @@ public class MattTest {
                 .put(new JSONObject().put("x", 1).put("y", 0).put("type", "wall"));
 
         JSONObject maze = new JSONObject()
-            .put("width", 2)
+            .put("width", 7)
             .put("height", 1)
             .put("entities", entities)
             .put("goal-condition", new JSONObject().put("goal", "wall"));
