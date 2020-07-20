@@ -387,6 +387,8 @@ public class MattTest {
 
         player.addSwordSwings();
         player.playerAttack();
+
+        assert(player.getSwordSwings() == 4);
         boolean enemyDead = true;
         for (Entity e: dungeon.getEntity()) {
             if (e instanceof Enemy) {
@@ -398,6 +400,30 @@ public class MattTest {
         assert(enemyDead);
         
         // Need to add if Goal completed or not
+        
+    }
+
+    @Test
+    public void swordSwingTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 2)
+            .put("height", 1)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "enemies"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        player.addSwordSwings();
+        player.playerAttack();
+
+        // Check if the remaining swordSwings decreased
+        assert(player.getSwordSwings() == 4);
         
     }
 
