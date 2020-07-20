@@ -165,6 +165,7 @@ public class Player extends Entity implements Moveable {
     public boolean playerAttack(){
         if (this.getSwordSwings() > 0){
             this.attacking = true;
+            useSwordSwing();
             notifyObsevers();
             this.attacking = false;
             return true;
