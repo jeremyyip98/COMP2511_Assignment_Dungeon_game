@@ -646,7 +646,7 @@ public class MattTest {
             .put("width", 3)
             .put("height", 1)
             .put("entities", entities)
-            .put("goal-condition", new JSONObject().put("goal", "wall"));
+            .put("goal-condition", new JSONObject().put("goal", "door"));
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
         DungeonController controller = dungeonLoader.loadController();
@@ -661,7 +661,7 @@ public class MattTest {
     }
 
     @Test
-    public void openDoorWithKeyTest() throws FileNotFoundException {
+    public void openDoorTest() throws FileNotFoundException {
         JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
                 .put(new JSONObject().put("x", 1).put("y", 0).put("id", 1).put("type", "key"))
@@ -671,7 +671,37 @@ public class MattTest {
             .put("width", 4)
             .put("height", 1)
             .put("entities", entities)
-            .put("goal-condition", new JSONObject().put("goal", "wall"));
+            .put("goal-condition", new JSONObject().put("goal", "door"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        // Player picks up the key
+        controller.handleMovement("Right");
+
+        // Player pass through the door
+        controller.handleMovement("Right");
+        controller.handleMovement("Right");
+
+        // Check if player stays on the initial position, since it's not possible for him to walk through the locked door
+        assert(player.getX() == 3);
+        assert(player.getY() == 0);
+    }
+
+    @Test
+    public void openMultipleDoorTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
+                .put(new JSONObject().put("x", 1).put("y", 0).put("id", 1).put("type", "key"))
+                .put(new JSONObject().put("x", 2).put("y", 0).put("id", 1).put("type", "door"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 4)
+            .put("height", 1)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "door"));
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
         DungeonController controller = dungeonLoader.loadController();
