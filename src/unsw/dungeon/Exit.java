@@ -19,5 +19,4 @@ public class Exit extends Entity implements PlayerObserver{
             dungeon.setExitComplete();
         }
 	}
-
 }

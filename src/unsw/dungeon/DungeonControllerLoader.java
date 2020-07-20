@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
@@ -36,23 +38,12 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image openDoorImage; // TODO
     private Image potionImage;
     private Image swordImage;
+    private Image treasureImage;
 
-    public DungeonControllerLoader(String filename)
-            throws FileNotFoundException {
-        super(filename);
+
+    public DungeonControllerLoader(JSONObject json) throws FileNotFoundException {
+        super(json);
         entities = new ArrayList<>();
-        playerImage = new Image((new File("images/human_new.png")).toURI().toString());
-        wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
-        exitImage = new Image((new File("images/exit.png")).toURI().toString());
-        portalImage = new Image((new File("images/portal.png")).toURI().toString());
-        floorSwitchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
-        boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
-        enemyImage = new Image((new File("images/deep_elf_master_archer.png")).toURI().toString());
-        keyImage = new Image((new File("images/key.png")).toURI().toString());
-        closedDoorImage = new Image((new File("images/closed_door.png")).toURI().toString());
-        openDoorImage = new Image((new File("images/open_door.png")).toURI().toString());
-        potionImage = new Image((new File("images/brilliant_blue_new.png")).toURI().toString());
-        swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
     }
 
     @Override
@@ -119,6 +110,12 @@ public class DungeonControllerLoader extends DungeonLoader {
 	public void onLoad(Sword sword) {
         ImageView view = new ImageView(swordImage);
         addEntity(sword, view);
+    }
+    
+    @Override
+	public void onLoad(Treasure treasure) {
+        ImageView view = new ImageView(treasureImage);
+        addEntity(treasure, view);
 	}
 
     private void addEntity(Entity entity, ImageView view) {

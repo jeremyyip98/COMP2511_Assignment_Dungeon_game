@@ -76,5 +76,39 @@ public class DungeonController {
         }
     }
 
+    // For Testing purpose
+    public void handleMovement(String move) {
+        switch (move) {
+        case "Up":
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() - 1)) 
+                player.moveUp();
+            break;
+        case "Down":
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() + 1)) 
+                player.moveDown();
+            break;
+        case "Left":
+            if (dungeon.checkIsWalkAllowed(player, player.getX() - 1, player.getY())) 
+                player.moveLeft();
+            break;
+        case "Right":
+            if (dungeon.checkIsWalkAllowed(player, player.getX() + 1, player.getY())) 
+                player.moveRight();
+            break;
+        case "Space":
+            player.playerAttack();
+            break;
+        default:
+            break;
+        }
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
 

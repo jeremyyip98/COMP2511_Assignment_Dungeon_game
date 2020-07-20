@@ -30,12 +30,11 @@ public class Dungeon {
 
     private boolean exitComplete; // true if reached exit
 
-
     private int width, height;
     private List<Entity> entities;
+    private Goal goal;
 
     ArrayList<FloorSwitch> switchList = new ArrayList<>();
-
 
     private Player player;
 
@@ -45,7 +44,7 @@ public class Dungeon {
         this.entities = new ArrayList<>();
         //this.boulders = new ArrayList<>();
         this.player = null;
-        this.exitComplete = false;
+        this.goal = null;
     }
 
     public int getWidth() {
@@ -60,12 +59,24 @@ public class Dungeon {
         return player;
     }
 
+    public List<Entity> getEntity() {
+        return entities;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
 
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
     public void addEntity(Entity entity) {
         entities.add(entity);
+    }
+
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
     }
 
     public void removeEntity(Entity entity) {
@@ -92,6 +103,7 @@ public class Dungeon {
         }
         return true;
     }
+
 
     public void connectEntities(){
         CopyOnWriteArrayList<Portal> portalList = new CopyOnWriteArrayList<>(); // comodification prevention
@@ -172,4 +184,5 @@ public class Dungeon {
     public int getTreasures() {
         return this.treasures;
     }
+
 }

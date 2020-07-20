@@ -1,0 +1,30 @@
+{
+    "width": 7,
+    "height": 7,
+    "entities": [
+      {
+        "x": 0,
+        "y": 3,
+        "type": "enemy"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "type": "enemy"
+      },
+      {
+        "x": 3,
+        "y": 6,
+        "type": "player"
+      },
+      {
+        "x": 6,
+        "y": 3,
+        "type": "enemy"
+      }
+    ],
+    "goal-condition": {
+      "goal": "enemies"
+    }
+  }
+  

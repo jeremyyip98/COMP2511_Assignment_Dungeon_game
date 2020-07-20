@@ -83,8 +83,8 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         } else {
             this.setStrategy(aggressive);
         }
-        this.move(p, this);
         this.checkDeath(p);
+        this.move(p, this);
     }
 
 	@Override

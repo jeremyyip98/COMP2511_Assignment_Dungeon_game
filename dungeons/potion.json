@@ -1,0 +1,25 @@
+{
+    "width": 8,
+    "height": 1,
+    "entities": [
+      {
+        "x": 2,
+        "y": 0,
+        "type": "player"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "type": "invincibility"
+      },
+      {
+        "x": 5,
+        "y": 0,
+        "type": "enemy"
+      }
+    ],
+    "goal-condition": {
+      "goal": "enemies"
+    }
+  }
+  
