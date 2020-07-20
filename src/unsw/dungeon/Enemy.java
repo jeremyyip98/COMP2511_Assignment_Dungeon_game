@@ -112,6 +112,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         }
         if (!p.isInvincible() && this.getX()==p.getX() && this.getY() == p.getY()){
             dungeon.removeEntity(p); // kill player
+            dungeon.setPlayer(null);
             return;
         }
     }
