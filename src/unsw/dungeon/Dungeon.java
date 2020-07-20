@@ -22,6 +22,7 @@ public class Dungeon {
     private int activatedSwitches = 0;
     private int switches = 0;
     private int treasures = 0;
+    private boolean exitComplete; // true if reached exit
 
     private int width, height;
     private List<Entity> entities;
@@ -77,10 +78,10 @@ public class Dungeon {
 
     public void addEntity(Entity entity) {
         entities.add(entity);
-        /**
-        if (entity instanceof Boulder) {
-            boulders.add((Boulder) entity);
-        }*/
+    }
+
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
     }
 
     /**
@@ -114,8 +115,13 @@ public class Dungeon {
                     switchList.add((FloorSwitch) e);
                 this.switches++;
             }
+            /**
+            if (e instanceof Treasure){
+                treasures++;
+            }*/
         }
     }
+
 
     public ArrayList<FloorSwitch> getSwitchList() {
         return this.switchList;
@@ -129,6 +135,14 @@ public class Dungeon {
     } 
     public boolean switchComplete(){
         return (activatedSwitches == switches);
+    }
+
+    public boolean isExitComplete() {
+        return this.exitComplete;
+    }
+
+    public void setExitComplete() {
+        this.exitComplete = true;
     }
 
     public Portal searchPortal(Portal portal) {

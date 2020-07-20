@@ -1,9 +1,26 @@
 package unsw.dungeon;
 
-public class Enemy extends Entity implements Moveable, PlayerObserver{
+public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStrategy{
 
-    public Enemy(int x, int y) {
+    private Dungeon dungeon;
+
+
+    private EnemyStrategy strategy;
+    private EnemyScared scared = new EnemyScared();
+    private EnemyAggressive aggressive = new EnemyAggressive();
+
+    public Enemy(Dungeon dungeon, int x, int y) {
         super(x, y);
+        this.dungeon = dungeon;
+        this.setStrategy(aggressive); // initially aggressive
+    }
+
+    public EnemyStrategy getStrategy() {
+        return this.strategy;
+    }
+
+    public void setStrategy(EnemyStrategy strategy) {
+        this.strategy = strategy;
     }
 
     @Override
@@ -18,38 +35,56 @@ public class Enemy extends Entity implements Moveable, PlayerObserver{
     }
 
     @Override
-    public void moveUp() {
-        // TODO Auto-generated method stub
-
+    public boolean moveUp() {
+        if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
+            setPosition(getX(), getY() - 1);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void moveDown() {
-        // TODO Auto-generated method stub
-
+    public boolean moveDown() {
+        if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
+            setPosition(getX(), getY() + 1);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void moveLeft() {
-        // TODO Auto-generated method stub
-
+    public boolean moveLeft() {
+        if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
+            setPosition(getX() - 1, getY());
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void moveRight() {
-        // TODO Auto-generated method stub
-
+    public boolean moveRight() {
+        if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
+            setPosition(getX() + 1, getY());
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void setPosition(int x, int y) {
-        // TODO Auto-generated method stub
-
+        this.x().set(x);
+        this.y().set(y);
     }
 
     @Override
     public void update(Player p) {
-        // this is where we can move the enemy
+        if (p.invincible == true){
+            this.setStrategy(scared);
+        } else {
+            this.setStrategy(aggressive);
+        }
+        this.checkDeath(p);
+        this.move(p, this);
     }
 
 	@Override
@@ -57,5 +92,29 @@ public class Enemy extends Entity implements Moveable, PlayerObserver{
 		// enemies cannot use doors
 		return false;
 	}
+    @Override
+    public void move(Player p, Enemy e) {
+        this.getStrategy().move(p, e);
+    }
+
+    public void checkDeath(Player p){
+        if (p.attacking){
+            if (Math.abs(this.getX() - p.getX()) == 1 && Math.abs(this.getY() - p.getY()) == 0 ||
+                Math.abs(this.getX() - p.getX()) == 0 && Math.abs(this.getY() - p.getY()) == 1){
+                    dungeon.removeEntity(this); // kill the enemy
+                    p.useSwordSwing();
+                    return;
+            }
+        }
+        if ((p.isInvincible() == true) && (this.getX()==p.getX()) && (this.getY() == p.getY())){
+            dungeon.removeEntity(this); // kill enemy
+            return;
+        }
+        if ((p.isInvincible() == false) && (this.getX()==p.getX()) && (this.getY() == p.getY())){
+            dungeon.removeEntity(p); // kill player
+            return;
+        }
+    }
+
 
 }

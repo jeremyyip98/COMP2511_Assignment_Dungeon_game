@@ -71,7 +71,7 @@ public abstract class DungeonLoader {
             break;
         // TODO Handle other possible entities
         case "exit":
-            Exit exit = new Exit(x, y);
+            Exit exit = new Exit(dungeon, x, y);
             dungeon.setExit(exit);
             onLoad(exit);
             entity = exit;
@@ -92,9 +92,20 @@ public abstract class DungeonLoader {
             entity = boulder;
             break;
         case "enemy":
-            Enemy enemy = new Enemy(x, y);
+            Enemy enemy = new Enemy(dungeon, x, y);
             onLoad(enemy);
             entity = enemy;
+            break;
+
+        case "key":
+            Key key = new Key(dungeon, x, y, json.getInt("id"));
+            onLoad(key);
+            entity = key;
+            break;
+        case "door":
+            Door door = new Door(dungeon, x, y, json.getInt("id"));
+            onLoad(door);
+            entity = door;
             break;
         }
         dungeon.addEntity(entity);
@@ -138,6 +149,10 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Boulder boulder);
 
     public abstract void onLoad(Enemy enemy);
+
+    public abstract void onLoad(Key key);
+
+    public abstract void onLoad(Door door);
 
     // TODO Create additional abstract methods for the other entities
 
