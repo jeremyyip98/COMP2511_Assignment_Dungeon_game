@@ -154,16 +154,8 @@ public class MattTest {
                 }
             }
         }
-        System.out.println("Boulder1:");
-        System.out.println(boulder1.getX());
-        System.out.println(boulder1.getY());
-
-        System.out.println("Boulder2:");
-        System.out.println(boulder2.getX());
-        System.out.println(boulder2.getY());
         
         player.moveRight();
-        System.out.println("Player is at: [" + player.getX() + "][" + player.getY() + "]");
 
         // Check if the boulders stayed in their original positions
         // Since player is not able to push two boulders at the same time
@@ -179,8 +171,6 @@ public class MattTest {
         player.moveRight();
         player.moveUp();
         player.moveLeft();
-
-        System.out.println("Player is at: [" + player.getX() + "][" + player.getY() + "]");
 
         // Check if the boulders stayed in their original positions
         // Since player is not able to push two boulders at the same time
@@ -267,6 +257,105 @@ public class MattTest {
 
         // Check if the enemy stay still since the player is walking to his current position
         assert(enemy.getX() == 3);
+
+        boolean playerDead = true;
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Player) {
+                playerDead = false;
+            }
+        }
+        // Check if the player is dead or not (Entity removed from dungeon)
+        assert(playerDead == true);
+        assert(dungeon.getPlayer() == null);
+    }
+
+    @Test
+    public void multipleEnemyAggressiveTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 3).put("type", "enemy"))
+                .put(new JSONObject().put("x", 3).put("y", 0).put("type", "enemy"))
+                .put(new JSONObject().put("x", 3).put("y", 6).put("type", "player"))
+                .put(new JSONObject().put("x", 6).put("y", 3).put("type", "enemy"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 7)
+            .put("height", 7)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "enemies"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+        Enemy enemy1 = new Enemy(dungeon, 6, 3);
+        Enemy enemy2 = new Enemy(dungeon, 3, 0);
+        Enemy enemy3 = new Enemy(dungeon, 0, 3);
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Enemy) {
+                enemy1 = (Enemy) e;
+            }
+        }
+
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Enemy) {
+                if (e.getX() != enemy1.getX() || e.getY() != enemy1.getY()){
+                    enemy2 = (Enemy) e;
+                }
+            }
+        }
+
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Enemy) {
+                if (e.getX() == enemy1.getX() && e.getY() == enemy1.getY()){
+                } else if (e.getX() == enemy2.getX() && e.getY() == enemy2.getY()){     
+                } else {
+                    enemy3 = (Enemy) e;
+                }
+            }
+        }
+        /*
+        System.out.println("Enemy1: ");
+        System.out.println("x is "+ enemy1.getX());
+        System.out.println("y is "+ enemy1.getY());
+
+        System.out.println("Enemy2: ");
+        System.out.println("x is "+ enemy2.getX());
+        System.out.println("y is "+ enemy2.getY());
+
+        System.out.println("Enemy3: ");
+        System.out.println("x is "+ enemy3.getX());
+        System.out.println("y is "+ enemy3.getY());
+        */
+        player.moveUp();
+
+        // Check if all the enemies walking towards the player
+        assert(enemy1.getX() == 5);
+        assert(enemy2.getY() == 1);
+        assert(enemy3.getX() == 1);
+
+        player.moveUp();
+
+        // Check if all the enemies walking towards the player
+        assert(enemy1.getX() == 4);
+        assert(enemy2.getY() == 2);
+        assert(enemy3.getX() == 2);
+
+        player.moveUp();
+
+        // Check if all the enemies walking towards the player
+        assert(enemy1.getX() == 3);
+        assert(enemy2.getY() == 3);
+        assert(enemy3.getX() == 3);
+
+        boolean playerDead = true;
+        for (Entity e: dungeon.getEntity()) {
+            if (e instanceof Player) {
+                playerDead = false;
+            }
+        }
+        // Check if the player is dead or not (Entity removed from dungeon)
+        assert(playerDead == true);
+        assert(dungeon.getPlayer() == null);
     }
 
     @Test
