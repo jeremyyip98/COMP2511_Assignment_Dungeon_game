@@ -110,6 +110,11 @@ public abstract class DungeonLoader {
                 onLoad(potion);
                 entity = potion;
                 break;
+            case "sword":
+                Sword sword = new Sword(dungeon, x, y);
+                onLoad(sword);
+                entity = sword;
+                break;
         }    
         dungeon.addEntity(entity);
     }
