@@ -1,16 +1,26 @@
-package unsw.dungeon;
+package test;
 
-import org.json.JSONObject;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.FileNotFoundException;
 
-import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-class MazeTest {
+import org.json.JSONObject;
+import org.json.JSONArray;
 
-        @Test
-        void mazeTest() throws FileNotFoundException {
+import unsw.dungeon.*;
+
+public class MattTest {
+    @Test
+    public void blahTest() {
+        //assertEquals("a", "a");
+    }
+
+    @Test
+    void movementTest() throws FileNotFoundException {
             JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "wall"))
                 .put(new JSONObject().put("x", 1).put("y", 0).put("type", "wall"))
@@ -299,3 +309,4 @@ class MazeTest {
             assert(player.getY() == exit.getY());
     }
 }
+
