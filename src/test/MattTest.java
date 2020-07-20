@@ -403,6 +403,37 @@ public class MattTest {
     }
 
     @Test
+    public void portalTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "portal"))
+                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "player"))
+                .put(new JSONObject().put("x", 2).put("y", 2).put("type", "portal"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 3)
+            .put("height", 3)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "portal"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        player.moveLeft();
+
+        // Check if player teleports to the corresponding portal
+        assert(player.getX() == 2);
+        assert(player.getY() == 2);
+
+        player.moveLeft();
+
+        // Check if player can move out of the portal in the correct position
+        assert(player.getX() == 1);
+        assert(player.getY() == 2);
+    }
+
+    @Test
     void movementTest() throws FileNotFoundException {
             JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "wall"))
