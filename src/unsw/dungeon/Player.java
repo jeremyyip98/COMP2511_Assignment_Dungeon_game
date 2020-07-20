@@ -19,7 +19,12 @@ public class Player extends Entity implements Moveable {
 
     // Inventory
     private int invTreasure; // amount of treasure player is holding
-    private int keyID = -1; // if -1 then not holding a key
+    private int keyID; // if -1 then not holding a key
+    private int swordSwings; // remaining swings on sword
+
+    public boolean attacking; // boolean true if player is attacking
+    public boolean invincible; // boolean true if potion is active
+    public int potionTicks;
 
     /**
      * Create a player positioned in square (x,y)
@@ -32,6 +37,10 @@ public class Player extends Entity implements Moveable {
         this.oldX = x;
         this.oldY = y;
         this.invTreasure = 0;
+        this.attacking = false;
+        this.invincible = false;
+        this.potionTicks = 0;
+        this.keyID = -1;
     }
 
     @Override
@@ -142,6 +151,7 @@ public class Player extends Entity implements Moveable {
      * for all observers observing player call their update function
      */
     public void notifyObsevers(){
+        this.checkPotionStatus(); // see if player is still invincible
         for (PlayerObserver observe : this.observers){
             observe.update(dungeon.getPlayer());
         }
@@ -165,4 +175,63 @@ public class Player extends Entity implements Moveable {
     public void setKeyID(int keyID) {
         this.keyID = keyID;
     }
+
+    public boolean playerAttack(){
+        if (this.getSwordSwings() > 0){
+            this.attacking = true;
+            notifyObsevers();
+            this.attacking = false;
+            return true;
+        }
+        return false;
+    }
+
+
+    public int getSwordSwings() {
+        return this.swordSwings;
+    }
+
+    public void addSwordSwings() {
+        // set swings to 5
+        this.swordSwings = 5;
+    }
+
+    public void useSwordSwings() {
+        // consume a sword swing
+        this.swordSwings--;
+    }
+
+
+    public boolean isInvincible() {
+        return this.invincible;
+    }
+    /**
+     * player has consumed potion and is invincible for 10 ticks
+     */
+    public void setInvincible() {
+        this.invincible = true;
+        this.potionTicks = 10;
+    }
+
+    public int getPotionTicks() {
+        return this.potionTicks;
+    }
+    /**
+     * 1 tick has elapsed
+     */
+    public void potionTick() {
+        this.potionTicks--;
+    }
+
+    public void checkPotionStatus(){
+        if (this.potionTicks > 0){
+            this.potionTick();
+            this.invincible = true;
+        } else {    
+            this.invincible = false;
+        }
+        
+    }
+
+
 }

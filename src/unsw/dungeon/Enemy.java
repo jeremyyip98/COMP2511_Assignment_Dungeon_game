@@ -42,6 +42,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         }
         return false;
     }
+
     @Override
     public boolean moveDown() {
         if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
@@ -50,6 +51,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         }
         return false;
     }
+
     @Override
     public boolean moveLeft() {
         if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
@@ -58,6 +60,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         }
         return false;
     }
+
     @Override
     public boolean moveRight() {
         if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
@@ -75,6 +78,8 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
 
     @Override
     public void update(Player p) {
+
+
         this.move(p, this);
     }
 
@@ -86,6 +91,20 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
     @Override
     public void move(Player p, Enemy e) {
         this.getStrategy().move(p, e);
+    }
+
+    public void checkDeath(Player p){
+        if (p.attacking){
+            if (Math.abs(this.getX() - p.getX()) == 1 && Math.abs(this.getY() - p.getY()) == 0 ||
+                Math.abs(this.getX() - p.getX()) == 0 && Math.abs(this.getY() - p.getY()) == 1){
+                    dungeon.removeEntity(this); // kill the enemy
+            }
+        }
+        if ((p.isInvincible() == true) && (this.getX()==p.getX() && this.getY() == p.getY())){
+            dungeon.removeEntity(this);
+        }
+
+    
     }
 
 

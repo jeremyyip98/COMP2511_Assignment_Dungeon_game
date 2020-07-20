@@ -12,7 +12,7 @@ public abstract class PickUp extends Entity implements PlayerObserver{
     }
 
     public abstract void pickup(Player p);
-
+ 
     public void update (Player p){
         if (p.getX() == this.getX() && p.getY() == this.getY()){
             pickup(p);
