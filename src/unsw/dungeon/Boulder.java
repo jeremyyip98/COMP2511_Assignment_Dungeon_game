@@ -19,7 +19,7 @@ public class Boulder extends Entity implements Moveable, PlayerObserver{
     public boolean isWalkAllowed(Moveable m) {
         int newX = getX() - m.getX();
         int newY = getY() - m.getY();
-        
+        // check that next tile is available
         return dungeon.checkIsWalkAllowed(this, getX()+newX, getY()+newY) && m.ableBoulder();
     }
 
@@ -70,7 +70,9 @@ public class Boulder extends Entity implements Moveable, PlayerObserver{
         }
         return false;
     }
-
+    /**
+     * move the boulder in same direction player was travelling by tracking old postion
+     */
     @Override
     public void update(Player p) {
         if (p.getX() == this.getX() && p.getY() == this.getY()){
@@ -91,11 +93,15 @@ public class Boulder extends Entity implements Moveable, PlayerObserver{
                     this.moveDown();
                 }
             }
-            // should also notify all switches 
+            // should also notify all switches (Observer pattern)
             updateSwitches();
         }
     }
-
+    
+    /** This is an observer pattern
+     * go through all switches in dungeon and update them
+     * 
+     */
     public void updateSwitches(){
         for (FloorSwitch e : dungeon.getSwitchList()){
             e.update(this);
