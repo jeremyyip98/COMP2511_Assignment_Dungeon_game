@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javax.sound.sampled.Port;
-
 //import javafx.beans.property.IntegerProperty;
 
 /**
@@ -38,6 +36,7 @@ public class Dungeon {
 
 
     private Player player;
+    private Goal goal;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -45,7 +44,7 @@ public class Dungeon {
         this.entities = new ArrayList<>();
         //this.boulders = new ArrayList<>();
         this.player = null;
-        this.exitComplete = false;
+        this.goal = null;
     }
 
     public int getWidth() {
@@ -62,6 +61,10 @@ public class Dungeon {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
     }
 
     public void addEntity(Entity entity) {
