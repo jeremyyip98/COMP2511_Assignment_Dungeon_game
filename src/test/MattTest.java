@@ -544,10 +544,10 @@ public class MattTest {
                 .put(new JSONObject().put("x", 6).put("y", 0).put("type", "enemy"));
 
         JSONObject maze = new JSONObject()
-            .put("width", 7)
+            .put("width", 8)
             .put("height", 1)
             .put("entities", entities)
-            .put("goal-condition", new JSONObject().put("goal", "wall"));
+            .put("goal-condition", new JSONObject().put("goal", "potion"));
 
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
         DungeonController controller = dungeonLoader.loadController();
