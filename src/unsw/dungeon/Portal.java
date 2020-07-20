@@ -23,11 +23,9 @@ public class Portal extends Entity implements PlayerObserver{
             // teleport not used
             this.used = true;
             partner.used = true;
-            System.out.println("1CURR USED: " + used + "PARTNER: " + partner.used);
             //p.setPosition(partner.getX(), partner.getY());
             p.x().set(partner.getX());
             p.y().set(partner.getY());
-            System.out.println("2 CURR USED: " + used + "PARTNER: " + partner.used);
         } else 
         if (this.getX() != p.getX() || this.getX() != p.getY()){
             this.used = false;
