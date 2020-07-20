@@ -69,7 +69,7 @@ public abstract class DungeonLoader {
             entity = exit;
             break;
         case "portal":
-            Portal portal = new Portal(x, y);
+            Portal portal = new Portal(x, y, json.getInt("id"));
             onLoad(portal);
             entity = portal;
             break;
@@ -98,6 +98,11 @@ public abstract class DungeonLoader {
             onLoad(door);
             entity = door;
             break;
+        case "invincibility":
+            Potion potion = new Potion(dungeon, x, y);
+            onLoad(potion);
+            entity = potion;
+            break;
         }
         dungeon.addEntity(entity);
     }
@@ -120,6 +125,8 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Key key);
 
     public abstract void onLoad(Door door);
+    
+    public abstract void onLoad(Potion potion);
 
     // TODO Create additional abstract methods for the other entities
 

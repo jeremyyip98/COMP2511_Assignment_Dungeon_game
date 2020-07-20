@@ -22,6 +22,8 @@ public class Dungeon {
     private int activatedSwitches = 0;
     private int switches = 0;
     private int treasures = 0;
+    private int enemies = 0;
+
     private boolean exitComplete; // true if reached exit
 
 
@@ -88,6 +90,10 @@ public class Dungeon {
     }
 
     public void connectEntities(){
+        ArrayList<Portal> portalList = new ArrayList<>();
+        ArrayList<Door> doorList = new ArrayList<>();
+        ArrayList<Key> keyList = new ArrayList<>();
+ 
         for (Entity e : entities){
             if (e instanceof PlayerObserver){
                 player.attach((PlayerObserver) e);
@@ -97,11 +103,43 @@ public class Dungeon {
                     switchList.add((FloorSwitch) e);
                 this.switches++;
             }
-            /**
+            if (e instanceof Portal){
+                portalList.add((Portal) e);
+            }
+            if (e instanceof Key){
+                keyList.add((Key)e);
+            }
+            if (e instanceof Door){
+                doorList.add((Door)e);
+            }
             if (e instanceof Treasure){
-                treasures++;
-            }*/
+                this.treasures++;
+            }
+            if (e instanceof Enemy){
+                this.enemies++;
+            }
         }
+
+        for (Door d : doorList)
+            for (Key k : keyList)
+                if (d.getId() == k.getId()){
+                    k.setPartner(d);
+                    break;
+                }
+        
+        for (Portal p : portalList){
+            for (Portal q : portalList){
+                if (!p.equals(q) && p.getId() == q.getId()){
+                    p.setPartner(q);
+                    q.setPartner(p);
+                    portalList.remove(p);
+                    portalList.remove(q);
+                    break;
+                }
+            }
+        }
+        
+
     }
 
     public ArrayList<FloorSwitch> getSwitchList() {
@@ -125,5 +163,10 @@ public class Dungeon {
 
     public void setExitComplete() {
         this.exitComplete = true;
+    }
+
+
+    public int getTreasures() {
+        return this.treasures;
     }
 }

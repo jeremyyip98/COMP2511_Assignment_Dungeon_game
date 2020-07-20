@@ -2,6 +2,8 @@ package unsw.dungeon;
 
 public class Key extends PickUp {
     private int id;
+
+
     private Door partner;
 
     public Key(Dungeon dungeon, int x, int y, int id) {
@@ -25,6 +27,9 @@ public class Key extends PickUp {
         //this.dungeon.removeEntity(this);
     }
 
+    public int getId() {
+        return this.id;
+    }
 
     public Door getPartner() {
         return this.partner;

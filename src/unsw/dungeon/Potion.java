@@ -10,6 +10,7 @@ public class Potion extends PickUp {
     @Override
     public void pickup(Player p) {
         p.setInvincible();
+        dungeon.removeEntity(this);
     }
     
 }

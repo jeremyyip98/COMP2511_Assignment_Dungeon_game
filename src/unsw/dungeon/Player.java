@@ -36,7 +36,7 @@ public class Player extends Entity implements Moveable {
         this.oldY = y;
         this.invTreasure = 0;
         this.attacking = false;
-        this.invincible = false;
+        this.invincible = false; // no potion active
         this.potionTicks = 0;
         this.keyID = -1;
     }
