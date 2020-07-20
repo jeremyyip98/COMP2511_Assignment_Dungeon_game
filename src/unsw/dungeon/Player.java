@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class Player extends Entity implements Moveable {
 
-    private Dungeon dungeon;
     List<PlayerObserver> observers = new ArrayList<>();
 
     private int oldX;
@@ -31,9 +30,8 @@ public class Player extends Entity implements Moveable {
      * @param x
      * @param y
      */
-    public Player(Dungeon dungeon, int x, int y) {
+    public Player(int x, int y) {
         super(x, y);
-        this.dungeon = dungeon;
         this.oldX = x;
         this.oldY = y;
         this.invTreasure = 0;
@@ -45,35 +43,23 @@ public class Player extends Entity implements Moveable {
 
     @Override
     public boolean moveUp() {
-        if (dungeon.checkIsWalkAllowed(this, getX(), getY() - 1)) {
-            setPosition(getX(), getY() - 1);
-            return true;
-        }
-        return false;
+        setPosition(getX(), getY() - 1);
+        return true;
     }
     @Override
     public boolean moveDown() {
-        if (dungeon.checkIsWalkAllowed(this, getX(), getY() + 1)) {
-            setPosition(getX(), getY() + 1);
-            return true;
-        }
-        return false;
+        setPosition(getX(), getY() + 1);
+        return true;
     }
     @Override
     public boolean moveLeft() {
-        if (dungeon.checkIsWalkAllowed(this, getX() - 1, getY())) {
-            setPosition(getX() - 1, getY());
-            return true;
-        }
-        return false;
+        setPosition(getX() - 1, getY());
+        return true;
     }
     @Override
     public boolean moveRight() {
-        if (dungeon.checkIsWalkAllowed(this, getX() + 1, getY())) {
-            setPosition(getX() + 1, getY());
-            return true;
-        }
-        return false;
+        setPosition(getX() + 1, getY());
+        return true;
     }
 
     /**
@@ -153,7 +139,7 @@ public class Player extends Entity implements Moveable {
     public void notifyObsevers(){
         this.checkPotionStatus(); // see if player is still invincible
         for (PlayerObserver observe : this.observers){
-            observe.update(dungeon.getPlayer());
+            observe.update(this);
         }
     }
 

@@ -46,23 +46,27 @@ public class DungeonController {
 
         for (ImageView entity : initialEntities)
             squares.getChildren().add(entity);
-
+            
     }
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
         case UP:
-            player.moveUp();
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() - 1)) 
+                player.moveUp();
             break;
         case DOWN:
-            player.moveDown();
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() + 1)) 
+                player.moveDown();
             break;
         case LEFT:
-            player.moveLeft();
+            if (dungeon.checkIsWalkAllowed(player, player.getX() - 1, player.getY())) 
+                player.moveLeft();
             break;
         case RIGHT:
-            player.moveRight();
+            if (dungeon.checkIsWalkAllowed(player, player.getX() + 1, player.getY())) 
+                player.moveRight();
             break;
         case SPACE:
             player.playerAttack();

@@ -87,7 +87,6 @@ public class Dungeon {
         return true;
     }
 
-
     public void connectEntities(){
         for (Entity e : entities){
             if (e instanceof PlayerObserver){
