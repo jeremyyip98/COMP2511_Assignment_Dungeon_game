@@ -42,6 +42,34 @@ public class MattTest {
     }
 
     @Test
+    public void exitTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
+                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "exit"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 2)
+            .put("height", 1)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "exit"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+        Exit exit = dungeon.getExit();
+
+        player.moveRight();
+
+        // Check if player stays on the initial position, since it's not possible for him to walk
+        assert(player.getX() == exit.getX());
+        assert(player.getY() == exit.getY());
+        
+        // Need to add if Goal completed or not
+        
+    }
+
+    @Test
     public void boulderTest() throws FileNotFoundException {
         JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 1).put("y", 0).put("type", "player"))
@@ -451,6 +479,7 @@ public class MattTest {
 
             assert(player.getX() == exit.getX());
             assert(player.getY() == exit.getY());
+            // Need to add if Goal completed or not
     }
 }
 
