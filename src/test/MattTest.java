@@ -434,6 +434,50 @@ public class MattTest {
     }
 
     @Test
+    public void multiplePortalTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("id", 1).put("type", "portal"))
+                .put(new JSONObject().put("x", 0).put("y", 4).put("id", 2).put("type", "portal"))
+                .put(new JSONObject().put("x", 2).put("y", 4).put("type", "player"))
+                .put(new JSONObject().put("x", 4).put("y", 0).put("id", 2).put("type", "portal"))
+                .put(new JSONObject().put("x", 4).put("y", 4).put("id", 1).put("type", "portal"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 5)
+            .put("height", 5)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "portal"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        player.moveLeft();
+        player.moveLeft();
+
+        // Check if player teleports to the corresponding portal
+        assert(player.getX() == 4);
+        assert(player.getY() == 0);
+
+        player.moveLeft();
+        player.moveLeft();
+        player.moveLeft();
+        player.moveLeft();
+
+        // Check if player can move out of the portal in the correct position
+        assert(player.getX() == 4);
+        assert(player.getY() == 4);
+
+        player.moveLeft();
+        player.moveLeft();
+
+        // Check if player goes back to his initial position
+        assert(player.getX() == 2);
+        assert(player.getY() == 4);
+    }
+
+    @Test
     void movementTest() throws FileNotFoundException {
             JSONArray entities = new JSONArray()
                 .put(new JSONObject().put("x", 0).put("y", 0).put("type", "wall"))
