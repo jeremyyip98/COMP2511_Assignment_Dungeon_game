@@ -22,6 +22,8 @@ public class Dungeon {
     private int activatedSwitches = 0;
     private int switches = 0;
     private int treasures = 0;
+    private boolean exitComplete; // true if reached exit
+
 
     private int width, height;
     private List<Entity> entities;
@@ -37,6 +39,7 @@ public class Dungeon {
         this.entities = new ArrayList<>();
         //this.boulders = new ArrayList<>();
         this.player = null;
+        this.exitComplete = false;
     }
 
     public int getWidth() {
@@ -116,4 +119,12 @@ public class Dungeon {
         return (activatedSwitches == switches);
     }
 
+    
+    public boolean isExitComplete() {
+        return this.exitComplete;
+    }
+
+    public void setExitComplete() {
+        this.exitComplete = true;
+    }
 }
