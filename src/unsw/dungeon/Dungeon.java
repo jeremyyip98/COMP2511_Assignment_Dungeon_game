@@ -4,8 +4,11 @@
 package unsw.dungeon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.sound.sampled.Port;
 
 //import javafx.beans.property.IntegerProperty;
 
@@ -75,6 +78,11 @@ public class Dungeon {
     public void removeEntity(Entity entity) {
         entities.remove(entity);
     }
+
+    public void removeEntity(Entity entity) {
+        entities.remove(entity);
+    }
+
 
     /**
      * checks if position is a legal move

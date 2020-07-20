@@ -101,7 +101,6 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         if (p.attacking){
             if (Math.abs(this.getX() - p.getX()) == 1 && Math.abs(this.getY() - p.getY()) == 0 ||
                 Math.abs(this.getX() - p.getX()) == 0 && Math.abs(this.getY() - p.getY()) == 1){
-                    System.out.println("Inside");
                     dungeon.removeEntity(this); // kill the enemy
                     p.useSwordSwing();
                     return;
