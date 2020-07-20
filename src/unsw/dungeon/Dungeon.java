@@ -30,7 +30,6 @@ public class Dungeon {
 
     private int width, height;
     private List<Entity> entities;
-    private Goal goal;
 
     ArrayList<FloorSwitch> switchList = new ArrayList<>();
 
