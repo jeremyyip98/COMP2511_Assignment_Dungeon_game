@@ -53,16 +53,50 @@ public class DungeonController {
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
         case UP:
-            player.moveUp();
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() - 1)) 
+                player.moveUp();
             break;
         case DOWN:
-            player.moveDown();
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() + 1)) 
+                player.moveDown();
             break;
         case LEFT:
-            player.moveLeft();
+            if (dungeon.checkIsWalkAllowed(player, player.getX() - 1, player.getY())) 
+                player.moveLeft();
             break;
         case RIGHT:
-            player.moveRight();
+            if (dungeon.checkIsWalkAllowed(player, player.getX() + 1, player.getY())) 
+                player.moveRight();
+            break;
+        case SPACE:
+            player.playerAttack();
+            break;
+        default:
+            break;
+        }
+    }
+
+    // For Testing purpose
+    public void handleMovement(String move) {
+        switch (move) {
+        case "Up":
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() - 1)) 
+                player.moveUp();
+            break;
+        case "Down":
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() + 1)) 
+                player.moveDown();
+            break;
+        case "Left":
+            if (dungeon.checkIsWalkAllowed(player, player.getX() - 1, player.getY())) 
+                player.moveLeft();
+            break;
+        case "Right":
+            if (dungeon.checkIsWalkAllowed(player, player.getX() + 1, player.getY())) 
+                player.moveRight();
+            break;
+        case "Space":
+            player.playerAttack();
             break;
         default:
             break;

@@ -31,10 +31,7 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        player.moveUp();
-        player.moveDown();
-        player.moveLeft();
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if player stays on the initial position, since it's not possible for him to walk
         assert(player.getX() == 0);
@@ -58,7 +55,7 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if the player has entered the exit
         assert(dungeon.isExitComplete());
@@ -91,28 +88,28 @@ public class MattTest {
             }
         }
         
-        player.moveDown();
+        controller.handleMovement("Down");
 
         assert(boulder.getX() == 1);
         assert(boulder.getY() == 2);
         
-        player.moveLeft();
-        player.moveDown();
-        player.moveRight();
+        controller.handleMovement("Left");
+        controller.handleMovement("Down");
+        controller.handleMovement("Right");
 
         assert(boulder.getX() == 2);
         assert(boulder.getY() == 2);
         
-        player.moveDown();
-        player.moveRight();
-        player.moveUp();
+        controller.handleMovement("Down");
+        controller.handleMovement("Right");
+        controller.handleMovement("Up");
 
         assert(boulder.getX() == 2);
         assert(boulder.getY() == 1);
         
-        player.moveRight();
-        player.moveUp();
-        player.moveLeft();
+        controller.handleMovement("Right");
+        controller.handleMovement("Up");
+        controller.handleMovement("Left");
 
         // Check if the boulder back to its original position
         assert(boulder.getX() == 1);
@@ -153,7 +150,7 @@ public class MattTest {
             }
         }
         
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if the boulders stayed in their original positions
         // Since player is not able to push two boulders at the same time
@@ -163,12 +160,12 @@ public class MattTest {
         assert(boulder2.getX() == 1);
         assert(boulder2.getY() == 1);
 
-        player.moveDown();
-        player.moveRight();
-        player.moveRight();
-        player.moveRight();
-        player.moveUp();
-        player.moveLeft();
+        controller.handleMovement("Down");
+        controller.handleMovement("Right");
+        controller.handleMovement("Right");
+        controller.handleMovement("Right");
+        controller.handleMovement("Up");
+        controller.handleMovement("Left");
 
         // Check if the boulders stayed in their original positions
         // Since player is not able to push two boulders at the same time
@@ -199,17 +196,17 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        player.moveRight();
-        player.moveUp();
-        player.moveLeft();
+        controller.handleMovement("Right");
+        controller.handleMovement("Up");
+        controller.handleMovement("Left");
 
         // the switch won't be completed yet, since the player have only triggered one switch at the moment
         assert(dungeon.switchComplete() == false);
 
-        player.moveDown();
-        player.moveLeft();
-        player.moveDown();
-        player.moveRight();
+        controller.handleMovement("Down");
+        controller.handleMovement("Left");
+        controller.handleMovement("Down");
+        controller.handleMovement("Right");
 
         // the switch won't be completed yet, since the player have only triggered one switch at the moment
         assert(dungeon.switchComplete());
@@ -241,17 +238,17 @@ public class MattTest {
             }
         }
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if the enemy walking towards the player
         assert(enemy.getX() == 4);
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if the enemy walking towards the player
         assert(enemy.getX() == 3);
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if the enemy stay still since the player is walking to his current position
         assert(enemy.getX() == 3);
@@ -311,6 +308,22 @@ public class MattTest {
                 }
             }
         }
+        controller.handleMovement("Up");
+
+        // Check if all the enemies walking towards the player
+        assert(enemy1.getX() == 5);
+        assert(enemy2.getY() == 1);
+        assert(enemy3.getX() == 1);
+
+        controller.handleMovement("Up");
+
+        // Check if all the enemies walking towards the player
+        assert(enemy1.getX() == 4);
+        assert(enemy2.getY() == 2);
+        assert(enemy3.getX() == 2);
+
+        controller.handleMovement("Up");
+
         /*
         System.out.println("Enemy1: ");
         System.out.println("x is "+ enemy1.getX());
@@ -324,34 +337,6 @@ public class MattTest {
         System.out.println("x is "+ enemy3.getX());
         System.out.println("y is "+ enemy3.getY());
         */
-        player.moveUp();
-
-        // Check if all the enemies walking towards the player
-        assert(enemy1.getX() == 5);
-        assert(enemy2.getY() == 1);
-        assert(enemy3.getX() == 1);
-
-        player.moveUp();
-
-        // Check if all the enemies walking towards the player
-        assert(enemy1.getX() == 4);
-        assert(enemy2.getY() == 2);
-        assert(enemy3.getX() == 2);
-
-        player.moveUp();
-
-        System.out.println("Enemy1: ");
-        System.out.println("x is "+ enemy1.getX());
-        System.out.println("y is "+ enemy1.getY());
-
-        System.out.println("Enemy2: ");
-        System.out.println("x is "+ enemy2.getX());
-        System.out.println("y is "+ enemy2.getY());
-
-        System.out.println("Enemy3: ");
-        System.out.println("x is "+ enemy3.getX());
-        System.out.println("y is "+ enemy3.getY());
-
         // Check if all the enemies walking towards the player
         assert(enemy1.getX() == 3);
         assert(enemy2.getY() == 3);
@@ -386,9 +371,9 @@ public class MattTest {
         Player player = dungeon.getPlayer();
 
         player.addSwordSwings();
-        player.playerAttack();
+        controller.handleMovement("Space");
 
-        assert(player.getSwordSwings() == 4);
+        //assert(player.getSwordSwings() == 4);
         boolean enemyDead = true;
         for (Entity e: dungeon.getEntity()) {
             if (e instanceof Enemy) {
@@ -420,7 +405,7 @@ public class MattTest {
         Player player = dungeon.getPlayer();
 
         player.addSwordSwings();
-        player.playerAttack();
+        controller.handleMovement("Space");
 
         // Check if the remaining swordSwings decreased
         assert(player.getSwordSwings() == 4);
@@ -445,8 +430,8 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        player.moveRight();
-        player.playerAttack();
+        controller.handleMovement("Right");
+        controller.handleMovement("Space");
         boolean enemyDead = true;
         for (Entity e: dungeon.getEntity()) {
             if (e instanceof Enemy) {
@@ -479,13 +464,13 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        player.moveLeft();
+        controller.handleMovement("Left");
 
         // Check if player teleports to the corresponding portal
         assert(player.getX() == 2);
         assert(player.getY() == 2);
 
-        player.moveLeft();
+        controller.handleMovement("Left");
 
         // Check if player can move out of the portal in the correct position
         assert(player.getX() == 1);
@@ -512,24 +497,24 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        player.moveLeft();
-        player.moveLeft();
+        controller.handleMovement("Left");
+        controller.handleMovement("Left");
 
         // Check if player teleports to the corresponding portal
         assert(player.getX() == 4);
         assert(player.getY() == 0);
 
-        player.moveLeft();
-        player.moveLeft();
-        player.moveLeft();
-        player.moveLeft();
+        controller.handleMovement("Left");
+        controller.handleMovement("Left");
+        controller.handleMovement("Left");
+        controller.handleMovement("Left");
 
         // Check if player can move out of the portal in the correct position
         assert(player.getX() == 4);
         assert(player.getY() == 4);
 
-        player.moveLeft();
-        player.moveLeft();
+        controller.handleMovement("Left");
+        controller.handleMovement("Left");
 
         // Check if player goes back to his initial position
         assert(player.getX() == 2);
@@ -560,19 +545,19 @@ public class MattTest {
             }
         }
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if player stays on the initial position, since it's not possible for him to walk
         assert(enemy.getX() == 5);
         assert(enemy.getY() == 0);
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Player picks up the potion and the enemy start walking away from him
         assert(enemy.getX() == 6);
         assert(enemy.getY() == 0);
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Player still has the potion effect and the enemy still walking away from him
         assert(enemy.getX() == 7);
@@ -598,7 +583,7 @@ public class MattTest {
 
         // Give player a potion effect
         player.setInvincible();
-        player.moveRight();
+        controller.handleMovement("Right");
 
         boolean enemyDead = true;
         for (Entity e: dungeon.getEntity()) {
@@ -632,22 +617,55 @@ public class MattTest {
         // Give player a potion effect, which can only last for 10 moves (ticks)
         player.setInvincible();
 
-        player.moveRight();
-        player.moveDown();
-        player.moveLeft();
-        player.moveUp();
-        player.moveRight();
-        player.moveDown();
-        player.moveLeft();
-        player.moveUp();
-        player.moveRight();
-        player.moveDown();
+        controller.handleMovement("Right");
+        controller.handleMovement("Down");
+        controller.handleMovement("Left");
+        controller.handleMovement("Up");
+        controller.handleMovement("Right");
+        controller.handleMovement("Down");
+        controller.handleMovement("Left");
+        controller.handleMovement("Up");
+        controller.handleMovement("Right");
+        controller.handleMovement("Down");
 
 
         // Check if the enemy is dead or not (Entity removed from dungeon)
         assert(player.getPotionTicks() == 0);
         
         // Need to add if Goal completed or not
+    }
+
+    @Test
+    public void lockedDoorTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "player"))
+                .put(new JSONObject().put("x", 1).put("y", 0).put("id", 1).put("type", "door"))
+                .put(new JSONObject().put("x", 2).put("y", 0).put("id", 1).put("type", "key"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 3)
+            .put("height", 1)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "wall"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        System.out.println("Player: ");
+        System.out.println("x is "+ player.getX());
+        System.out.println("y is "+ player.getY());
+
+        controller.handleMovement("Right");
+        
+        System.out.println("Player: ");
+        System.out.println("x is "+ player.getX());
+        System.out.println("y is "+ player.getY());
+
+        // Check if player stays on the initial position, since it's not possible for him to walk through the locked door
+        assert(player.getX() == 0);
+        assert(player.getY() == 0);
     }
 
     @Test
@@ -669,13 +687,13 @@ public class MattTest {
         Dungeon dungeon = controller.getDungeon();
         Player player = dungeon.getPlayer();
 
-        player.moveRight();
+        controller.handleMovement("Right");
 
         // Check if the player collects the treasure or not
         assert(player.getTreasure() == 1);
 
-        player.moveRight();
-        player.moveRight();
+        controller.handleMovement("Right");
+        controller.handleMovement("Right");
         
         // Check if the player collects all treasure or not
         assert(player.getTreasure() == 3);
@@ -906,67 +924,67 @@ public class MattTest {
             Dungeon dungeon = controller.getDungeon();
             Player player = dungeon.getPlayer();
 
-            player.moveDown();
-            player.moveDown();
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
 
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
             
-            player.moveDown();
-            player.moveRight();
-            player.moveDown();
-            player.moveRight();
+            controller.handleMovement("Down");
+            controller.handleMovement("Right");
+            controller.handleMovement("Down");
+            controller.handleMovement("Right");
 
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
 
-            player.moveRight();
-            player.moveRight();
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
 
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
 
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
             
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
-            player.moveUp();
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
+            controller.handleMovement("Up");
 
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
-            player.moveRight();
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
+            controller.handleMovement("Right");
 
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
-            player.moveDown();
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
+            controller.handleMovement("Down");
 
             // Check if the player has entered the exit
             assert(dungeon.isExitComplete());
