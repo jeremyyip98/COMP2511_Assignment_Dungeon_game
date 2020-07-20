@@ -223,5 +223,9 @@ public class Player extends Entity implements Moveable {
     public int getTreasure() {
         return invTreasure;
     }
+    public int getInvTreasure() {
+        return this.invTreasure;
+    }
+
 
 }
