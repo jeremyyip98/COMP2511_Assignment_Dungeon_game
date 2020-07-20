@@ -61,7 +61,7 @@ public class MattTest {
 
         player.moveRight();
 
-        // Check if player stays on the initial position, since it's not possible for him to walk
+        // Check if player went into the exit
         assert(player.getX() == exit.getX());
         assert(player.getY() == exit.getY());
         
@@ -189,6 +189,45 @@ public class MattTest {
 
         assert(boulder2.getX() == 1);
         assert(boulder2.getY() == 1);
+    }
+
+    @Test
+    public void switchTest() throws FileNotFoundException {
+        JSONArray entities = new JSONArray()
+                .put(new JSONObject().put("x", 0).put("y", 0).put("type", "switch"))
+                .put(new JSONObject().put("x", 1).put("y", 0).put("type", "boulder"))
+                .put(new JSONObject().put("x", 1).put("y", 1).put("type", "player"))
+                .put(new JSONObject().put("x", 1).put("y", 2).put("type", "boulder"))
+                .put(new JSONObject().put("x", 2).put("y", 2).put("type", "switch"));
+
+        JSONObject maze = new JSONObject()
+            .put("width", 3)
+            .put("height", 3)
+            .put("entities", entities)
+            .put("goal-condition", new JSONObject().put("goal", "boulders"));
+
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(maze);
+        DungeonController controller = dungeonLoader.loadController();
+        Dungeon dungeon = controller.getDungeon();
+        Player player = dungeon.getPlayer();
+
+        player.moveRight();
+        player.moveUp();
+        player.moveLeft();
+
+        // the switch won't be completed yet, since the player have only triggered one switch at the moment
+        assert(dungeon.switchComplete() == false);
+
+        player.moveDown();
+        player.moveLeft();
+        player.moveDown();
+        player.moveRight();
+
+        // the switch won't be completed yet, since the player have only triggered one switch at the moment
+        assert(dungeon.switchComplete());
+        
+        // Need to add if Goal completed or not
+        
     }
 
     @Test
