@@ -37,7 +37,6 @@ public abstract class DungeonLoader {
         JSONArray jsonEntities = json.getJSONArray("entities");
 
         for (int i = 0; i < jsonEntities.length(); i++) {
-            System.out.println(jsonEntities.getJSONObject(i).toString(4));
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
 
         }
