@@ -196,7 +196,7 @@ public class Player extends Entity implements Moveable {
         this.swordSwings = 5;
     }
 
-    public void useSwordSwings() {
+    public void useSwordSwing() {
         // consume a sword swing
         this.swordSwings--;
     }

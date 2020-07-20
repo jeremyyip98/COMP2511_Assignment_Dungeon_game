@@ -78,8 +78,12 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
 
     @Override
     public void update(Player p) {
-
-
+        if (p.invincible == true){
+            this.setStrategy(scared);
+        } else {
+            this.setStrategy(aggressive);
+        }
+        this.checkDeath(p);
         this.move(p, this);
     }
 
@@ -98,13 +102,18 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
             if (Math.abs(this.getX() - p.getX()) == 1 && Math.abs(this.getY() - p.getY()) == 0 ||
                 Math.abs(this.getX() - p.getX()) == 0 && Math.abs(this.getY() - p.getY()) == 1){
                     dungeon.removeEntity(this); // kill the enemy
+                    p.useSwordSwing();
+                    return;
             }
         }
-        if ((p.isInvincible() == true) && (this.getX()==p.getX() && this.getY() == p.getY())){
-            dungeon.removeEntity(this);
+        if ((p.isInvincible() == true) && (this.getX()==p.getX()) && (this.getY() == p.getY())){
+            dungeon.removeEntity(this); // kill enemy
+            return;
         }
-
-    
+        if ((p.isInvincible() == false) && (this.getX()==p.getX()) && (this.getY() == p.getY())){
+            dungeon.removeEntity(p); // kill player
+            return;
+        }
     }
 
 
