@@ -1,0 +1,39 @@
+{
+    "width": 5,
+    "height": 5,
+    "entities": [
+      {
+        "x": 0,
+        "y": 0,
+        "id": 1,
+        "type": "portal"
+      },
+      {
+        "x": 0,
+        "y": 4,
+        "id": 2,
+        "type": "portal"
+      },
+      {
+        "x": 2,
+        "y": 4,
+        "type": "player"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "id": 2,
+        "type": "portal"
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "id": 1,
+        "type": "portal"
+      }
+    ],
+    "goal-condition": {
+      "goal": "portal"
+    }
+  }
+  
