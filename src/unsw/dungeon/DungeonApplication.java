@@ -25,6 +25,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -35,12 +37,15 @@ public class DungeonApplication extends Application {
 
     private GameMenu gameMenu;
     private StartMenu startMenu;
+
     Stage window;
-    Scene scene1, scene2;
+    Scene scene1, scene2, scene3;
+    MediaPlayer mediaPlayer;
 
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        music();
         window = primaryStage;
         Pane pane = new Pane();
         pane.setPrefSize(1024, 576);
@@ -74,19 +79,8 @@ public class DungeonApplication extends Application {
 
         scene1 = new Scene(pane);
         
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("advanced.json");
-
-        DungeonController controller = dungeonLoader.loadController();
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
-        loader.setController(controller);
-        Parent root = loader.load();
-        //Scene scene = new Scene(root);
-        Pane pane2 = new Pane();
-        pane2.getChildren().addAll(root, gameMenu);
-
-        scene2 = new Scene(pane2);
-        root.requestFocus();
+        newGame();
+        System.out.println("Yolo");
 
         scene2.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -112,6 +106,12 @@ public class DungeonApplication extends Application {
         window.setTitle("Dungeon Puzzles");
         window.show();
     }
+    public void music() {
+        System.out.println("no problem");
+        Media media = new Media(Paths.get("bgm/FateEXTELLA OST_Emiya.mp3").toUri().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+    }
 
     // https://www.youtube.com/watch?v=aOcow70vqb4&t=715s
     private class GameMenu extends Parent {
@@ -131,9 +131,9 @@ public class DungeonApplication extends Application {
             menu2.setTranslateY(200);
 
             final int offset = 400;
-            final int offset2 = 800;
 
             menu1.setTranslateX(offset);
+            menu2.setTranslateX(offset);
 
             MenuButton btnResume = new MenuButton("RESUME");
             btnResume.setOnMouseClicked(event -> {
@@ -245,6 +245,7 @@ public class DungeonApplication extends Application {
             // Let the distances between the elements be 10
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
+            VBox menu2 = new VBox(10);
 
             menu0.setTranslateX(100);
             menu0.setTranslateY(200);
@@ -252,11 +253,15 @@ public class DungeonApplication extends Application {
             menu1.setTranslateX(100);
             menu1.setTranslateY(200);
 
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
+
             final int offset = 400;
 
             menu1.setTranslateX(offset);
+            menu2.setTranslateX(offset);
 
-            MenuButton btnStart = new MenuButton("PLAY");
+            MenuButton btnStart = new MenuButton("NEW GAME");
             btnStart.setOnMouseClicked(event -> {
                 FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
                 ft.setFromValue(1);
@@ -266,6 +271,17 @@ public class DungeonApplication extends Application {
                 ft.play();
             });
             btnStart.setOnMouseClicked(event -> window.setScene(scene2));
+
+            // MenuButton btnContinueGame = new MenuButton("CONTINUE GAME");
+            // btnContinueGame.setOnMouseClicked(event -> {
+            //     FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
+            //     ft.setFromValue(1);
+            //     ft.setToValue(0);
+            //     //ft.setOnFinished(evt -> setVisible(false));
+                
+            //     ft.play();
+            // });
+            //btnStart.setOnMouseClicked(event -> window.setScene(scene2));
 
             MenuButton btnOptions = new MenuButton("OPTIONS");
             btnOptions.setOnMouseClicked(event -> {
@@ -282,6 +298,24 @@ public class DungeonApplication extends Application {
 
                 tt.setOnFinished(evt -> {
                     getChildren().remove(menu0);
+                });
+            });
+                        
+            MenuButton btnSound = new MenuButton("SOUND");
+            btnSound.setOnMouseClicked(event -> {
+                getChildren().add(menu2);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
+                tt.setToX(menu1.getTranslateX() - offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
+                tt1.setToX(menu1.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu1);
                 });
             });
 
@@ -302,8 +336,34 @@ public class DungeonApplication extends Application {
                     getChildren().remove(menu1);
                 });
             });
-            
-            MenuButton btnSound = new MenuButton("SOUND");
+
+            MenuButton btnBack2 = new MenuButton("BACK");
+            btnBack2.setOnMouseClicked(event -> {
+                getChildren().add(menu1);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu2);
+                tt.setToX(menu2.getTranslateX() + offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1);
+                tt1.setToX(menu2.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu2);
+                });
+            });
+            MenuButton btnTurnOff = new MenuButton("TUFF OFF BGM");
+            btnTurnOff.setOnMouseClicked(event -> {
+                mediaPlayer.pause();
+            });
+
+            MenuButton btnTurnOn = new MenuButton("TUFF ON BGM");
+            btnTurnOn.setOnMouseClicked(event -> {
+                mediaPlayer.play();
+            });
+
             MenuButton btnVideo = new MenuButton("VIDEO");
 
             MenuButton btnExit = new MenuButton("EXIT");
@@ -313,6 +373,7 @@ public class DungeonApplication extends Application {
 
             menu0.getChildren().addAll(btnStart, btnOptions, btnExit);
             menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
+            menu2.getChildren().addAll(btnBack2, btnTurnOn, btnTurnOff);
 
             getChildren().addAll(menu0);
         }
@@ -408,6 +469,22 @@ public class DungeonApplication extends Application {
             setOnMousePressed(event -> setEffect(drop));
             setOnMouseReleased(event -> setEffect(null));
         }
+    }
+
+    private void newGame() throws IOException {
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("advanced.json");
+
+        DungeonController controller = dungeonLoader.loadController();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
+        loader.setController(controller);
+        Parent root = loader.load();
+        //Scene scene = new Scene(root);
+        Pane pane2 = new Pane();
+        pane2.getChildren().addAll(root, gameMenu);
+
+        scene2 = new Scene(pane2);
+        root.requestFocus();
     }
 
     public static void main(String[] args) {
