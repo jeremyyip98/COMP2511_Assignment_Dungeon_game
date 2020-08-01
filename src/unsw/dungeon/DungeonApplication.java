@@ -82,10 +82,13 @@ public class DungeonApplication extends Application {
         loader.setController(controller);
         Parent root = loader.load();
         //Scene scene = new Scene(root);
-        scene2 = new Scene(root);
+        Pane pane2 = new Pane();
+        pane2.getChildren().addAll(root, gameMenu);
+
+        scene2 = new Scene(pane2);
         root.requestFocus();
 
-        scene1.setOnKeyPressed(event -> {
+        scene2.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 if (!gameMenu.isVisible()) {
                     FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
