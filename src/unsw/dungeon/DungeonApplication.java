@@ -110,6 +110,7 @@ public class DungeonApplication extends Application {
         System.out.println("no problem");
         Media media = new Media(Paths.get("bgm/FateEXTELLA OST_Emiya.mp3").toUri().toString());
         mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.1);
         mediaPlayer.play();
     }
 
