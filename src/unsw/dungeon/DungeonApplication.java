@@ -60,8 +60,8 @@ public class DungeonApplication extends Application {
         gameMenu.setVisible(false);
 
         Label title = new Label("Dungeon Puzzles");
-        title.setTranslateX(200);
-        title.setTranslateY(100);
+        title.setTranslateX(80);
+        title.setTranslateY(60);
         title.setTextFill(Color.WHITE);
         title.setFont(title.getFont().font(80));
         
@@ -69,47 +69,11 @@ public class DungeonApplication extends Application {
         reference.setTranslateX(620);
         reference.setTranslateY(550);
         reference.setTextFill(Color.WHITE);
-        // First Layout
-        //VBox layout1  = new VBox(20);
-        //layout1.getChildren().addAll(label1);
-        //layout1.setTranslateX(300);
-        //layout1.setTranslateY(500);
 
         pane.getChildren().addAll(imgView, gameMenu, startMenu, reference, title);
 
         Scene scene1 = new Scene(pane);
-        scene1.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                if (!gameMenu.isVisible()) {
-                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
-                    ft.setFromValue(0);
-                    ft.setToValue(1);
-
-                    gameMenu.setVisible(true);
-                    ft.play();
-
-                    FadeTransition ft2 = new FadeTransition(Duration.seconds(0.5), startMenu);
-                    ft2.setFromValue(1);
-                    ft2.setToValue(0);
-                    ft2.setOnFinished(evt -> startMenu.setVisible(false));
-                    ft2.play();
-                }
-                else {
-                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
-                    ft.setFromValue(1);
-                    ft.setToValue(0);
-                    ft.setOnFinished(evt -> gameMenu.setVisible(false));
-                    ft.play();
-
-                    FadeTransition ft2 = new FadeTransition(Duration.seconds(0.5), startMenu);
-                    ft2.setFromValue(0);
-                    ft2.setToValue(1);
-
-                    startMenu.setVisible(true);
-                    ft2.play();
-                }
-            }
-        });
+        
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("maze.json");
 
         DungeonController controller = dungeonLoader.loadController();
@@ -121,37 +85,28 @@ public class DungeonApplication extends Application {
         scene2 = new Scene(root);
         root.requestFocus();
 
+        scene1.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                if (!gameMenu.isVisible()) {
+                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+                    ft.setFromValue(0);
+                    ft.setToValue(1);
+
+                    gameMenu.setVisible(true);
+                    ft.play();
+                }
+                else {
+                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+                    ft.setFromValue(1);
+                    ft.setToValue(0);
+                    ft.setOnFinished(evt -> gameMenu.setVisible(false));
+                    ft.play();
+                }
+            }
+        });
+
         window.setScene(scene1);
         window.show();
-        
-        //primaryStage.setTitle("Dungeon");
-
-
-        // Label label1 = new Label("Welcome to the Dungeon Game implemented by George and Jeremy!");
-        // Button button1 = new Button("Start Game");
-        // button1.setOnAction(e -> window.setScene(scene2));
-
-        // // First Layout
-        // VBox layout1  = new VBox(20);
-        // layout1.getChildren().addAll(label1, button1);
-        // scene1 = new Scene(layout1, 600, 600);
-
-        // Gaming Layout
-
-        // DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("maze.json");
-
-        // //DungeonControllerLoader dungeonLoader = new DungeonControllerLoader(json);
-
-        // DungeonController controller = dungeonLoader.loadController();
-
-        // FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
-        // loader.setController(controller);
-        // Parent root = loader.load();
-        // //Scene scene = new Scene(root);
-        // scene2 = new Scene(root);
-        // root.requestFocus();
-        // window.setScene(scene1);
-        // window.show();
     }
 
     // https://www.youtube.com/watch?v=aOcow70vqb4&t=715s
@@ -228,7 +183,7 @@ public class DungeonApplication extends Application {
             menu0.getChildren().addAll(btnResume, btnOptions, btnExit);
             menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
 
-            Rectangle background = new Rectangle(1024, 576);
+            Rectangle background = new Rectangle(600, 600);
             background.setFill(Color.GREY);
             background.setOpacity(0.4);
 
@@ -242,17 +197,17 @@ public class DungeonApplication extends Application {
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
 
-            menu0.setTranslateX(400);
-            menu0.setTranslateY(400);
+            menu0.setTranslateX(100);
+            menu0.setTranslateY(200);
 
-            menu1.setTranslateX(400);
-            menu1.setTranslateY(400);
+            menu1.setTranslateX(100);
+            menu1.setTranslateY(200);
 
             final int offset = 400;
 
             menu1.setTranslateX(offset);
 
-            StartButton btnStart = new StartButton("PLAY");
+            MenuButton btnStart = new MenuButton("PLAY");
             btnStart.setOnMouseClicked(event -> {
                 FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
                 ft.setFromValue(1);
@@ -263,7 +218,53 @@ public class DungeonApplication extends Application {
             });
             btnStart.setOnMouseClicked(event -> window.setScene(scene2));
 
-            menu0.getChildren().addAll(btnStart);
+            MenuButton btnOptions = new MenuButton("OPTIONS");
+            btnOptions.setOnMouseClicked(event -> {
+                getChildren().add(menu1);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
+                tt.setToX(menu0.getTranslateX() - offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1);
+                tt1.setToX(menu0.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu0);
+                });
+            });
+
+            MenuButton btnBack = new MenuButton("BACK");
+            btnBack.setOnMouseClicked(event -> {
+                getChildren().add(menu0);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
+                tt.setToX(menu1.getTranslateX() + offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+                tt1.setToX(menu1.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu1);
+                });
+            });
+            
+            MenuButton btnSound = new MenuButton("SOUND");
+            MenuButton btnVideo = new MenuButton("VIDEO");
+
+            MenuButton btnExit = new MenuButton("EXIT");
+            btnExit.setOnMouseClicked(event -> {
+                System.exit(0);
+            });
+
+            menu0.getChildren().addAll(btnStart, btnOptions, btnExit);
+            menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
+
             getChildren().addAll(menu0);
         }
     }
@@ -364,4 +365,16 @@ public class DungeonApplication extends Application {
         launch(args); 
     }
 
+    public Boolean isGameMenuVisbile() {
+        System.out.println(gameMenu.isVisible());
+        return gameMenu.isVisible();
+    }
+
+    public GameMenu getGameMenu() {
+        return gameMenu;
+    }
+
+    public void setGameMenuVisible(Boolean result) {
+        gameMenu.setVisible(result);
+    }
 }
