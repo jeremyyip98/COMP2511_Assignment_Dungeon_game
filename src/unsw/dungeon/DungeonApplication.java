@@ -364,17 +364,4 @@ public class DungeonApplication extends Application {
     public static void main(String[] args) {
         launch(args); 
     }
-
-    public Boolean isGameMenuVisbile() {
-        System.out.println(gameMenu.isVisible());
-        return gameMenu.isVisible();
-    }
-
-    public GameMenu getGameMenu() {
-        return gameMenu;
-    }
-
-    public void setGameMenuVisible(Boolean result) {
-        gameMenu.setVisible(result);
-    }
 }
