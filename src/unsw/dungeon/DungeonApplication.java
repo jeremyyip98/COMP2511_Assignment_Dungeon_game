@@ -120,6 +120,7 @@ public class DungeonApplication extends Application {
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
             VBox menu2 = new VBox(10);
+            VBox menu3 = new VBox(10);
 
             menu0.setTranslateX(100);
             menu0.setTranslateY(200);
@@ -130,10 +131,14 @@ public class DungeonApplication extends Application {
             menu2.setTranslateX(100);
             menu2.setTranslateY(200);
 
+            menu3.setTranslateX(100);
+            menu3.setTranslateY(200);
+
             final int offset = 400;
 
             menu1.setTranslateX(offset);
             menu2.setTranslateX(offset);
+            menu3.setTranslateX(offset);
 
             MenuButton btnResume = new MenuButton("RESUME");
             btnResume.setOnMouseClicked(event -> {
@@ -181,14 +186,6 @@ public class DungeonApplication extends Application {
                 });
             });
 
-            MenuButton btnBackToMenu = new MenuButton("BACK TO MENU");
-            btnBackToMenu.setOnMouseClicked(event -> window.setScene(scene1));
-
-            MenuButton btnExitGame = new MenuButton("EXIT GAME");
-            btnExitGame.setOnMouseClicked(event -> {
-                System.exit(0);
-            });
-
             MenuButton btnBack = new MenuButton("BACK");
             btnBack.setOnMouseClicked(event -> {
                 getChildren().add(menu0);
@@ -225,12 +222,66 @@ public class DungeonApplication extends Application {
                 });
             });
 
+            MenuButton btnBackToMenu = new MenuButton("BACK TO MENU");
+            btnBackToMenu.setOnMouseClicked(event -> window.setScene(scene1));
+
+            MenuButton btnExitGame = new MenuButton("EXIT GAME");
+            btnExitGame.setOnMouseClicked(event -> {
+                System.exit(0);
+            });
+
+
+            MenuButton btnBack3 = new MenuButton("BACK");
+            btnBack3.setOnMouseClicked(event -> {
+                getChildren().add(menu1);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+                tt.setToX(menu3.getTranslateX() + offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1);
+                tt1.setToX(menu3.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu3);
+                });
+            });
+
             MenuButton btnSound = new MenuButton("SOUND");
+            btnSound.setOnMouseClicked(event -> {
+                getChildren().add(menu3);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
+                tt.setToX(menu1.getTranslateX() - offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu3);
+                tt1.setToX(menu1.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu1);
+                });
+            });
             MenuButton btnVideo = new MenuButton("VIDEO");
+
+            MenuButton btnTurnOff = new MenuButton("TUFF OFF BGM");
+            btnTurnOff.setOnMouseClicked(event -> {
+                mediaPlayer.pause();
+            });
+
+            MenuButton btnTurnOn = new MenuButton("TUFF ON BGM");
+            btnTurnOn.setOnMouseClicked(event -> {
+                mediaPlayer.play();
+            });
 
             menu0.getChildren().addAll(btnResume, btnOptions, btnExit);
             menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
             menu2.getChildren().addAll(btnBack2, btnBackToMenu, btnExitGame);
+            menu3.getChildren().addAll(btnBack3, btnTurnOn, btnTurnOff);
 
             Rectangle background = new Rectangle(600, 600);
             background.setFill(Color.GREY);
