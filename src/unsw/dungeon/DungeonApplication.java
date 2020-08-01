@@ -72,9 +72,9 @@ public class DungeonApplication extends Application {
 
         pane.getChildren().addAll(imgView, gameMenu, startMenu, reference, title);
 
-        Scene scene1 = new Scene(pane);
+        scene1 = new Scene(pane);
         
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("maze.json");
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("advanced.json");
 
         DungeonController controller = dungeonLoader.loadController();
 
@@ -109,6 +109,7 @@ public class DungeonApplication extends Application {
         });
 
         window.setScene(scene1);
+        window.setTitle("Dungeon Puzzles");
         window.show();
     }
 
@@ -118,6 +119,7 @@ public class DungeonApplication extends Application {
             // Let the distances between the elements be 10
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
+            VBox menu2 = new VBox(10);
 
             menu0.setTranslateX(100);
             menu0.setTranslateY(200);
@@ -125,7 +127,11 @@ public class DungeonApplication extends Application {
             menu1.setTranslateX(100);
             menu1.setTranslateY(200);
 
+            menu2.setTranslateX(100);
+            menu2.setTranslateY(200);
+
             final int offset = 400;
+            final int offset2 = 800;
 
             menu1.setTranslateX(offset);
 
@@ -159,6 +165,27 @@ public class DungeonApplication extends Application {
 
             MenuButton btnExit = new MenuButton("EXIT");
             btnExit.setOnMouseClicked(event -> {
+                getChildren().add(menu2);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
+                tt.setToX(menu0.getTranslateX() - offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
+                tt1.setToX(menu0.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu0);
+                });
+            });
+
+            MenuButton btnBackToMenu = new MenuButton("BACK TO MENU");
+            btnBackToMenu.setOnMouseClicked(event -> window.setScene(scene1));
+
+            MenuButton btnExitGame = new MenuButton("EXIT GAME");
+            btnExitGame.setOnMouseClicked(event -> {
                 System.exit(0);
             });
 
@@ -180,11 +207,30 @@ public class DungeonApplication extends Application {
                 });
             });
 
+            MenuButton btnBack2 = new MenuButton("BACK");
+            btnBack2.setOnMouseClicked(event -> {
+                getChildren().add(menu0);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu2);
+                tt.setToX(menu2.getTranslateX() + offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+                tt1.setToX(menu2.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu2);
+                });
+            });
+
             MenuButton btnSound = new MenuButton("SOUND");
             MenuButton btnVideo = new MenuButton("VIDEO");
 
             menu0.getChildren().addAll(btnResume, btnOptions, btnExit);
             menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
+            menu2.getChildren().addAll(btnBack2, btnBackToMenu, btnExitGame);
 
             Rectangle background = new Rectangle(600, 600);
             background.setFill(Color.GREY);
