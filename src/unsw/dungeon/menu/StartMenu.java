@@ -76,36 +76,60 @@ public class StartMenu extends Parent {
 
         MenuButton btnMazeGame = new MenuButton("MAZE GAME");
         btnMazeGame.setOnMouseClicked(event -> {
-            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
-            ft.setFromValue(1);
-            ft.setToValue(0);
-            //ft.setOnFinished(evt -> setVisible(false));
-            
-            ft.play();
+            getChildren().add(menu0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+            tt.setToX(menu3.getTranslateX() + offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+            tt1.setToX(menu3.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu3);
+            });
+            window.setScene(mazeScene);
         });
-        btnMazeGame.setOnMouseClicked(event -> window.setScene(mazeScene));
 
         MenuButton btnAdvancedGame = new MenuButton("ADVANCED GAME");
         btnAdvancedGame.setOnMouseClicked(event -> {
-            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
-            ft.setFromValue(1);
-            ft.setToValue(0);
-            //ft.setOnFinished(evt -> setVisible(false));
-            
-            ft.play();
+            getChildren().add(menu0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+            tt.setToX(menu3.getTranslateX() + offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+            tt1.setToX(menu3.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu3);
+            });
+            window.setScene(advancedScene);
         });
-        btnAdvancedGame.setOnMouseClicked(event -> window.setScene(advancedScene));
 
         MenuButton btnBouldersGame = new MenuButton("BOULDERS GAME");
         btnBouldersGame.setOnMouseClicked(event -> {
-            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
-            ft.setFromValue(1);
-            ft.setToValue(0);
-            //ft.setOnFinished(evt -> setVisible(false));
-            
-            ft.play();
+            getChildren().add(menu0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+            tt.setToX(menu3.getTranslateX() + offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+            tt1.setToX(menu3.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu3);
+            });
+            window.setScene(bouldersScene);
         });
-        btnBouldersGame.setOnMouseClicked(event -> window.setScene(bouldersScene));
 
         // MenuButton btnContinueGame = new MenuButton("CONTINUE GAME");
         // btnContinueGame.setOnMouseClicked(event -> {

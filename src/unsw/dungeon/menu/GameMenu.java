@@ -124,7 +124,23 @@ import javafx.util.Duration;
             });
 
             MenuButton btnBackToMenu = new MenuButton("BACK TO MENU");
-            btnBackToMenu.setOnMouseClicked(event -> window.setScene(scene1));
+            btnBackToMenu.setOnMouseClicked(event -> {
+                getChildren().add(menu0);
+
+                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu2);
+                tt.setToX(menu2.getTranslateX() + offset);
+
+                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+                tt1.setToX(menu2.getTranslateX());
+
+                tt.play();
+                tt1.play();
+
+                tt.setOnFinished(evt -> {
+                    getChildren().remove(menu2);
+                });
+                window.setScene(scene1);
+            });
 
             MenuButton btnExitGame = new MenuButton("EXIT GAME");
             btnExitGame.setOnMouseClicked(event -> {
@@ -211,9 +227,6 @@ import javafx.util.Duration;
             this.scene1 = scene1;
         }
 
-        public boolean isMenuVisible() {
-            return gameMenu.isVisible();
-        }
     }
 
  

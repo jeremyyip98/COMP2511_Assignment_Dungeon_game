@@ -71,12 +71,12 @@ public class DungeonApplication extends Application {
 
         // Initialise the scenes
         advancedGame();
-        //mazeGame();
+        mazeGame();
         //bouldersGame();
 
         // Pass the scenes to the menu
         startMenu.setAdvancedScene(advancedScene);
-        //startMenu.setMazeScene(mazeScene);
+        startMenu.setMazeScene(mazeScene);
         //startMenu.setBouldersScene(bouldersScene);
         gameMenu.setScene1(scene1);
 
