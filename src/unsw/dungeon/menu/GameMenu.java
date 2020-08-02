@@ -148,6 +148,8 @@ import javafx.util.Duration;
                     getChildren().remove(menu2);
                 });
                 window.setScene(startScene);
+                window.setHeight(576.0 + 35);
+                window.setWidth(1024.0 + 15);
                 dungeonApplication.gameMenuDisappear();
             });
 
@@ -225,7 +227,7 @@ import javafx.util.Duration;
             menu2.getChildren().addAll(btnBack2, btnBackToMenu, btnExitGame);
             menu3.getChildren().addAll(btnBack3, btnTurnOn, btnTurnOff);
 
-            Rectangle background = new Rectangle(600, 600);
+            Rectangle background = new Rectangle(700, 700);
             background.setFill(Color.GREY);
             background.setOpacity(0.4);
 

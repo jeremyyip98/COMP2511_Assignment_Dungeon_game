@@ -101,8 +101,10 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
-            System.out.println("Height is: " + window.heightProperty());
-            System.out.println("Width is: " + window.widthProperty());
+            // System.out.println("Height is: " + window.heightProperty());
+            // System.out.println("Width is: " + window.widthProperty());
+            window.setHeight(615.0);
+            window.setWidth(656.0);
             dungeonApplication.setCurrentScene("maze");
         });
 
@@ -132,8 +134,10 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
-            System.out.println("Height is: " + window.heightProperty());
-            System.out.println("Width is: " + window.widthProperty());
+            // System.out.println("Height is: " + window.heightProperty());
+            // System.out.println("Width is: " + window.widthProperty());
+            window.setHeight(551.0);
+            window.setWidth(592.0);
             dungeonApplication.setCurrentScene("advanced");
         });
 
@@ -163,8 +167,8 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
-            System.out.println("Height is: " + window.heightProperty());
-            System.out.println("Width is: " + window.widthProperty());
+            // System.out.println("Height is: " + window.heightProperty());
+            // System.out.println("Width is: " + window.widthProperty());
             window.setHeight(327.0);
             window.setWidth(272.0);
             dungeonApplication.setCurrentScene("boulders");

@@ -160,6 +160,20 @@ public class DungeonApplication extends Application {
         }
         window.setScene(scene);
         window.sizeToScene();
+        switch (currentScene){
+            case "advanced":
+                window.setHeight(551.0);
+                window.setWidth(592.0);
+                break;
+            case "maze":
+                window.setHeight(615.0);
+                window.setWidth(656.0);
+                break;
+            case "boulders":
+                window.setHeight(327.0);
+                window.setWidth(272.0);
+                break;
+        }
     }
     
 }
