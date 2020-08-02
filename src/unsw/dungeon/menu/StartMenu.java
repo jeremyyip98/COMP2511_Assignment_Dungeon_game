@@ -101,7 +101,8 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
-            window.sizeToScene();
+            System.out.println("Height is: " + window.heightProperty());
+            System.out.println("Width is: " + window.widthProperty());
             dungeonApplication.setCurrentScene("maze");
         });
 
@@ -131,7 +132,8 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
-            window.sizeToScene();
+            System.out.println("Height is: " + window.heightProperty());
+            System.out.println("Width is: " + window.widthProperty());
             dungeonApplication.setCurrentScene("advanced");
         });
 
@@ -161,7 +163,10 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
-            window.sizeToScene();
+            System.out.println("Height is: " + window.heightProperty());
+            System.out.println("Width is: " + window.widthProperty());
+            window.setHeight(327.0);
+            window.setWidth(272.0);
             dungeonApplication.setCurrentScene("boulders");
         });
 
