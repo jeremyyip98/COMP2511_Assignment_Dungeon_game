@@ -31,7 +31,6 @@ public class DungeonApplication extends Application {
     Scene scene1, scene2, scene3;
     MediaPlayer mediaPlayer;
 
-
     @Override
     public void start(Stage primaryStage) throws IOException {
         music();
