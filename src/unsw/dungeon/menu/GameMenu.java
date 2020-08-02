@@ -15,7 +15,7 @@ import javafx.util.Duration;
     // https://www.youtube.com/watch?v=aOcow70vqb4&t=715s
     public class GameMenu extends Parent {
 
-        Scene scene1;
+        Scene startScene;
 
         public GameMenu(Stage window, MediaPlayer mediaPlayer, DungeonApplication dungeonApplication) {
             // Let the distances between the elements be 10
@@ -147,7 +147,7 @@ import javafx.util.Duration;
                 tt.setOnFinished(evt -> {
                     getChildren().remove(menu2);
                 });
-                window.setScene(scene1);
+                window.setScene(startScene);
                 dungeonApplication.gameMenuDisappear();
             });
 
@@ -232,8 +232,8 @@ import javafx.util.Duration;
             getChildren().addAll(background, menu0);
         }
 
-        public void setScene1(Scene scene1) {
-            this.scene1 = scene1;
+        public void setScene1(Scene startScene) {
+            this.startScene = startScene;
         }
 
     }

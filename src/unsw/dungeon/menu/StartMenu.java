@@ -101,6 +101,7 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
+            window.sizeToScene();
             dungeonApplication.setCurrentScene("maze");
         });
 
@@ -130,6 +131,7 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
+            window.sizeToScene();
             dungeonApplication.setCurrentScene("advanced");
         });
 
@@ -159,6 +161,7 @@ public class StartMenu extends Parent {
                 e.printStackTrace();
             }
             window.setScene(scene);
+            window.sizeToScene();
             dungeonApplication.setCurrentScene("boulders");
         });
 

@@ -71,36 +71,7 @@ public class DungeonApplication extends Application {
         // Initialise startScene
         startScene = new Scene(pane);
 
-        // Initialise the scenes
-        // advancedGame();
-        // mazeGame();
-        // bouldersGame();
-
-        // Pass the scenes to the menu
-        // startMenu.setAdvancedScene(advancedScene);
-        // startMenu.setMazeScene(mazeScene);
-        // startMenu.setBouldersScene(bouldersScene);
         gameMenu.setScene1(startScene);
-
-        // advancedScene.setOnKeyPressed(event -> {
-        //     if (event.getCode() == KeyCode.ESCAPE) {
-        //         if (!gameMenu.isVisible()) {
-        //             FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
-        //             ft.setFromValue(0);
-        //             ft.setToValue(1);
-
-        //             gameMenu.setVisible(true);
-        //             ft.play();
-        //         }
-        //         else {
-        //             FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
-        //             ft.setFromValue(1);
-        //             ft.setToValue(0);
-        //             ft.setOnFinished(evt -> gameMenu.setVisible(false));
-        //             ft.play();
-        //         }
-        //     }
-        // });
 
         window.setScene(startScene);
         window.setTitle("Dungeon Puzzles");
@@ -133,7 +104,6 @@ public class DungeonApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
         loader.setController(controller);
         Parent root = loader.load();
-        //Scene scene = new Scene(root);
         Pane pane = new Pane();
         pane.getChildren().addAll(root, gameMenu);
 
@@ -189,6 +159,7 @@ public class DungeonApplication extends Application {
             e.printStackTrace();
         }
         window.setScene(scene);
+        window.sizeToScene();
     }
     
 }

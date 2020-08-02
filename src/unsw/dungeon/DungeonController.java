@@ -77,6 +77,9 @@ public class DungeonController {
         case SPACE:
             player.playerAttack();
             break;
+        case P:
+            dungeonApplication.restartGame();
+            break;
         case ESCAPE:
             if (!dungeonApplication.isGameMenuVisible()) {
                 dungeonApplication.gameMenuAppear();
