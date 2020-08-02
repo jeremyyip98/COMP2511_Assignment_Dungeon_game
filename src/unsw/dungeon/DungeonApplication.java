@@ -180,7 +180,6 @@ public class DungeonApplication extends Application {
 
     public void restartGame() {
         Scene scene = null;
-        System.out.println(currentScene);
         try {
             if(currentScene != null) {
                 scene = createGame(currentScene);

@@ -72,7 +72,10 @@ import javafx.util.Duration;
 
             MenuButton btnRestart = new MenuButton("RESTART THE GAME");
             // when the mouse clicked, reset the scene
-            dungeonApplication.restartGame();
+            btnRestart.setOnMouseClicked(event -> {
+                dungeonApplication.gameMenuDisappear();
+                dungeonApplication.restartGame();
+            });
 
             MenuButton btnExit = new MenuButton("EXIT");
             btnExit.setOnMouseClicked(event -> {
