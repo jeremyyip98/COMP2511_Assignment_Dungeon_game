@@ -1,4 +1,5 @@
 package unsw.dungeon.menu;
+import unsw.dungeon.DungeonApplication;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
@@ -16,7 +17,7 @@ import javafx.util.Duration;
 
         Scene scene1;
 
-        public GameMenu(Stage window, MediaPlayer mediaPlayer) {
+        public GameMenu(Stage window, MediaPlayer mediaPlayer, DungeonApplication dungeonApplication) {
             // Let the distances between the elements be 10
             VBox menu0 = new VBox(10);
             VBox menu1 = new VBox(10);
@@ -68,6 +69,10 @@ import javafx.util.Duration;
                     getChildren().remove(menu0);
                 });
             });
+
+            MenuButton btnRestart = new MenuButton("RESTART THE GAME");
+            // when the mouse clicked, reset the scene
+            dungeonApplication.restartGame();
 
             MenuButton btnExit = new MenuButton("EXIT");
             btnExit.setOnMouseClicked(event -> {
@@ -211,7 +216,7 @@ import javafx.util.Duration;
                 mediaPlayer.play();
             });
 
-            menu0.getChildren().addAll(btnResume, btnOptions, btnExit);
+            menu0.getChildren().addAll(btnResume, btnOptions, btnRestart, btnExit);
             menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
             menu2.getChildren().addAll(btnBack2, btnBackToMenu, btnExitGame);
             menu3.getChildren().addAll(btnBack3, btnTurnOn, btnTurnOff);

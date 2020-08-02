@@ -1,4 +1,7 @@
 package unsw.dungeon.menu;
+import unsw.dungeon.DungeonApplication;
+
+import java.io.IOException;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
@@ -11,9 +14,7 @@ import javafx.util.Duration;
 
 public class StartMenu extends Parent {
 
-    Scene advancedScene, mazeScene, bouldersScene;
-
-    public StartMenu(Stage window, MediaPlayer mediaPlayer) {
+    public StartMenu(Stage window, MediaPlayer mediaPlayer, DungeonApplication dungeonApplication) {
         // Let the distances between the elements be 10
         VBox menu0 = new VBox(10);
         VBox menu1 = new VBox(10);
@@ -90,7 +91,17 @@ public class StartMenu extends Parent {
             tt.setOnFinished(evt -> {
                 getChildren().remove(menu3);
             });
-            window.setScene(mazeScene);
+            
+            Scene scene = null;
+
+            try {
+                scene = dungeonApplication.createGame("maze");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            window.setScene(scene);
+            dungeonApplication.setCurrentScene("maze");
         });
 
         MenuButton btnAdvancedGame = new MenuButton("ADVANCED GAME");
@@ -109,7 +120,17 @@ public class StartMenu extends Parent {
             tt.setOnFinished(evt -> {
                 getChildren().remove(menu3);
             });
-            window.setScene(advancedScene);
+
+            Scene scene = null;
+
+            try {
+                scene = dungeonApplication.createGame("advanced");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            window.setScene(scene);
+            dungeonApplication.setCurrentScene("advanced");
         });
 
         MenuButton btnBouldersGame = new MenuButton("BOULDERS GAME");
@@ -128,19 +149,18 @@ public class StartMenu extends Parent {
             tt.setOnFinished(evt -> {
                 getChildren().remove(menu3);
             });
-            window.setScene(bouldersScene);
-        });
-
-        // MenuButton btnContinueGame = new MenuButton("CONTINUE GAME");
-        // btnContinueGame.setOnMouseClicked(event -> {
-        //     FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
-        //     ft.setFromValue(1);
-        //     ft.setToValue(0);
-        //     //ft.setOnFinished(evt -> setVisible(false));
             
-        //     ft.play();
-        // });
-        //btnStart.setOnMouseClicked(event -> window.setScene(advancedScene));
+            Scene scene = null;
+
+            try {
+                scene = dungeonApplication.createGame("boulders");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            window.setScene(scene);
+            dungeonApplication.setCurrentScene("boulders");
+        });
 
         MenuButton btnOptions = new MenuButton("OPTIONS");
         btnOptions.setOnMouseClicked(event -> {
@@ -236,18 +256,6 @@ public class StartMenu extends Parent {
         menu3.getChildren().addAll(btnBack3, btnAdvancedGame, btnMazeGame, btnBouldersGame);
 
         getChildren().addAll(menu0);
-    }
-
-    public void setAdvancedScene(Scene advancedScene) {
-        this.advancedScene = advancedScene;
-    }
-
-    public void setMazeScene(Scene mazeScene) {
-        this.mazeScene = mazeScene;
-    }
-
-    public void setBouldersScene(Scene bouldersScene) {
-        this.bouldersScene = bouldersScene;
     }
 }
 

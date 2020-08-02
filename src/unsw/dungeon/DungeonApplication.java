@@ -28,7 +28,8 @@ public class DungeonApplication extends Application {
     private StartMenu startMenu;
 
     Stage window;
-    Scene scene1, advancedScene, mazeScene, bouldersScene;
+    Scene startScene;
+    String currentScene;
     MediaPlayer mediaPlayer;
 
     @Override
@@ -37,6 +38,7 @@ public class DungeonApplication extends Application {
         window = primaryStage;
         Pane pane = new Pane();
         pane.setPrefSize(1024, 576);
+        //window.setMaximized(true);
 
         InputStream is = Files.newInputStream(Paths.get("images/GameMenu.jpg"));
         Image img = new Image(is);
@@ -47,10 +49,10 @@ public class DungeonApplication extends Application {
         imgView.setFitWidth(1024);
         imgView.setFitHeight(576);
     
-        gameMenu = new GameMenu(window, mediaPlayer);
+        gameMenu = new GameMenu(window, mediaPlayer, this);
         gameMenu.setVisible(false);
 
-        startMenu = new StartMenu(window, mediaPlayer);
+        startMenu = new StartMenu(window, mediaPlayer, this);
         startMenu.setVisible(true);
 
         Label title = new Label("Dungeon Puzzles");
@@ -66,19 +68,19 @@ public class DungeonApplication extends Application {
 
         pane.getChildren().addAll(imgView, startMenu, reference, title);
 
-        // Initialise scene1
-        scene1 = new Scene(pane);
+        // Initialise startScene
+        startScene = new Scene(pane);
 
         // Initialise the scenes
-        advancedGame();
-        mazeGame();
-        //bouldersGame();
+        // advancedGame();
+        // mazeGame();
+        // bouldersGame();
 
         // Pass the scenes to the menu
-        startMenu.setAdvancedScene(advancedScene);
-        startMenu.setMazeScene(mazeScene);
-        //startMenu.setBouldersScene(bouldersScene);
-        gameMenu.setScene1(scene1);
+        // startMenu.setAdvancedScene(advancedScene);
+        // startMenu.setMazeScene(mazeScene);
+        // startMenu.setBouldersScene(bouldersScene);
+        gameMenu.setScene1(startScene);
 
         // advancedScene.setOnKeyPressed(event -> {
         //     if (event.getCode() == KeyCode.ESCAPE) {
@@ -100,7 +102,7 @@ public class DungeonApplication extends Application {
         //     }
         // });
 
-        window.setScene(scene1);
+        window.setScene(startScene);
         window.setTitle("Dungeon Puzzles");
         window.show();
     }
@@ -111,9 +113,20 @@ public class DungeonApplication extends Application {
         mediaPlayer.play();
     }
 
-    private void advancedGame() throws IOException {
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("advanced.json");
-
+    public Scene createGame(String map) throws IOException {
+        DungeonControllerLoader dungeonLoader = null;
+        switch (map){
+            case "advanced":
+                dungeonLoader = new DungeonControllerLoader("advanced.json");
+                break;
+            case "maze":
+                dungeonLoader = new DungeonControllerLoader("maze.json");
+                break;
+            case "boulders":
+                dungeonLoader = new DungeonControllerLoader("boulders.json");
+                break;
+        }
+        
         DungeonController controller = dungeonLoader.loadController();
         controller.setDungeonApplication(this);
 
@@ -124,42 +137,9 @@ public class DungeonApplication extends Application {
         Pane pane = new Pane();
         pane.getChildren().addAll(root, gameMenu);
 
-        advancedScene = new Scene(pane);
+        Scene scene = new Scene(pane);
         root.requestFocus();
-    }
-
-    private void mazeGame() throws IOException {
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("maze.json");
-
-        DungeonController controller = dungeonLoader.loadController();
-        controller.setDungeonApplication(this);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
-        loader.setController(controller);
-        Parent root = loader.load();
-        //Scene scene = new Scene(root);
-        Pane pane = new Pane();
-        pane.getChildren().addAll(root, gameMenu);
-
-        mazeScene = new Scene(pane);
-        root.requestFocus();
-    }
-
-    private void bouldersGame() throws IOException {
-        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("boulders.json");
-
-        DungeonController controller = dungeonLoader.loadController();
-        controller.setDungeonApplication(this);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
-        loader.setController(controller);
-        Parent root = loader.load();
-        //Scene scene = new Scene(root);
-        Pane pane = new Pane();
-        pane.getChildren().addAll(root, gameMenu);
-
-        bouldersScene = new Scene(pane);
-        root.requestFocus();
+        return scene;
     }
 
     public static void main(String[] args) {
@@ -189,4 +169,27 @@ public class DungeonApplication extends Application {
         ft.setOnFinished(evt -> gameMenu.setVisible(false));
         ft.play();
     }
+
+    public String getCurrentScene() {
+        return currentScene;
+    }
+
+    public void setCurrentScene(String currentScene) {
+        this.currentScene = currentScene;
+    }
+
+    public void restartGame() {
+        Scene scene = null;
+        System.out.println(currentScene);
+        try {
+            if(currentScene != null) {
+                scene = createGame(currentScene);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        window.setScene(scene);
+    }
+    
 }
