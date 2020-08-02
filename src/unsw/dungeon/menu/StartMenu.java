@@ -11,13 +11,14 @@ import javafx.util.Duration;
 
 public class StartMenu extends Parent {
 
-    Scene scene2;
+    Scene advancedScene, mazeScene, bouldersScene;
 
     public StartMenu(Stage window, MediaPlayer mediaPlayer) {
         // Let the distances between the elements be 10
         VBox menu0 = new VBox(10);
         VBox menu1 = new VBox(10);
         VBox menu2 = new VBox(10);
+        VBox menu3 = new VBox(10);
 
         menu0.setTranslateX(100);
         menu0.setTranslateY(200);
@@ -28,13 +29,53 @@ public class StartMenu extends Parent {
         menu2.setTranslateX(100);
         menu2.setTranslateY(200);
 
+        menu3.setTranslateX(100);
+        menu3.setTranslateY(200);
+
         final int offset = 400;
 
         menu1.setTranslateX(offset);
         menu2.setTranslateX(offset);
+        menu3.setTranslateX(offset);
 
         MenuButton btnStart = new MenuButton("NEW GAME");
         btnStart.setOnMouseClicked(event -> {
+            getChildren().add(menu3);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
+            tt.setToX(menu0.getTranslateX() - offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu3);
+            tt1.setToX(menu0.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu0);
+            });
+        });
+
+        MenuButton btnBack3 = new MenuButton("BACK");
+        btnBack3.setOnMouseClicked(event -> {
+            getChildren().add(menu0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+            tt.setToX(menu3.getTranslateX() + offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+            tt1.setToX(menu3.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu3);
+            });
+        });
+
+        MenuButton btnMazeGame = new MenuButton("MAZE GAME");
+        btnMazeGame.setOnMouseClicked(event -> {
             FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
             ft.setFromValue(1);
             ft.setToValue(0);
@@ -42,7 +83,29 @@ public class StartMenu extends Parent {
             
             ft.play();
         });
-        btnStart.setOnMouseClicked(event -> window.setScene(scene2));
+        btnMazeGame.setOnMouseClicked(event -> window.setScene(mazeScene));
+
+        MenuButton btnAdvancedGame = new MenuButton("ADVANCED GAME");
+        btnAdvancedGame.setOnMouseClicked(event -> {
+            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
+            ft.setFromValue(1);
+            ft.setToValue(0);
+            //ft.setOnFinished(evt -> setVisible(false));
+            
+            ft.play();
+        });
+        btnAdvancedGame.setOnMouseClicked(event -> window.setScene(advancedScene));
+
+        MenuButton btnBouldersGame = new MenuButton("BOULDERS GAME");
+        btnBouldersGame.setOnMouseClicked(event -> {
+            FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
+            ft.setFromValue(1);
+            ft.setToValue(0);
+            //ft.setOnFinished(evt -> setVisible(false));
+            
+            ft.play();
+        });
+        btnBouldersGame.setOnMouseClicked(event -> window.setScene(bouldersScene));
 
         // MenuButton btnContinueGame = new MenuButton("CONTINUE GAME");
         // btnContinueGame.setOnMouseClicked(event -> {
@@ -53,7 +116,7 @@ public class StartMenu extends Parent {
             
         //     ft.play();
         // });
-        //btnStart.setOnMouseClicked(event -> window.setScene(scene2));
+        //btnStart.setOnMouseClicked(event -> window.setScene(advancedScene));
 
         MenuButton btnOptions = new MenuButton("OPTIONS");
         btnOptions.setOnMouseClicked(event -> {
@@ -146,12 +209,21 @@ public class StartMenu extends Parent {
         menu0.getChildren().addAll(btnStart, btnOptions, btnExit);
         menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
         menu2.getChildren().addAll(btnBack2, btnTurnOn, btnTurnOff);
+        menu3.getChildren().addAll(btnBack3, btnAdvancedGame, btnMazeGame, btnBouldersGame);
 
         getChildren().addAll(menu0);
     }
 
-    public void setScene2(Scene scene2) {
-        this.scene2 = scene2;
+    public void setAdvancedScene(Scene advancedScene) {
+        this.advancedScene = advancedScene;
+    }
+
+    public void setMazeScene(Scene mazeScene) {
+        this.mazeScene = mazeScene;
+    }
+
+    public void setBouldersScene(Scene bouldersScene) {
+        this.bouldersScene = bouldersScene;
     }
 }
 

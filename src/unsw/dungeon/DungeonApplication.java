@@ -28,7 +28,7 @@ public class DungeonApplication extends Application {
     private StartMenu startMenu;
 
     Stage window;
-    Scene scene1, scene2, scene3;
+    Scene scene1, advancedScene, mazeScene, bouldersScene;
     MediaPlayer mediaPlayer;
 
     @Override
@@ -69,62 +69,124 @@ public class DungeonApplication extends Application {
         // Initialise scene1
         scene1 = new Scene(pane);
 
-        // Initialise scene2
-        newGame();
+        // Initialise the scenes
+        advancedGame();
+        //mazeGame();
+        //bouldersGame();
 
         // Pass the scenes to the menu
-        startMenu.setScene2(scene2);
+        startMenu.setAdvancedScene(advancedScene);
+        //startMenu.setMazeScene(mazeScene);
+        //startMenu.setBouldersScene(bouldersScene);
         gameMenu.setScene1(scene1);
 
-        scene2.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                if (!gameMenu.isVisible()) {
-                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
-                    ft.setFromValue(0);
-                    ft.setToValue(1);
+        // advancedScene.setOnKeyPressed(event -> {
+        //     if (event.getCode() == KeyCode.ESCAPE) {
+        //         if (!gameMenu.isVisible()) {
+        //             FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+        //             ft.setFromValue(0);
+        //             ft.setToValue(1);
 
-                    gameMenu.setVisible(true);
-                    ft.play();
-                }
-                else {
-                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
-                    ft.setFromValue(1);
-                    ft.setToValue(0);
-                    ft.setOnFinished(evt -> gameMenu.setVisible(false));
-                    ft.play();
-                }
-            }
-        });
+        //             gameMenu.setVisible(true);
+        //             ft.play();
+        //         }
+        //         else {
+        //             FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+        //             ft.setFromValue(1);
+        //             ft.setToValue(0);
+        //             ft.setOnFinished(evt -> gameMenu.setVisible(false));
+        //             ft.play();
+        //         }
+        //     }
+        // });
 
         window.setScene(scene1);
         window.setTitle("Dungeon Puzzles");
         window.show();
     }
     public void music() {
-        System.out.println("no problem");
         Media media = new Media(Paths.get("bgm/FateEXTELLA OST_Emiya.mp3").toUri().toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setVolume(0.1);
         mediaPlayer.play();
     }
 
-    private void newGame() throws IOException {
+    private void advancedGame() throws IOException {
         DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("advanced.json");
 
         DungeonController controller = dungeonLoader.loadController();
+        controller.setDungeonApplication(this);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
         loader.setController(controller);
         Parent root = loader.load();
         //Scene scene = new Scene(root);
-        Pane pane2 = new Pane();
-        pane2.getChildren().addAll(root, gameMenu);
+        Pane pane = new Pane();
+        pane.getChildren().addAll(root, gameMenu);
 
-        scene2 = new Scene(pane2);
+        advancedScene = new Scene(pane);
+        root.requestFocus();
+    }
+
+    private void mazeGame() throws IOException {
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("maze.json");
+
+        DungeonController controller = dungeonLoader.loadController();
+        controller.setDungeonApplication(this);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
+        loader.setController(controller);
+        Parent root = loader.load();
+        //Scene scene = new Scene(root);
+        Pane pane = new Pane();
+        pane.getChildren().addAll(root, gameMenu);
+
+        mazeScene = new Scene(pane);
+        root.requestFocus();
+    }
+
+    private void bouldersGame() throws IOException {
+        DungeonControllerLoader dungeonLoader = new DungeonControllerLoader("boulders.json");
+
+        DungeonController controller = dungeonLoader.loadController();
+        controller.setDungeonApplication(this);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
+        loader.setController(controller);
+        Parent root = loader.load();
+        //Scene scene = new Scene(root);
+        Pane pane = new Pane();
+        pane.getChildren().addAll(root, gameMenu);
+
+        bouldersScene = new Scene(pane);
         root.requestFocus();
     }
 
     public static void main(String[] args) {
         launch(args); 
+    }
+    public boolean isGameMenuVisible() {
+        return gameMenu.isVisible();
+    }
+
+    public void setGameMenuVisible(Boolean result) {
+        gameMenu.setVisible(result);
+    }
+
+    public void gameMenuAppear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+
+        gameMenu.setVisible(true);
+        ft.play();
+    }
+
+    public void gameMenuDisappear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.setOnFinished(evt -> gameMenu.setVisible(false));
+        ft.play();
     }
 }

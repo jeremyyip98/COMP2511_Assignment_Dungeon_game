@@ -210,6 +210,10 @@ import javafx.util.Duration;
         public void setScene1(Scene scene1) {
             this.scene1 = scene1;
         }
+
+        public boolean isMenuVisible() {
+            return gameMenu.isVisible();
+        }
     }
 
  

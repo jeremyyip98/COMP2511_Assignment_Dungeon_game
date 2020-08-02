@@ -1,13 +1,17 @@
 package unsw.dungeon;
 
+import unsw.dungeon.menu.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
 import java.io.File;
 
@@ -26,6 +30,8 @@ public class DungeonController {
     private Player player;
 
     private Dungeon dungeon;
+
+    private DungeonApplication dungeonApplication;
 
     public DungeonController(Dungeon dungeon, List<ImageView> initialEntities) {
         this.dungeon = dungeon;
@@ -71,6 +77,14 @@ public class DungeonController {
         case SPACE:
             player.playerAttack();
             break;
+        case ESCAPE:
+            if (!dungeonApplication.isGameMenuVisible()) {
+                dungeonApplication.gameMenuAppear();
+            }
+            else {
+                dungeonApplication.gameMenuDisappear();
+            }
+            break;
         default:
             break;
         }
@@ -110,5 +124,10 @@ public class DungeonController {
     public Player getPlayer() {
         return player;
     }
+
+    public void setDungeonApplication(DungeonApplication dungeonApplication) {
+        this.dungeonApplication = dungeonApplication;
+    }
+
 }
 
