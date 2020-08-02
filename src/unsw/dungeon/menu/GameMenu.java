@@ -145,6 +145,7 @@ import javafx.util.Duration;
                     getChildren().remove(menu2);
                 });
                 window.setScene(scene1);
+                dungeonApplication.gameMenuDisappear();
             });
 
             MenuButton btnExitGame = new MenuButton("EXIT GAME");
