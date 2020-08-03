@@ -27,6 +27,8 @@ public class Player extends Entity implements Moveable {
     private IntegerProperty keyID; // if -1 then not holding a key
     private IntegerProperty swordSwings; // remaining swings on sword
 
+    private Key key;
+
     public BooleanProperty attacking; // boolean true if player is attacking
     public BooleanProperty invincible; // boolean true if potion is active
     public BooleanProperty movement; // boolean true if movement potion is active
@@ -160,9 +162,23 @@ public class Player extends Entity implements Moveable {
     @Override
     public boolean ableUnlockDoor(Door door) {
         // Players can unlock doors
-        return (door.getId() == this.keyID.get());
+        if (this.key == null) return false;
+        return (door.getId() == this.key.getId());
     }
 
+    public void placeKey(){
+        this.key.x().set(this.x().get());
+        this.key.y().set(this.y().get());
+    }
+
+    public Key getKey() {
+        return this.key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
+        this.keyID.set(key.getId());
+    }
 
     public void addTreasure(){
         this.invTreasure.set(this.invTreasure.get() + 1);;

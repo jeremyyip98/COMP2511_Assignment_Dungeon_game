@@ -107,7 +107,7 @@ public class DungeonApplication extends Application {
         DungeonControllerLoader dungeonLoader = null;
         switch (map){
             case "swordman":
-                dungeonLoader = new DungeonControllerLoader("swordman.json");
+                dungeonLoader = new DungeonControllerLoader("testAll.json");
                 break;
             case "hound":
                 dungeonLoader = new DungeonControllerLoader("hound.json");

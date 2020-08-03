@@ -228,6 +228,20 @@ public class DungeonControllerLoader extends DungeonLoader {
                     img.setEffect(col);
                 }
             }); 
+            p.isMovement().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    ColorAdjust col = new ColorAdjust();
+                    if (newValue) {
+                        col.setBrightness(0.3);
+                        col.setHue(-0.43);
+                    } else {
+                        col.setBrightness(0);
+                        col.setHue(0);
+                    }
+                    img.setEffect(col);
+                }
+            }); 
             /** 
              * 
              p.getAttacking().addListener(new ChangeListener<Boolean>() {
@@ -243,7 +257,6 @@ public class DungeonControllerLoader extends DungeonLoader {
             */
         }
     }
-
 
     /**
      * Create a controller that can be attached to the DungeonView with all the

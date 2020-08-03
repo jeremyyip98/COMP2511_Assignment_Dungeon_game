@@ -3,8 +3,9 @@ package unsw.dungeon;
 public class Key extends PickUp {
     private int id;
 
-
     private Door partner;
+
+    private Boolean able;
 
     public Key(Dungeon dungeon, int x, int y, int id) {
         super(dungeon, x, y);
@@ -13,18 +14,21 @@ public class Key extends PickUp {
 
     @Override
     public void pickup(Player p) {
+        // hide this key 
+        this.x().set(0);
+        this.y().set(0);
+        this.able = false;
         // if already holding a key
-        if (p.getKeyID() != -1){
-            // place current key on floor
-            int prevID = p.getKeyID();
-            Key prevKey = new Key(dungeon, p.getX(), p.getY(), prevID);
-            dungeon.addEntity(prevKey);
-            
-            //p.setKeyID(id);
+        if (p.getKey() != null && able == true){
+            // place players key on floor
+            p.placeKey();
+            System.out.println("ALREADY HOLDING A KEY: ");
+        }
+        if (!able && (p.getX() != getX() || p.getY() != getY())){
+            able = true;
         }
         // pickup key on floor
-        p.setKeyID(id);
-        //this.dungeon.removeEntity(this);
+        p.setKey(this);
     }
 
     public int getId() {
@@ -38,5 +42,9 @@ public class Key extends PickUp {
     public void setPartner(Door partner) {
         this.partner = partner;
     }
+
+	public void setAble(boolean b) {
+        this.able = b;
+	}
 
 }
