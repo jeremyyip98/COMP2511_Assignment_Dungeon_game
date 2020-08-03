@@ -11,13 +11,11 @@ public class Bat extends Enemy{
     @Override
     public boolean moveUp() {
         setPosition(getX(), getY() - 1);
-        setPosition(getX(), getY() - 1);
         return true;
     }
 
     @Override
     public boolean moveDown() {
-        setPosition(getX(), getY() + 1);
         setPosition(getX(), getY() + 1);
         return true;
     }
@@ -25,13 +23,11 @@ public class Bat extends Enemy{
     @Override
     public boolean moveLeft() {
         setPosition(getX() - 1, getY());
-        setPosition(getX() - 1, getY());
         return true;
     }
 
     @Override
     public boolean moveRight() {
-        setPosition(getX() + 1, getY());
         setPosition(getX() + 1, getY());
         return true;
     }
@@ -43,11 +39,7 @@ public class Bat extends Enemy{
         } else {
             setAggressive();
         }
-        if (!p.isInvincible().getValue()) {
-            batMove(p, this);
-            batMove(p, this);
-        }
         checkDeath(p);
-
+        batMove(p, this);
     }
 }
