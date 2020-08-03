@@ -168,7 +168,8 @@ public class Player extends Entity implements Moveable {
 
     public void placeKey(){
         this.key.x().set(this.x().get());
-        this.key.y().set(this.y().get());
+        this.key.y().set(this.y().get()-1);
+        key.setAble(false);
     }
 
     public Key getKey() {

@@ -19,16 +19,19 @@ public class Key extends PickUp {
         this.y().set(0);
         this.able = false;
         // if already holding a key
-        if (p.getKey() != null && able == true){
+        System.out.println("ableDDDD: " + able);
+
+        if (p.getKey() != null){
             // place players key on floor
             p.placeKey();
             System.out.println("ALREADY HOLDING A KEY: ");
         }
-        if (!able && (p.getX() != getX() || p.getY() != getY())){
+        if (!able && (p.getOldX() != getX() || p.getOldY() != getY())){
             able = true;
         }
         // pickup key on floor
         p.setKey(this);
+        System.out.println("ab: " + able);
     }
 
     public int getId() {
