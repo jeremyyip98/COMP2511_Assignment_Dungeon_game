@@ -3,6 +3,9 @@ package unsw.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * The player entity
  * 
@@ -17,13 +20,13 @@ public class Player extends Entity implements Moveable {
     private int oldY;
 
     // Inventory
-    private int invTreasure; // amount of treasure player is holding
-    private int keyID; // if -1 then not holding a key
-    private int swordSwings; // remaining swings on sword
+    private IntegerProperty invTreasure; // amount of treasure player is holding
+    private IntegerProperty keyID; // if -1 then not holding a key
+    private IntegerProperty swordSwings; // remaining swings on sword
 
     public boolean attacking; // boolean true if player is attacking
     public boolean invincible; // boolean true if potion is active
-    public int potionTicks;
+    public IntegerProperty potionTicks;
 
     /**
      * Create a player positioned in square (x,y)
@@ -34,11 +37,12 @@ public class Player extends Entity implements Moveable {
         super(x, y);
         this.oldX = x;
         this.oldY = y;
-        this.invTreasure = 0;
+        this.invTreasure = new SimpleIntegerProperty(0);
         this.attacking = false;
         this.invincible = false; // no potion active
-        this.potionTicks = 0;
-        this.keyID = -1;
+        this.potionTicks = new SimpleIntegerProperty(0);
+        this.keyID = new SimpleIntegerProperty(-1);
+        this.swordSwings = new SimpleIntegerProperty(0);
     }
 
     @Override
@@ -146,20 +150,20 @@ public class Player extends Entity implements Moveable {
     @Override
     public boolean ableUnlockDoor(Door door) {
         // Players can unlock doors
-        return (door.getId() == this.keyID);
+        return (door.getId() == this.keyID.get());
     }
 
 
     public void addTreasure(){
-        this.invTreasure++;
+        this.invTreasure.set(this.invTreasure.get() + 1);;
     }
 
     public int getKeyID() {
-        return this.keyID;
+        return this.keyID.get();
     }
 
     public void setKeyID(int keyID) {
-        this.keyID = keyID;
+        this.keyID.set(keyID);;
     }
 
     public boolean playerAttack(){
@@ -175,17 +179,17 @@ public class Player extends Entity implements Moveable {
 
 
     public int getSwordSwings() {
-        return this.swordSwings;
+        return this.swordSwings.get();
     }
 
     public void addSwordSwings() {
         // set swings to 5
-        this.swordSwings = 5;
+        this.swordSwings.set(5);
     }
 
     public void useSwordSwing() {
         // consume a sword swing
-        this.swordSwings--;
+        this.swordSwings.set(this.swordSwings.get() - 1);
     }
 
 
@@ -197,21 +201,21 @@ public class Player extends Entity implements Moveable {
      */
     public void setInvincible() {
         this.invincible = true;
-        this.potionTicks = 10;
+        this.potionTicks.set(10);
     }
 
     public int getPotionTicks() {
-        return this.potionTicks;
+        return this.potionTicks.get();
     }
     /**
      * 1 tick has elapsed
      */
     public void potionTick() {
-        this.potionTicks--;
+        this.potionTicks.set(this.potionTicks.get() - 1);;
     }
 
     public void checkPotionStatus(){
-        if (this.potionTicks > 0){
+        if (this.potionTicks.get() > 0){
             this.potionTick();
             this.invincible = true;
         } else {    
@@ -221,7 +225,23 @@ public class Player extends Entity implements Moveable {
     }
 
     public int getTreasure() {
-        return invTreasure;
+        return this.invTreasure.get();
+    }
+
+	public IntegerProperty getInvTreasureProperty() {
+		return invTreasure;
+	}
+
+	public IntegerProperty getSwordSwingsProperty() {
+        return swordSwings;
+    }
+
+    public IntegerProperty getPotionTicksProperty() {
+        return potionTicks;
+    }
+
+    public IntegerProperty getKeyIDProperty() {
+        return keyID;
     }
     public int getInvTreasure() {
         return this.invTreasure;
