@@ -244,7 +244,7 @@ public class Player extends Entity implements Moveable {
         return keyID;
     }
     public int getInvTreasure() {
-        return this.invTreasure;
+        return this.invTreasure.get();
     }
 
 
