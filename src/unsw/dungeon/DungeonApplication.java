@@ -107,7 +107,7 @@ public class DungeonApplication extends Application {
         DungeonControllerLoader dungeonLoader = null;
         switch (map){
             case "swordman":
-                dungeonLoader = new DungeonControllerLoader("testAll.json");
+                dungeonLoader = new DungeonControllerLoader("swordman.json");
                 break;
             case "hound":
                 dungeonLoader = new DungeonControllerLoader("hound.json");
@@ -120,6 +120,9 @@ public class DungeonApplication extends Application {
                 break;
             case "boulders":
                 dungeonLoader = new DungeonControllerLoader("boulders.json");
+                break;
+            case "keys":
+                dungeonLoader = new DungeonControllerLoader("testAll.json");
                 break;
         }
         
@@ -316,6 +319,10 @@ public class DungeonApplication extends Application {
             case "boulders":
                 window.setHeight(551.0);
                 window.setWidth(700.0);
+                break;
+            case "keys":
+                window.setHeight(551.0);
+                window.setWidth(592.0);
                 break;
         }
     }

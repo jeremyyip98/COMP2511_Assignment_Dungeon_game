@@ -48,7 +48,7 @@ public class GoalMenu extends Parent {
 
         MenuButton btnStart = new MenuButton("START GAME");
         btnStart.setOnMouseClicked(event -> {
-            if (dungeonApplication.getCurrentScene().equals("boulders")) {
+            if (dungeonApplication.getCurrentScene().equals("boulders") || dungeonApplication.getCurrentScene().equals("keys")) {
                 window.setWidth(592.0);
             }
             dungeonApplication.goalMenuDisappear();

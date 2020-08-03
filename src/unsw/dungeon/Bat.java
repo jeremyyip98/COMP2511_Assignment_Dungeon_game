@@ -2,8 +2,6 @@ package unsw.dungeon;
 
 public class Bat extends Enemy{
 
-    private Dungeon dungeon;
-
     public Bat(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y);
     }

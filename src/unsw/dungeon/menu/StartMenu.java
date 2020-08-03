@@ -248,7 +248,40 @@ public class StartMenu extends Parent {
             dungeonApplication.setCurrentScene("boulders");
         });
 
-        
+        MenuButton btnKeysGame = new MenuButton("KEYS GAME");
+        btnKeysGame.setOnMouseClicked(event -> {
+            getChildren().add(menu0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+            tt.setToX(menu3.getTranslateX() + offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+            tt1.setToX(menu3.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu3);
+            });
+            
+            Scene scene = null;
+
+            try {
+                scene = dungeonApplication.createGame("keys");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            window.setScene(scene);
+            // System.out.println("Height is: " + window.heightProperty());
+            // System.out.println("Width is: " + window.widthProperty());
+            // window.setHeight(327.0);
+            // window.setWidth(272.0);
+            window.setHeight(551.0);
+            window.setWidth(700.0);
+            dungeonApplication.setCurrentScene("keys");
+        });
 
         MenuButton btnHowToPlay = new MenuButton("HOW TO PLAY");
         btnHowToPlay.setOnMouseClicked(event -> {
@@ -346,7 +379,7 @@ public class StartMenu extends Parent {
         menu0.getChildren().addAll(btnStart, btnHowToPlay, btnOptions, btnExit);
         menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
         menu2.getChildren().addAll(btnBack2, btnTurnOn, btnTurnOff);
-        menu3.getChildren().addAll(btnBack3, btnSwordmanGame, btnHoundGame, btnBatGame, btnMazeGame, btnBouldersGame);
+        menu3.getChildren().addAll(btnBack3, btnSwordmanGame, btnHoundGame, btnBatGame, btnMazeGame, btnBouldersGame, btnKeysGame);
 
         getChildren().addAll(menu0);
     }
