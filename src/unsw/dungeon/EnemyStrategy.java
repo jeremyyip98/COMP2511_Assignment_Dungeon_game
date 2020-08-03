@@ -10,4 +10,6 @@ public interface EnemyStrategy {
      */
     public void move(Player p, Enemy e);
 
+    public void batMove(Player p, Bat e);
+
 }

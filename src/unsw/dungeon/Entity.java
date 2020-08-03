@@ -40,8 +40,17 @@ public abstract class Entity {
         return x().get();
     }
 
-
     /**
+     * 
+     * @param x
+     * @param y
+     public void setPosition(int x, int y) {
+         this.x().set(x);
+         this.y().set(y);
+        }
+    */
+        
+        /**
      * 
      */
     public abstract boolean isWalkAllowed(Moveable m);

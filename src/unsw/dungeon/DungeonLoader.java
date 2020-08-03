@@ -3,6 +3,7 @@ package unsw.dungeon;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+//import org.graalvm.compiler.lir.aarch64.AArch64Move.Move;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -44,11 +45,13 @@ public abstract class DungeonLoader {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
 
         }
-        //Goal goal = scanGoal(json.getJSONObject("goal-condition"));
+        dungeon.connectEntities();
 
-        //System.out.println("The goal is " + goal.toString());
+        ComponentGoal goal = scanGoal(json.getJSONObject("goal-condition"));
 
-        //dungeon.setGoal(goal);
+        dungeon.setGoal(goal);
+
+        //System.out.println(goal.toString()); // TODO remove
         return dungeon;
     }
 
@@ -91,10 +94,10 @@ public abstract class DungeonLoader {
                 onLoad(boulder);
                 entity = boulder;
                 break;
-            case "enemy":
-                Enemy enemy = new Enemy(dungeon, x, y);
-                onLoad(enemy);
-                entity = enemy;
+            case "swordman":
+                Swordman swordman = new Swordman(dungeon, x, y);
+                onLoad(swordman);
+                entity = swordman;
                 break;
             case "key":
                 Key key = new Key(dungeon, x, y, json.getInt("id"));
@@ -121,39 +124,61 @@ public abstract class DungeonLoader {
                 onLoad(treasure);
                 entity = treasure;
                 break;
+            // Extra
+            case "hound":
+                Hound hound = new Hound(dungeon, x, y);
+                onLoad(hound);
+                entity = hound;
+                break;
+            case "movement":
+                MovementPotion movementPotion = new MovementPotion(dungeon, x, y);
+                onLoad(movementPotion);
+                entity = movementPotion;
+                break;
+            case "bat":
+                Bat bat = new Bat(dungeon, x, y);
+                onLoad(bat);
+                entity = bat;
+                break;
         }    
         dungeon.addEntity(entity);
     }
 
-    /**
-     * 
-     * @param obj
-     * @return
-     
-    public Goal scanGoal(JSONObject obj) {
+    private ComponentGoal scanGoal(JSONObject obj) {
+        ComponentGoal comp = null;
+        JSONArray jsonSubGoals;
         String goal = obj.getString("goal");
-        if (goal.equals("AND")) {
-            JSONArray jsonSubgoals = obj.getJSONArray("subgoals");
-            AndGoal andGoal = new AndGoal();
-            for (int i = 0; i < jsonSubgoals.length(); i++) {
-                Goal oneOfTheGoal = scanGoal(jsonSubgoals.getJSONObject(i));
-                andGoal.add(oneOfTheGoal);
-            }
-            return andGoal;
-        } else if (goal.equals("OR")){
-            JSONArray jsonSubgoals = obj.getJSONArray("subgoals");
-            OrGoal orGoal = new OrGoal();
-            for (int i = 0; i < jsonSubgoals.length(); i++) {
-                Goal oneOfTheGoal = scanGoal(jsonSubgoals.getJSONObject(i));
-                orGoal.add(oneOfTheGoal);
-            }
-            return orGoal;
-        } else {
-            SimpleGoal simpleGoal = new SimpleGoal(goal);
-            return simpleGoal;
+        switch(goal){
+            case "enemies":
+                comp = new EnemyGoal();
+                break;
+            case "treasure":
+                comp = new TreasureGoal();
+                break;
+            case "exit":
+                comp = new ExitGoal();
+                break;
+            case "boulders":
+                comp = new SwitchesGoal();
+                break;
+            case "AND":
+                CompositeGoal and = new AndGoal();	        
+                jsonSubGoals = obj.getJSONArray("subgoals");
+                for (int i = 0; i < jsonSubGoals.length(); i++) 
+                    and.add(scanGoal(jsonSubGoals.getJSONObject(i)));
+                comp = and;
+                break;
+            case "OR":
+                CompositeGoal or = new OrGoal();	        
+                jsonSubGoals = obj.getJSONArray("subgoals");
+                for (int i = 0; i < jsonSubGoals.length(); i++) 
+                    or.add(scanGoal(jsonSubGoals.getJSONObject(i)));
+                comp = or;
+                break;
         }
+        return comp;
+
     }
-    */ 
 
     public abstract void onLoad(Entity player);
 
@@ -168,7 +193,7 @@ public abstract class DungeonLoader {
 
     public abstract void onLoad(Boulder boulder);
 
-    public abstract void onLoad(Enemy enemy);
+    public abstract void onLoad(Swordman swordman);
 
     public abstract void onLoad(Key key);
 
@@ -179,6 +204,12 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Sword sword);
 
     public abstract void onLoad(Treasure treasure);
+
+    public abstract void onLoad(Hound hound);
+
+    public abstract void onLoad(MovementPotion movementPotion);
+
+    public abstract void onLoad(Bat bat);
 
     // TODO Create additional abstract methods for the other entities
 

@@ -213,9 +213,9 @@
       "type": "wall"
     },
     {
-      "x": 3,
+      "x": 16,
       "y": 5,
-      "type": "enemy"
+      "type": "hound"
     },
     {
       "x": 8,

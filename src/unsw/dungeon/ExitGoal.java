@@ -6,8 +6,12 @@ public class ExitGoal implements ComponentGoal  {
      * true if the player is ontop of exit tile 
      */
     @Override
-    public boolean isComplete(Dungeon dungeon) {
+    public boolean achievedGoal(Dungeon dungeon) {
         return dungeon.isExitComplete();
     }
     
+    @Override
+    public String toString(){
+        return "Reach the exit tile";
+    }
 }

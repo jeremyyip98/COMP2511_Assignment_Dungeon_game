@@ -2,8 +2,11 @@ package unsw.dungeon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -14,7 +17,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public class Player extends Entity implements Moveable {
 
-    List<PlayerObserver> observers = new ArrayList<>();
+    CopyOnWriteArrayList<PlayerObserver> observers = new CopyOnWriteArrayList<>();
 
     private int oldX;
     private int oldY;
@@ -24,9 +27,13 @@ public class Player extends Entity implements Moveable {
     private IntegerProperty keyID; // if -1 then not holding a key
     private IntegerProperty swordSwings; // remaining swings on sword
 
-    public boolean attacking; // boolean true if player is attacking
-    public boolean invincible; // boolean true if potion is active
+    public BooleanProperty attacking; // boolean true if player is attacking
+    public BooleanProperty invincible; // boolean true if potion is active
+    public BooleanProperty movement; // boolean true if movement potion is active
     public IntegerProperty potionTicks;
+    public IntegerProperty movementPotionTicks;
+
+    public boolean playerDeath;
 
     /**
      * Create a player positioned in square (x,y)
@@ -38,11 +45,14 @@ public class Player extends Entity implements Moveable {
         this.oldX = x;
         this.oldY = y;
         this.invTreasure = new SimpleIntegerProperty(0);
-        this.attacking = false;
-        this.invincible = false; // no potion active
+        this.attacking = new SimpleBooleanProperty(false); 
+        this.invincible = new SimpleBooleanProperty(false); // no potion active
+        this.movement = new SimpleBooleanProperty(false); // no potion active
         this.potionTicks = new SimpleIntegerProperty(0);
+        this.movementPotionTicks = new SimpleIntegerProperty(0);
         this.keyID = new SimpleIntegerProperty(-1);
         this.swordSwings = new SimpleIntegerProperty(0);
+        this.playerDeath = false;
     }
 
     @Override
@@ -141,7 +151,7 @@ public class Player extends Entity implements Moveable {
      * for all observers observing player call their update function
      */
     public void notifyObsevers(){
-        this.checkPotionStatus(); // see if player is still invincible
+        this.checkPotionStatus(); // see if player is still have the potoin effects
         for (PlayerObserver observe : this.observers){
             observe.update(this);
         }
@@ -163,15 +173,15 @@ public class Player extends Entity implements Moveable {
     }
 
     public void setKeyID(int keyID) {
-        this.keyID.set(keyID);;
+        this.keyID.set(keyID);
     }
 
     public boolean playerAttack(){
         if (this.getSwordSwings() > 0){
-            this.attacking = true;
-            useSwordSwing();
+            this.attacking.set(true);
+            //useSwordSwing(); only use a swing if player dies
             notifyObsevers();
-            this.attacking = false;
+            this.attacking.set(false);
             return true;
         }
         return false;
@@ -192,20 +202,35 @@ public class Player extends Entity implements Moveable {
         this.swordSwings.set(this.swordSwings.get() - 1);
     }
 
+    public BooleanProperty isInvincible() {
+        return invincible;
+    }
 
-    public boolean isInvincible() {
-        return this.invincible;
+    public BooleanProperty isMovement() {
+        return movement;
     }
     /**
      * player has consumed potion and is invincible for 10 ticks
      */
     public void setInvincible() {
-        this.invincible = true;
+        this.invincible.set(true);
         this.potionTicks.set(10);
+    }
+
+    /**
+     * player has consumed potion and increase movement speed for 10 ticks
+     */
+    public void setMovement() {
+        this.movement.set(true);
+        this.movementPotionTicks.set(10);
     }
 
     public int getPotionTicks() {
         return this.potionTicks.get();
+    }
+
+    public int getMovementPotionTicks() {
+        return this.movementPotionTicks.get();
     }
     /**
      * 1 tick has elapsed
@@ -214,12 +239,25 @@ public class Player extends Entity implements Moveable {
         this.potionTicks.set(this.potionTicks.get() - 1);;
     }
 
+    public void movementPotionTick() {
+        this.movementPotionTicks.set(this.movementPotionTicks.get() - 1);;
+    }
+
     public void checkPotionStatus(){
+        // Check the status of invincible potion
         if (this.potionTicks.get() > 0){
             this.potionTick();
-            this.invincible = true;
+            this.invincible.set(true);
+        } else {
+            this.invincible.set(false);
+        }
+
+        // Check the status of movement potion
+        if (this.movementPotionTicks.get() > 0){
+            //this.movementPotionTick();
+            this.movement.set(true);
         } else {    
-            this.invincible = false;
+            this.movement.set(false);
         }
         
     }
@@ -240,12 +278,20 @@ public class Player extends Entity implements Moveable {
         return potionTicks;
     }
 
+    public IntegerProperty getMovementPotionTicksProperty() {
+        return movementPotionTicks;
+    }
+
     public IntegerProperty getKeyIDProperty() {
         return keyID;
     }
-    public int getInvTreasure() {
-        return this.invTreasure.get();
+
+    public void playerIsDead() {
+        this.playerDeath = true;
     }
 
+    public boolean isPlayerDeath() {
+        return playerDeath;
+    }
 
 }

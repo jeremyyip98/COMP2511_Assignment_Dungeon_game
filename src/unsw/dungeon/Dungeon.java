@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.sound.sampled.Port;
+
 //import javafx.beans.property.IntegerProperty;
 
 /**
@@ -24,12 +26,13 @@ public class Dungeon {
     private int activatedSwitches = 0;
     private int switches = 0;
     private int treasures = 0;
-    //private int enemies = 0;
+    private int enemies = 0;
 
     private boolean exitComplete; // true if reached exit
 
     private int width, height;
     private List<Entity> entities;
+    private ComponentGoal goal;
 
     ArrayList<FloorSwitch> switchList = new ArrayList<>();
 
@@ -41,6 +44,7 @@ public class Dungeon {
         this.entities = new ArrayList<>();
         //this.boulders = new ArrayList<>();
         this.player = null;
+        this.goal = null;
     }
 
     public int getWidth() {
@@ -63,6 +67,9 @@ public class Dungeon {
         this.player = player;
     }
 
+    public void setGoal(ComponentGoal goal) {
+        this.goal = goal;
+    }
 
     public void addEntity(Entity entity) {
         entities.add(entity);
@@ -120,6 +127,9 @@ public class Dungeon {
             if (e instanceof Treasure){
                 this.treasures++;
             }
+            if (e instanceof Enemy){
+                this.enemies++;
+            }
         }
 
         for (Door d : doorList)
@@ -142,7 +152,25 @@ public class Dungeon {
                 }
             }
         }
-        
+    }
+    /**
+     * return true if goal is complete
+     * @return
+     */
+    public boolean goalComplete(){
+        return this.goal.achievedGoal(this);
+    }
+
+    public String getGoal(){
+        return this.goal.toString();
+    }
+
+    public void removeEnemy(){
+        this.enemies--;
+    }   
+
+    public int getEnemies(){
+        return this.enemies;
     }
 
     public ArrayList<FloorSwitch> getSwitchList() {
@@ -161,17 +189,6 @@ public class Dungeon {
 
     public boolean isExitComplete() {
         return this.exitComplete;
-    }
-
-    /**
-     * 
-     * @return true if no enemies are in the dungeon entity list
-     */
-    public boolean isEnemyComplete(){
-        for (Entity e : entities){
-            if (e instanceof Enemy) return false;
-        }
-        return true;
     }
 
     public void setExitComplete() {

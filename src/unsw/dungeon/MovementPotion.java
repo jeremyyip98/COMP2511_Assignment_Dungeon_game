@@ -1,15 +1,15 @@
 package unsw.dungeon;
 
-public class Potion extends PickUp {
+public class MovementPotion extends PickUp{
 
-    public Potion(Dungeon dungeon, int x, int y) {
+    public MovementPotion(Dungeon dungeon, int x, int y) {
         super(dungeon, x, y);
         // TODO Auto-generated constructor stub
     }
 
     @Override
     public void pickup(Player p) {
-        p.setInvincible();
+        p.setMovement();
         p.detach(this);
         dungeon.removeEntity(this);
         this.x().set(0);

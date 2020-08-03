@@ -23,4 +23,5 @@ public abstract class PickUp extends Entity implements PlayerObserver{
     public boolean isWalkAllowed(Moveable m){
         return true;
     }
+
 }

@@ -1,9 +1,8 @@
 package unsw.dungeon;
 
-public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStrategy{
+public abstract class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStrategy{
 
     private Dungeon dungeon;
-
 
     private EnemyStrategy strategy;
     private EnemyScared scared = new EnemyScared();
@@ -78,7 +77,7 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
 
     @Override
     public void update(Player p) {
-        if (p.invincible == true){
+        if (p.invincible.getValue() == true){
             this.setStrategy(scared);
         } else {
             this.setStrategy(aggressive);
@@ -87,36 +86,58 @@ public class Enemy extends Entity implements Moveable, PlayerObserver, EnemyStra
         this.move(p, this);
     }
 
+    public void setScared() {
+        this.setStrategy(scared);
+    }
+
+    public void setAggressive() {
+        this.setStrategy(aggressive);
+    }
+
 	@Override
 	public boolean ableUnlockDoor(Door door) {
 		// enemies cannot use doors
 		return false;
-	}
+    }
+
     @Override
     public void move(Player p, Enemy e) {
         this.getStrategy().move(p, e);
     }
 
+    @Override
+    public void batMove(Player p, Bat e) {
+        this.getStrategy().batMove(p, e);
+    }
+
     public void checkDeath(Player p){
-        p.addSwordSwings();
-        if (p.attacking){
+        if (p.attacking.getValue()){
             if (Math.abs(this.getX() - p.getX()) == 1 && Math.abs(this.getY() - p.getY()) == 0 ||
                 Math.abs(this.getX() - p.getX()) == 0 && Math.abs(this.getY() - p.getY()) == 1){
-                    dungeon.removeEntity(this); // kill the enemy
-                    p.useSwordSwing();
+                    // kill enemy
+                    death(p);
                     return;
             }
         }
-        if (p.isInvincible() && this.getX() == p.getX() && this.getY() == p.getY()){
-            dungeon.removeEntity(this); // kill enemy
+        if (p.isInvincible().getValue() && this.getX() == p.getX() && this.getY() == p.getY()){
+            //kill enemy
+            death(p);
             return;
         }
-        if (!p.isInvincible() && this.getX()==p.getX() && this.getY() == p.getY()){
+        if (!p.isInvincible().getValue() && this.getX()==p.getX() && this.getY() == p.getY()){
             dungeon.removeEntity(p); // kill player
             dungeon.setPlayer(null);
+            // RESET THE GAME TODO
             return;
         }
     }
 
 
+    public void death(Player p){
+        p.detach(this);
+        p.useSwordSwing();
+        dungeon.removeEntity(this); // kill enemy
+        dungeon.removeEnemy();
+        this.setPosition(0, 0); // hide
+    }
 }

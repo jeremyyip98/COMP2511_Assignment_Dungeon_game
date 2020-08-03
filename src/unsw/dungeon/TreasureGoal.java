@@ -6,11 +6,12 @@ public class TreasureGoal implements ComponentGoal {
      * true if player is holding all available treasures
      */
     @Override
-    public boolean isComplete(Dungeon dungeon) {
-        return (dungeon.getPlayer().getInvTreasure() == dungeon.getTreasures());
+    public boolean achievedGoal(Dungeon dungeon) {
+        return (dungeon.getPlayer().getTreasure() == dungeon.getTreasures());
     }
 
-
-
-    
+    @Override
+    public String toString(){
+        return "Collect all treasures";
+    }
 }

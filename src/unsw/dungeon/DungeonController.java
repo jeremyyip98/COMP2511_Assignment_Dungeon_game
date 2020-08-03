@@ -59,19 +59,39 @@ public class DungeonController {
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
         case UP:
+            if (player.isMovement().getValue()) {
+                if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() - 1)) 
+                player.moveUp();
+                player.movementPotionTick();
+            }
             if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() - 1)) 
                 player.moveUp();
             break;
         case DOWN:
-            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() + 1)) 
+            if (player.isMovement().getValue()) {
+                if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() + 1))
+                player.moveDown();
+                player.movementPotionTick();
+            }
+            if (dungeon.checkIsWalkAllowed(player, player.getX(), player.getY() + 1))
                 player.moveDown();
             break;
         case LEFT:
-            if (dungeon.checkIsWalkAllowed(player, player.getX() - 1, player.getY())) 
+            if (player.isMovement().getValue()) {
+                if (dungeon.checkIsWalkAllowed(player, player.getX() - 1, player.getY()))
+                player.moveLeft();
+                player.movementPotionTick();
+            }
+            if (dungeon.checkIsWalkAllowed(player, player.getX() - 1, player.getY()))
                 player.moveLeft();
             break;
         case RIGHT:
-            if (dungeon.checkIsWalkAllowed(player, player.getX() + 1, player.getY())) 
+            if (player.isMovement().getValue()) {
+                if (dungeon.checkIsWalkAllowed(player, player.getX() + 1, player.getY()))
+                player.moveRight();
+                player.movementPotionTick();
+            }
+            if (dungeon.checkIsWalkAllowed(player, player.getX() + 1, player.getY()))
                 player.moveRight();
             break;
         case SPACE:
@@ -99,6 +119,8 @@ public class DungeonController {
         default:
             break;
         }
+        checkGoal(player);
+        checkDeath();
     }
 
     // For Testing purpose
@@ -125,6 +147,19 @@ public class DungeonController {
             break;
         default:
             break;
+        }
+    }
+
+    public void checkGoal(Player p){
+        if (dungeon.goalComplete()){
+            // we want to congrat the player !!!!
+            dungeonApplication.completeAppear();
+        }
+    }
+
+    public void checkDeath(){
+        if (dungeon.getPlayer() == null){
+            dungeonApplication.deadAppear();
         }
     }
 

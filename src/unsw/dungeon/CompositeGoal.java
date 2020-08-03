@@ -9,7 +9,7 @@ public abstract class CompositeGoal implements ComponentGoal{
      * add a component to create a composite 
      * @param c
      */
-    public void add(ComponentGoal c){
+    public void add(ComponentGoal c) {
         if (left == null){
             left = c;
         } else {
@@ -17,6 +17,9 @@ public abstract class CompositeGoal implements ComponentGoal{
         }
     }
 
+    @Override
+    public String toString() {
+        return "(" + left.toString() + "   " + this.toString() + "   " + right.toString() + ")";
+    }
 
 }
-    

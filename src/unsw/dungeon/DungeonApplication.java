@@ -1,6 +1,8 @@
 package unsw.dungeon;
+
 import unsw.dungeon.menu.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -27,11 +29,16 @@ public class DungeonApplication extends Application {
     private GameMenu gameMenu;
     private StartMenu startMenu;
     private InventoryMenu inventoryMenu;
+    private GoalMenu goalMenu;
+    private CompleteGameMenu completeGameMenu;
+    private DeadMenu deadMenu;
 
     Stage window;
     Scene startScene;
     String currentScene;
     MediaPlayer mediaPlayer;
+
+    ImageView rule;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -49,6 +56,11 @@ public class DungeonApplication extends Application {
         // Resize the image
         imgView.setFitWidth(1024);
         imgView.setFitHeight(576);
+
+        rule = new ImageView(new Image(Files.newInputStream(Paths.get("images/images_rules.png"))));
+        rule.setFitWidth(1024);
+        rule.setFitHeight(576);
+        rule.setVisible(false);
     
         gameMenu = new GameMenu(window, mediaPlayer, this);
         gameMenu.setVisible(false);
@@ -67,12 +79,18 @@ public class DungeonApplication extends Application {
         reference.setTranslateY(550);
         reference.setTextFill(Color.WHITE);
 
-        pane.getChildren().addAll(imgView, startMenu, reference, title);
+        pane.getChildren().addAll(imgView, startMenu, reference, title, rule);
 
         // Initialise startScene
         startScene = new Scene(pane);
 
         gameMenu.setScene1(startScene);
+
+        startScene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ESCAPE) {
+                ruleDisappear();
+            }
+        });
 
         window.setScene(startScene);
         window.setTitle("Dungeon Puzzles");
@@ -88,8 +106,14 @@ public class DungeonApplication extends Application {
     public Scene createGame(String map) throws IOException {
         DungeonControllerLoader dungeonLoader = null;
         switch (map){
-            case "advanced":
-                dungeonLoader = new DungeonControllerLoader("advanced.json");
+            case "swordman":
+                dungeonLoader = new DungeonControllerLoader("swordman.json");
+                break;
+            case "hound":
+                dungeonLoader = new DungeonControllerLoader("hound.json");
+                break;
+            case "bat":
+                dungeonLoader = new DungeonControllerLoader("bat.json");
                 break;
             case "maze":
                 dungeonLoader = new DungeonControllerLoader("maze.json");
@@ -102,6 +126,15 @@ public class DungeonApplication extends Application {
         DungeonController controller = dungeonLoader.loadController();
         controller.setDungeonApplication(this);
 
+        goalMenu = new GoalMenu(window, this, controller.getDungeon());
+        goalMenu.setVisible(true);
+
+        completeGameMenu = new CompleteGameMenu(window, this, controller.getDungeon());
+        completeGameMenu.setVisible(false);
+
+        deadMenu = new DeadMenu(window, this, controller.getDungeon());
+        deadMenu.setVisible(false);
+
         inventoryMenu = new InventoryMenu(controller.getPlayer(), this);
         inventoryMenu.setVisible(false);
 
@@ -110,16 +143,13 @@ public class DungeonApplication extends Application {
         Parent root = loader.load();
 
         Pane pane = new Pane();
-        pane.getChildren().addAll(root, gameMenu, inventoryMenu);
+        pane.getChildren().addAll(root, goalMenu, completeGameMenu, deadMenu, gameMenu, inventoryMenu);
 
         Scene scene = new Scene(pane);
         root.requestFocus();
         return scene;
     }
 
-    public static void main(String[] args) {
-        launch(args); 
-    }
     public boolean isGameMenuVisible() {
         return gameMenu.isVisible();
     }
@@ -134,6 +164,14 @@ public class DungeonApplication extends Application {
 
     public void setInventoryhMenuVisible(Boolean result) {
         inventoryMenu.setVisible(result);
+    }
+
+    public boolean isGoalMenuVisible() {
+        return goalMenu.isVisible();
+    }
+
+    public void setGoalhMenuVisible(Boolean result) {
+        goalMenu.setVisible(result);
     }
 
     public void gameMenuAppear() {
@@ -170,6 +208,74 @@ public class DungeonApplication extends Application {
         ft.play();
     }
 
+    public void goalMenuAppear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), goalMenu);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+
+        goalMenu.setVisible(true);
+        ft.play();
+    }
+
+    public void goalMenuDisappear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), goalMenu);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.setOnFinished(evt -> goalMenu.setVisible(false));
+        ft.play();
+    }
+
+    public void ruleAppear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), rule);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+
+        rule.setVisible(true);
+        ft.play();
+    }
+
+    public void ruleDisappear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), rule);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.setOnFinished(evt -> rule.setVisible(false));
+        ft.play();
+    }
+
+    public void completeAppear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), completeGameMenu);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+
+        completeGameMenu.setVisible(true);
+        ft.play();
+    }
+
+    public void completeDisappear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), completeGameMenu);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.setOnFinished(evt -> completeGameMenu.setVisible(false));
+        ft.play();
+    }
+
+    public void deadAppear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), deadMenu);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+
+        deadMenu.setVisible(true);
+        ft.play();
+    }
+
+    public void deadDisappear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), deadMenu);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.setOnFinished(evt -> deadMenu.setVisible(false));
+        ft.play();
+    }
+
     public String getCurrentScene() {
         return currentScene;
     }
@@ -191,7 +297,15 @@ public class DungeonApplication extends Application {
         window.setScene(scene);
         window.sizeToScene();
         switch (currentScene){
-            case "advanced":
+            case "swordman":
+                window.setHeight(551.0);
+                window.setWidth(592.0);
+                break;
+            case "hound":
+                window.setHeight(551.0);
+                window.setWidth(592.0);
+                break;
+            case "bat":
                 window.setHeight(551.0);
                 window.setWidth(592.0);
                 break;
@@ -200,11 +314,18 @@ public class DungeonApplication extends Application {
                 window.setWidth(656.0);
                 break;
             case "boulders":
-                window.setHeight(327.0);
-                window.setWidth(272.0);
+                window.setHeight(551.0);
+                window.setWidth(700.0);
                 break;
         }
     }
-    
+
+    public void returnToStartScene() {
+        window.setScene(startScene);
+    }
+
+    public static void main(String[] args) {
+        launch(args); 
+    }
+
 }
- 

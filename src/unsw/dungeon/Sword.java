@@ -10,6 +10,8 @@ public class Sword extends PickUp {
     public void pickup(Player p) {
         p.addSwordSwings();
         this.dungeon.removeEntity(this);
+        this.x().set(0);
+        this.y().set(0);
     }
     
 }

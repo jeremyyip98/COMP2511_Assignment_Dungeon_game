@@ -1,12 +1,11 @@
 package unsw.dungeon;
 
 public interface ComponentGoal {
-
     /**
-     * true if goal is done
-     * @return
+     * true if the goal is completed
+     * @return boolean
      */
-    public abstract boolean isComplete(Dungeon dungeon);
+    public abstract boolean achievedGoal(Dungeon dungeon);
 
     /**
      * convert the goal to a string

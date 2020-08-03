@@ -1,12 +1,18 @@
 package unsw.dungeon.menu;
+
 import unsw.dungeon.DungeonApplication;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -108,8 +114,8 @@ public class StartMenu extends Parent {
             dungeonApplication.setCurrentScene("maze");
         });
 
-        MenuButton btnAdvancedGame = new MenuButton("ADVANCED GAME");
-        btnAdvancedGame.setOnMouseClicked(event -> {
+        MenuButton btnSwordmanGame = new MenuButton("SWORDMAN GAME");
+        btnSwordmanGame.setOnMouseClicked(event -> {
             getChildren().add(menu0);
 
             TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
@@ -128,7 +134,7 @@ public class StartMenu extends Parent {
             Scene scene = null;
 
             try {
-                scene = dungeonApplication.createGame("advanced");
+                scene = dungeonApplication.createGame("swordman");
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -138,7 +144,73 @@ public class StartMenu extends Parent {
             // System.out.println("Width is: " + window.widthProperty());
             window.setHeight(551.0);
             window.setWidth(592.0);
-            dungeonApplication.setCurrentScene("advanced");
+            dungeonApplication.setCurrentScene("swordman");
+        });
+
+        MenuButton btnHoundGame = new MenuButton("HOUND GAME");
+        btnHoundGame.setOnMouseClicked(event -> {
+            getChildren().add(menu0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+            tt.setToX(menu3.getTranslateX() + offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+            tt1.setToX(menu3.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu3);
+            });
+
+            Scene scene = null;
+
+            try {
+                scene = dungeonApplication.createGame("hound");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            window.setScene(scene);
+            // System.out.println("Height is: " + window.heightProperty());
+            // System.out.println("Width is: " + window.widthProperty());
+            window.setHeight(551.0);
+            window.setWidth(592.0);
+            dungeonApplication.setCurrentScene("hound");
+        });
+
+        MenuButton btnBatGame = new MenuButton("BAT GAME");
+        btnBatGame.setOnMouseClicked(event -> {
+            getChildren().add(menu0);
+
+            TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu3);
+            tt.setToX(menu3.getTranslateX() + offset);
+
+            TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
+            tt1.setToX(menu3.getTranslateX());
+
+            tt.play();
+            tt1.play();
+
+            tt.setOnFinished(evt -> {
+                getChildren().remove(menu3);
+            });
+
+            Scene scene = null;
+
+            try {
+                scene = dungeonApplication.createGame("bat");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            window.setScene(scene);
+            // System.out.println("Height is: " + window.heightProperty());
+            // System.out.println("Width is: " + window.widthProperty());
+            window.setHeight(551.0);
+            window.setWidth(592.0);
+            dungeonApplication.setCurrentScene("bat");
         });
 
         MenuButton btnBouldersGame = new MenuButton("BOULDERS GAME");
@@ -169,9 +241,18 @@ public class StartMenu extends Parent {
             window.setScene(scene);
             // System.out.println("Height is: " + window.heightProperty());
             // System.out.println("Width is: " + window.widthProperty());
-            window.setHeight(327.0);
-            window.setWidth(272.0);
+            // window.setHeight(327.0);
+            // window.setWidth(272.0);
+            window.setHeight(551.0);
+            window.setWidth(700.0);
             dungeonApplication.setCurrentScene("boulders");
+        });
+
+        
+
+        MenuButton btnHowToPlay = new MenuButton("HOW TO PLAY");
+        btnHowToPlay.setOnMouseClicked(event -> {
+            dungeonApplication.ruleAppear();
         });
 
         MenuButton btnOptions = new MenuButton("OPTIONS");
@@ -262,10 +343,10 @@ public class StartMenu extends Parent {
             System.exit(0);
         });
 
-        menu0.getChildren().addAll(btnStart, btnOptions, btnExit);
+        menu0.getChildren().addAll(btnStart, btnHowToPlay, btnOptions, btnExit);
         menu1.getChildren().addAll(btnBack, btnSound, btnVideo);
         menu2.getChildren().addAll(btnBack2, btnTurnOn, btnTurnOff);
-        menu3.getChildren().addAll(btnBack3, btnAdvancedGame, btnMazeGame, btnBouldersGame);
+        menu3.getChildren().addAll(btnBack3, btnSwordmanGame, btnHoundGame, btnBatGame, btnMazeGame, btnBouldersGame);
 
         getChildren().addAll(menu0);
     }
