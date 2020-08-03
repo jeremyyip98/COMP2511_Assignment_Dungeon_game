@@ -26,6 +26,7 @@ public class DungeonApplication extends Application {
 
     private GameMenu gameMenu;
     private StartMenu startMenu;
+    private InventoryMenu inventoryMenu;
 
     Stage window;
     Scene startScene;
@@ -101,11 +102,15 @@ public class DungeonApplication extends Application {
         DungeonController controller = dungeonLoader.loadController();
         controller.setDungeonApplication(this);
 
+        inventoryMenu = new InventoryMenu(controller.getPlayer(), this);
+        inventoryMenu.setVisible(false);
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
         loader.setController(controller);
         Parent root = loader.load();
+
         Pane pane = new Pane();
-        pane.getChildren().addAll(root, gameMenu);
+        pane.getChildren().addAll(root, gameMenu, inventoryMenu);
 
         Scene scene = new Scene(pane);
         root.requestFocus();
@@ -123,6 +128,14 @@ public class DungeonApplication extends Application {
         gameMenu.setVisible(result);
     }
 
+    public boolean isInventoryMenuVisible() {
+        return inventoryMenu.isVisible();
+    }
+
+    public void setInventoryhMenuVisible(Boolean result) {
+        inventoryMenu.setVisible(result);
+    }
+
     public void gameMenuAppear() {
         FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
         ft.setFromValue(0);
@@ -137,6 +150,23 @@ public class DungeonApplication extends Application {
         ft.setFromValue(1);
         ft.setToValue(0);
         ft.setOnFinished(evt -> gameMenu.setVisible(false));
+        ft.play();
+    }
+
+    public void inventoryMenuAppear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), inventoryMenu);
+        ft.setFromValue(0);
+        ft.setToValue(1);
+
+        inventoryMenu.setVisible(true);
+        ft.play();
+    }
+
+    public void inventoryMenuDisappear() {
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), inventoryMenu);
+        ft.setFromValue(1);
+        ft.setToValue(0);
+        ft.setOnFinished(evt -> inventoryMenu.setVisible(false));
         ft.play();
     }
 

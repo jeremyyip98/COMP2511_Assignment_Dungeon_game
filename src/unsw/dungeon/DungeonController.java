@@ -80,6 +80,14 @@ public class DungeonController {
         case P:
             dungeonApplication.restartGame();
             break;
+        case E:
+            if (!dungeonApplication.isInventoryMenuVisible()) {
+                dungeonApplication.inventoryMenuAppear();
+            }
+            else {
+                dungeonApplication.inventoryMenuDisappear();
+            }
+            break;
         case ESCAPE:
             if (!dungeonApplication.isGameMenuVisible()) {
                 dungeonApplication.gameMenuAppear();

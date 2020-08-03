@@ -2,12 +2,16 @@ package unsw.dungeon.menu;
 
 import java.io.File;
 
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import unsw.dungeon.*;
 
 public class InventoryMenu extends Parent{
@@ -24,17 +28,45 @@ public class InventoryMenu extends Parent{
         treasureImageView = new ImageView(new Image((new File("images/gold_pile.png")).toURI().toString()));
         
         // Let the distances between the elements be 10
-        HBox menu0 = new HBox(10);
+        HBox menu0 = new HBox(35);
+        HBox menu1 = new HBox(10);
 
-        menu0.setTranslateX(100);
-        menu0.setTranslateY(200);
+        menu0.setTranslateX(0);
+        menu0.setTranslateY(35);
+        menu0.setStyle("-fx-background-color: white;");
+        menu1.setStyle("-fx-background-color: white;");
 
-        menu0.getChildren().addAll(keyImageView, potionImageView, swordImageView, treasureImageView);
+        // menu1.setTranslateX(200);
+        // menu1.setTranslateY(0);
 
-        Rectangle background = new Rectangle(600, 600);
+        Label keyID = new Label("");
+        Label swordSwings = new Label("");
+        Label potionTicks = new Label("");
+        Label numTreasures = new Label("");
+
+        keyID.setTextFill(Color.BLACK);
+        swordSwings.setTextFill(Color.BLACK);
+        potionTicks.setTextFill(Color.BLACK);
+        numTreasures.setTextFill(Color.BLACK);
+
+        keyID.textProperty().bind(player.getKeyIDProperty().asString());
+        swordSwings.textProperty().bind(player.getSwordSwingsProperty().asString());
+        potionTicks.textProperty().bind(player.getPotionTicksProperty().asString());
+        numTreasures.textProperty().bind(player.getInvTreasureProperty().asString());
+
+        menu0.getChildren().addAll(keyID, potionTicks, swordSwings, numTreasures);
+        menu1.getChildren().addAll(keyImageView, potionImageView, swordImageView, treasureImageView);
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(menu1, menu0); // hbox with button and text on top of image view
+
+        //menu0.getChildren().addAll(keyImageView, potionImageView, swordImageView, treasureImageView);
+
+        Rectangle background = new Rectangle(700, 700);
         background.setFill(Color.GREY);
         background.setOpacity(0.4);
 
-        getChildren().addAll(menu0);
+        getChildren().addAll(background, stackPane);
+
     }
 }
