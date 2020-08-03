@@ -15,8 +15,8 @@ public class Hound extends Enemy{
         } else {
             setAggressive();
         }
-        move(p, this);
-        move(p, this);
         checkDeath(p);
+        move(p, this);
+        move(p, this);
     }
 }

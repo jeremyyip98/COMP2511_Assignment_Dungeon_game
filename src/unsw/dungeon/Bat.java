@@ -43,8 +43,11 @@ public class Bat extends Enemy{
         } else {
             setAggressive();
         }
-        batMove(p, this);
-        batMove(p, this);
+        if (!p.isInvincible().getValue()) {
+            batMove(p, this);
+            batMove(p, this);
+        }
         checkDeath(p);
+
     }
 }
